@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Step B-2 · PATTERN RECOGNITION (Paper)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
+<link rel="stylesheet" href="DESIGN.css" type="text/css">
+<link rel="preload" href="img_png/B-2_06-stage-bg-forest-v1.webp" as="image">
+<style>
+/* ============================================================
+   B-2_06 PATTERN RECOGNITION v2 — 종이 콜라주 테마 (DESIGN.md §11)
+   B-2_02 v4 · B-2_03 v2 · B-2_04 v2 · B-2_05 v2 와 같은 크롬 · 브리핑 · 가이드 · 완료 화면.
+   문제 데이터(LAYOUT) · 판정 · 입력 규칙 · 효과음은 원본 B-2_06.pattern.html(DESIGN.md §9.7) 그대로.
+   아이콘 8종(새 · 클로버 · 무당벌레 · 해바라기 · 새집 · 노란꽃 · 나비 · 튤립)은 원본 SVG 그대로,
+   면에 --pp-tx-felt 결만 overlay 로 입힌다 (B-2_05 v2 꽃과 같은 질감).
+   배경은 B-2_04 v2 의 빈 판 배경(img_png/B-2_06-stage-bg-forest-v1.webp) 재사용.
+   좌표는 전부 아트보드 1920×1200u.
+   ============================================================ */
+:root{
+  --design-w:1920; --design-h:1200;
+  /* 이 화면 — 그리드 · 동그라미 (종이 팔레트 안에서) */
+  --pt-line:rgba(106,75,51,.38);   /* 칸 점선 — 나무 판(#6A4B33) 계열을 크림 위에 옅게 */
+  --pt-hot:rgba(231,178,60,.30);   /* 진행 · 일치 — --pp-gold 틴트 */
+  --pt-cold:rgba(74,49,34,.13);    /* 어긋남 — 갈색 회색 틴트 */
+  --pt-done:rgba(118,144,95,.24);  /* 찾은 패턴 — --pp-green 틴트 */
+  --pt-ink:#76905F;                /* 그리는 중(일치) — --pp-green */
+  --pt-ink-done:#5D7A49;           /* 확정 동그라미 — 한 단 진하게 */
+  --pt-ink-bad:#9A8670;            /* 어긋남 — 점선 */
+  --cw:156; --ch:132;              /* 칸 156×132u — 좌하단 소년(오른쪽 끝 ≈332u)을 피해 8열 1248u 를 화면 중앙에 */
+}
+/* DESIGN.css 의 --pp-edge 는 --sp-gutter(단위 없음) 때문에 무효값 — 길이로 다시 잡는다 (B-2_05 v2 와 같음) */
+.stage.theme-paper{--pp-edge:calc(28 * var(--u))}
+*{box-sizing:border-box}
+html,body{margin:0; height:100%; background:#0F2418; overflow:hidden;
+  font-family:var(--ff); -webkit-tap-highlight-color:transparent;
+  -webkit-user-select:none; user-select:none; touch-action:none}
+body{display:grid; place-items:center}
+img{user-select:none; -webkit-user-drag:none}
+
+/* ---------- 무대 ---------- */
+.stage{position:relative; width:calc(1920 * var(--u)); height:calc(1200 * var(--u));
+  overflow:hidden; isolation:isolate}
+.stage__bg{position:absolute; left:0; top:0; width:100%; height:100%; display:block; z-index:0}
+
+/* ---------- 상단 크롬 §11.2 · §11.4 ---------- */
+.pp-edge-tl,.pp-edge-tr,.pp-edge-tc{z-index:20}
+.pp-ibtn svg{fill:currentColor}
+.pp-ibtn--sound .sound-wave{fill:none; stroke:currentColor; stroke-width:2.8;
+  stroke-linecap:round; stroke-linejoin:round}
+#btnSay.is-playing{animation:sayPulse .9s ease-in-out infinite}
+@keyframes sayPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+
+/* ---------- 종이 오브젝트 — 원본 SVG + 같은 모양으로 오린 펠트 결(overlay) ----------
+   B-2_05 v2 의 .obj 와 같은 값. 결은 무채색이라 색은 원본 그대로. 들뜸 그림자는 mask 바깥 층(.obj)에 건다 (§11.3) */
+.obj{position:relative; display:block; isolation:isolate; filter:var(--pp-lift-s)}
+.obj > svg{position:absolute; inset:0; width:100%; height:100%; display:block; overflow:visible}
+.obj__tx{position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.95;
+  background:var(--pp-tx-felt) 0 0/calc(96 * var(--u)) repeat;
+  -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat}
+
+/* ---------- PATTERN 카드 — 틸 펠트 가로 카드 (B-2_04 v2 카드와 같은 재질) ----------
+   card-felt-teal-wide-a.webp 1320×420 → 520×166u(≈2.5배). 아이콘 4개 100u, 간격 12u.
+   원본의 흰 외곽선 필터는 초록 면 대비 때문이었다 — 틸 면에서는 클로버도 읽히므로 쓰지 않는다 */
+.rule{position:absolute; z-index:6; left:50%; top:calc(166 * var(--u));
+  width:calc(520 * var(--u)); height:calc(166 * var(--u)); margin-left:calc(-260 * var(--u));
+  display:flex; align-items:center; justify-content:center; gap:calc(12 * var(--u)); isolation:isolate}
+.rule::before{content:''; position:absolute; inset:0; z-index:-1; filter:var(--pp-lift-s);
+  background:url("img_png/paper/card-felt-teal-wide-a.webp") center/100% 100% no-repeat}
+.rule .ic{width:calc(100 * var(--u)); height:calc(100 * var(--u))}
+
+/* ---------- 문제판 — 배경의 크림 판 위에 8열 × 5행 ----------
+   x 336~1584 (가로 중앙) · y 352~1012. 원본처럼 칸 사이 간격 0, 점선으로 나눈다 */
+.board{position:absolute; z-index:5; left:calc(336 * var(--u)); top:calc(352 * var(--u));
+  width:calc(var(--cw) * 8 * var(--u)); height:calc(var(--ch) * 5 * var(--u))}
+.grid{position:absolute; inset:0; display:grid;
+  grid-template-columns:repeat(8, calc(var(--cw) * var(--u)));
+  grid-template-rows:repeat(5, calc(var(--ch) * var(--u)));
+  border:calc(2.5 * var(--u)) dashed var(--pt-line); border-radius:calc(14 * var(--u))}
+.cell{position:relative; display:grid; place-items:center; touch-action:none; cursor:pointer;
+  border-right:calc(2.5 * var(--u)) dashed var(--pt-line);
+  border-bottom:calc(2.5 * var(--u)) dashed var(--pt-line);
+  transition:background var(--t-fast) linear}
+.cell:nth-child(8n){border-right:0}
+.cell:nth-child(n+33){border-bottom:0}
+.cell .ic{width:calc(104 * var(--u)); height:calc(104 * var(--u)); pointer-events:none;
+  transform-origin:50% 85%}
+.cell.hot{background:var(--pt-hot)}
+.cell.cold{background:var(--pt-cold)}
+.cell.done{background:var(--pt-done)}
+/* 힌트 — 선이 아니라 번지는 빛 (.pp-slot.is-next 와 같은 빛) */
+.cell.hint::after{content:''; position:absolute; inset:calc(8 * var(--u)); border-radius:calc(22 * var(--u));
+  pointer-events:none; box-shadow:0 0 calc(30 * var(--u)) calc(8 * var(--u)) rgba(255,205,90,.75);
+  background:radial-gradient(ellipse at 50% 50%, rgba(255,229,155,.55) 0%, rgba(255,214,102,0) 75%);
+  animation:ppNext .6s ease-in-out 3}
+
+/* 동그라미 오버레이 */
+.ink{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:3; overflow:visible}
+
+/* 보상 — 아이콘이 살아난다 (원본 모션 그대로) */
+.cell.alive[data-code="B"] .ic{animation:aliveBird 1.1s var(--e-out)}
+.cell.alive[data-code="C"] .ic{animation:aliveSway .9s var(--e-out)}
+.cell.alive[data-code="L"] .ic{animation:aliveCrawl 1.0s var(--e-out)}
+.cell.alive[data-code="S"] .ic{animation:aliveTurn 1.0s var(--e-out)}
+@keyframes aliveBird{0%{transform:translateY(0)}30%{transform:translateY(-22%) rotate(-8deg)}
+  55%{transform:translateY(-30%) rotate(6deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes aliveSway{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}60%{transform:rotate(9deg)}}
+@keyframes aliveCrawl{0%{transform:translateX(0)}35%{transform:translateX(-14%) rotate(-6deg)}
+  70%{transform:translateX(12%) rotate(5deg)}100%{transform:translateX(0)}}
+@keyframes aliveTurn{0%,100%{transform:rotate(0) scale(1)}40%{transform:rotate(-10deg) scale(1.1)}75%{transform:rotate(8deg) scale(1.06)}}
+
+/* 클리어 반짝 */
+.board.clear::after{content:''; position:absolute; inset:calc(-20*var(--u)); z-index:4;
+  border-radius:calc(24*var(--u)); background:var(--pp-star-on); mix-blend-mode:screen;
+  animation:flash .7s var(--e-out) forwards; pointer-events:none}
+@keyframes flash{0%{opacity:0}30%{opacity:.5}100%{opacity:0}}
+
+/* 반짝이 — v4 와 같은 별가루 (정답 1개마다) */
+.spark-bit{position:absolute; z-index:28; width:var(--s); height:var(--s);
+  background:var(--c); pointer-events:none; border-radius:50%;
+  animation:bitFly .78s var(--e-out) forwards}
+.spark-bit.star{border-radius:0;
+  clip-path:polygon(50% 0%,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0% 50%,39% 39%)}
+@keyframes bitFly{0%{opacity:0; transform:translate(-50%,-50%) scale(.3)}
+  15%{opacity:1}
+  100%{opacity:0; transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.05) rotate(var(--rot))}}
+
+/* ---------- 소년 — v4 와 같은 자리 · 같은 브리핑 이동 ---------- */
+.boy-slot{position:absolute; z-index:14; transform-origin:50% 100%;
+  left:calc(50.7 * var(--u)); top:calc(709.3 * var(--u));
+  width:calc(284.8 * var(--u)); height:calc(470.3 * var(--u));
+  transition:transform .62s var(--e-out)}
+.boy{position:absolute; inset:0; padding:0; border:0; background:none; cursor:pointer;
+  transform-origin:50% 100%; transition:transform var(--t-fast) var(--e-out)}
+.boy img{width:100%; height:100%; display:block}
+.boy:active{transform:scale(.96)}
+.boy:focus-visible{outline:none}
+.boy.is-cheer{animation:boyHop .9s var(--e-out) 2}
+@keyframes boyHop{0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(calc(-42*var(--u))) rotate(-3deg)}
+  55%{transform:translateY(0) rotate(0)}
+  75%{transform:translateY(calc(-20*var(--u))) rotate(2deg)}}
+
+/* ---------- 브리핑 §8.4 · §11.8 (v4 · B-2_04 v2 와 같은 값) ----------
+   딤은 pointer-events:none — 건너뛰기 탭이 그대로 칸에 닿아 첫 스와이프가 답으로 이어진다 (원본 규칙) */
+.veil{position:absolute; inset:0; z-index:12; background:var(--pp-veil); pointer-events:none;
+  opacity:0; visibility:hidden;
+  transition:opacity var(--t-slow) var(--e-out), visibility var(--t-slow)}
+body.is-briefing .veil{opacity:1; visibility:visible}
+body.is-briefing .boy-slot{z-index:16; transform:translateX(calc(767*var(--u))) scale(1.18)}
+body.is-briefing .boy{animation:boyTalk 1.5s var(--e-out) .5s infinite}
+@keyframes boyTalk{0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(calc(-12*var(--u))) rotate(-1.2deg)}
+  60%{transform:translateY(0) rotate(.8deg)}}
+.talk{top:calc(296*var(--u)); z-index:17; opacity:0; visibility:hidden;
+  transform:translateY(calc(26*var(--u))) rotate(-1.4deg) scale(.94); transform-origin:50% 100%;
+  transition:opacity var(--t-slow) var(--e-out), visibility var(--t-slow), transform .5s var(--e-pop)}
+body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition-delay:.28s}
+
+/* ---------- 가이드 팝업 §8.5 · §11.9 — B-2_04 v2 와 같은 시트 · 닫기 · 스텝 ----------
+   데모만 이 화면 것 — ① 규칙 카드 ② 6칸 줄에서 같은 순서를 동그라미 */
+.guide{position:absolute; inset:0; z-index:35; display:grid; place-items:center;
+  background:var(--pp-scrim); opacity:0; pointer-events:none;
+  transition:opacity var(--t-base) var(--e-out)}
+.guide.on{opacity:1; pointer-events:auto}
+.guide__sheet{position:relative; width:calc(1200*var(--u)); height:calc(700*var(--u));
+  padding:calc(54*var(--u)) calc(60*var(--u));
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:calc(26*var(--u)); text-align:center;
+  transform:scale(.88); transition:transform var(--t-slow) var(--e-pop)}
+.guide.on .guide__sheet{transform:none}
+.guide__sheet > :not(.guide__paper):not(.pp-round){position:relative; z-index:1}
+.guide__paper{position:absolute; inset:0; z-index:0; pointer-events:none; filter:var(--pp-lift-l)}
+.guide__rim,.guide__face{position:absolute}
+.guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
+  -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
+.guide__face{inset:0; background:var(--pp-cream) var(--pp-tx-sheet) center/100% 100% no-repeat;
+  -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
+.gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
+  font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
+.gstep i{flex:none; display:grid; place-items:center; width:calc(64*var(--u)); height:calc(64*var(--u));
+  border-radius:50%; background:var(--pp-gold); color:var(--pp-gold-ink); font-style:normal;
+  font-size:calc(37*var(--u))}
+.gstep b{white-space:nowrap}
+.garrow{width:calc(44*var(--u)); fill:var(--pp-teal)}
+/* 가이드 안 규칙 카드 — 본판 카드를 0.84배로 (걸침 배치 없이 흐름 안에) */
+.guide .rule{position:relative; left:auto; top:auto; margin:0; flex:none;
+  width:calc(436*var(--u)); height:calc(139*var(--u)); gap:calc(10*var(--u))}
+.guide .rule .ic{width:calc(84*var(--u)); height:calc(84*var(--u))}
+.demo{position:relative; flex:none; width:calc(var(--cw) * 6 * var(--u)); height:calc(var(--ch) * var(--u))}
+.demo .grid{grid-template-columns:repeat(6, calc(var(--cw) * var(--u))); grid-template-rows:calc(var(--ch) * var(--u))}
+.demo .cell{cursor:default; border-bottom:0}
+.demo .cell:nth-child(6n){border-right:0}
+/* 자식 선택자 필수 — .demo svg 로 두면 칸 안 아이콘까지 절대배치된다 (§9.7) */
+.demo > svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none}
+.demo rect{stroke:var(--pt-ink-done); fill:none; stroke-linecap:round;
+  stroke-dasharray:2400; stroke-dashoffset:2400; animation:draw 3.2s var(--e-out) infinite}
+@keyframes draw{0%{stroke-dashoffset:2400; opacity:1} 45%,82%{stroke-dashoffset:0; opacity:1}
+  100%{stroke-dashoffset:0; opacity:0}}
+
+/* ---------- 완료 화면 §8.3 (B-2_04 v2 와 같은 값 · 같은 일러스트) ---------- */
+.win{position:absolute; inset:0; z-index:60; display:flex; align-items:center;
+  justify-content:center; background:var(--pp-scrim);
+  opacity:0; pointer-events:none; transition:opacity var(--t-base) var(--e-out)}
+.win.on{opacity:1; pointer-events:auto}
+.win__stack{position:relative; width:calc(1040*var(--u)); display:flex; flex-direction:column;
+  align-items:center; gap:calc(44*var(--u));
+  transform:scale(.82) translateY(calc(28*var(--u)));
+  transition:transform var(--t-slow) var(--e-pop)}
+.win.on .win__stack{transform:none}
+.win__rays,.win__glow{position:absolute; left:50%; top:calc(200*var(--u));
+  border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:0}
+.win__rays{width:calc(1000*var(--u)); height:calc(1000*var(--u));
+  background:repeating-conic-gradient(from 0deg, rgba(255,201,37,.6) 0deg 6deg, rgba(255,201,37,0) 6deg 20deg);
+  -webkit-mask-image:radial-gradient(circle,#000 22%,rgba(0,0,0,0) 60%);
+          mask-image:radial-gradient(circle,#000 22%,rgba(0,0,0,0) 60%);
+  animation:raySpin 26s linear infinite}
+@keyframes raySpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.win__glow{width:calc(760*var(--u)); height:calc(760*var(--u));
+  background:radial-gradient(circle, rgba(255,232,148,.85) 0%, rgba(255,232,148,.38) 40%, rgba(255,232,148,0) 68%);
+  animation:glowBreathe 3.4s ease-in-out infinite}
+@keyframes glowBreathe{0%,100%{opacity:.8; transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1; transform:translate(-50%,-50%) scale(1.06)}}
+.win__art{position:relative; z-index:2; display:block; width:calc(600*var(--u)); height:auto;
+  filter:drop-shadow(0 calc(12*var(--u)) calc(20*var(--u)) rgba(80,40,10,.28))}
+.win.on .win__art{animation:winHop 1.6s var(--e-out) .3s 2}
+@keyframes winHop{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-3.5%) rotate(-1.5deg)}60%{transform:translateY(-1.5%) rotate(1.5deg)}}
+.win__line{position:relative; z-index:3; color:#fff; font-weight:800;
+  font-size:calc(54*var(--u)); line-height:1.15;
+  text-shadow:0 calc(5*var(--u)) 0 rgba(0,0,0,.22)}
+.win__stack .win__actions{position:relative; z-index:3}
+.win__sparks{position:absolute; left:50%; top:calc(-40*var(--u)); transform:translateX(-50%);
+  width:calc(760*var(--u)); height:calc(480*var(--u)); z-index:4; pointer-events:none}
+.spark{position:absolute; left:var(--x); top:var(--y); width:var(--s); height:var(--s);
+  background:var(--c); opacity:0; animation:twinkle 2.4s var(--e-out) infinite;
+  animation-delay:var(--d);
+  clip-path:polygon(50% 0%,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0% 50%,39% 39%)}
+@keyframes twinkle{0%,100%{opacity:0; transform:scale(.4) rotate(0deg)}
+  35%{opacity:1; transform:scale(1) rotate(35deg)}
+  70%{opacity:.35; transform:scale(.75) rotate(70deg)}}
+.win__confetti{position:absolute; left:50%; top:calc(80*var(--u)); transform:translateX(-50%);
+  width:calc(900*var(--u)); height:calc(700*var(--u)); z-index:5; pointer-events:none}
+.conf{position:absolute; left:50%; top:40%; width:var(--w); height:var(--h);
+  background:var(--c); border-radius:var(--r); opacity:0}
+.win.on .conf{animation:confBurst 1.5s var(--e-out) forwards; animation-delay:var(--d)}
+@keyframes confBurst{0%{opacity:0; transform:translate(0,0) rotate(0deg) scale(.3)}
+  12%{opacity:1}70%{opacity:1}
+  100%{opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body class="is-briefing">
+
+<main class="stage theme-paper" id="stage">
+  <img class="stage__bg" id="bg" alt="" src="img_png/B-2_06-stage-bg-forest-v1.webp" onerror="this.onerror=null;this.src='img_png/B-2_04-stage-bg-weather-v1.webp'">
+
+  <!-- 상단 크롬 §11.2 · §11.4 -->
+  <div class="pp-edge-tl">
+    <button class="pp-ibtn" id="btnBack" aria-label="Back">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1 2.9a2.4 2.4 0 0 0-3.4 0L4.6 11a1.4 1.4 0 0 0 0 2l8.1 8.1a2.4 2.4 0 1 0 3.4-3.4L10.1 12l6-6a2.4 2.4 0 0 0 0-3.1Z"/></svg>
+    </button>
+  </div>
+  <div class="pp-edge-tr">
+    <button class="pp-ibtn pp-ibtn--lang" id="btnLang" data-next="ko" aria-label="한국어">
+      <span class="lg"><b id="lgEn" class="on">A</b><i id="lgKo" class="off">한</i></span>
+    </button>
+    <button class="pp-ibtn pp-ibtn--sound" id="btnSay" aria-label="Sound off" aria-pressed="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true">
+        <path d="M3.5 10.2h4.1l5.3-4.3c.9-.7 2.2-.1 2.2 1.1v14c0 1.2-1.3 1.8-2.2 1.1l-5.3-4.3H3.5c-.8 0-1.5-.7-1.5-1.5v-4.6c0-.8.7-1.5 1.5-1.5Z"/>
+        <path class="sound-wave" d="M18.2 10.7a4.6 4.6 0 0 1 0 6.6"/>
+        <path class="sound-wave" d="M21.7 7.5a8.8 8.8 0 0 1 0 13"/>
+        <path class="sound-wave sound-x" d="M18.4 10.4l6 6.8M24.4 10.4l-6 6.8"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 진행 별 §11.5 — 패턴 하나를 찾을 때마다 1개 -->
+  <div class="pp-edge-tc"><div class="pp-stars" id="stars" aria-hidden="true"></div></div>
+
+  <!-- 기억할 규칙 — 틸 펠트 카드 -->
+  <div class="rule" id="rule" aria-label="Pattern"></div>
+
+  <!-- 문제판 — 배경의 크림 판 위에 8열 × 5행 -->
+  <div class="board" id="board">
+    <div class="grid" id="grid" role="grid"></div>
+    <svg class="ink" id="ink" viewBox="0 0 1248 660" preserveAspectRatio="none">
+      <defs>
+        <filter id="crayon" x="-25%" y="-25%" width="150%" height="150%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="9" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
+      <g id="inkLocked" filter="url(#crayon)"></g>
+      <g id="inkLive" filter="url(#crayon)"></g>
+    </svg>
+  </div>
+
+  <!-- 브리핑 딤 + 종이 말풍선 §11.8 -->
+  <div class="veil" id="veil" aria-hidden="true"></div>
+  <div class="pp-talk talk" id="talk" aria-live="polite">
+    <div class="pp-talk__paper"><div class="pp-talk__sheet"></div></div>
+    <span class="pp-tag" id="talkTag">QUESTION</span>
+    <p class="pp-talk__line" id="talkLine"></p>
+  </div>
+
+  <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 플레이 방법(가이드 팝업)을 연다 -->
+  <div class="boy-slot" id="boySlot">
+    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="img_png/B-2_02-boy-v5.webp"></button>
+  </div>
+
+  <!-- 가이드 팝업 §8.5 · §11.9 -->
+  <div class="guide" id="guide" role="dialog" aria-modal="true" aria-label="How to play">
+    <div class="guide__sheet">
+      <div class="guide__paper" aria-hidden="true"><div class="guide__rim"></div><div class="guide__face"></div></div>
+      <button class="pp-round" id="guideClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 4.5 19.5 19.5M19.5 4.5 4.5 19.5"/></svg>
+      </button>
+      <div class="gstep"><i>1</i><b id="stepA">Remember this pattern</b></div>
+      <div class="rule" id="ruleGuide"></div>
+      <svg class="garrow" viewBox="0 0 46 60" aria-hidden="true">
+        <path d="M16 0h14v34h11a2 2 0 0 1 1.5 3.3L24.5 59a2 2 0 0 1-3 0L3.5 37.3A2 2 0 0 1 5 34h11Z"/>
+      </svg>
+      <div class="gstep"><i>2</i><b id="stepB">Find the same order and circle it!</b></div>
+      <div class="demo">
+        <div class="grid" id="demoGrid"></div>
+        <svg viewBox="0 0 936 132" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <filter id="crayonD" x="-25%" y="-25%" width="150%" height="150%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="9" result="n"/>
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+          </defs>
+          <g filter="url(#crayonD)">
+            <rect x="162" y="7" width="612" height="118" rx="59" ry="59" stroke-width="9"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 완료 화면 §8.3 -->
+  <div class="win" id="win">
+    <div class="win__stack">
+      <div class="win__rays"></div>
+      <div class="win__glow"></div>
+      <img class="win__art" id="winArt" alt="" src="B-2_DECOMPOSITION/peter-shape-hunt/dist/images/complete-duo-paper-v4.png">
+      <div class="win__sparks" id="winSparks"></div>
+      <div class="win__confetti" id="winConf"></div>
+      <div class="win__line" id="winLine"></div>
+      <div class="win__actions">
+        <button class="btn-bar btn--retry" id="retry"><span>PLAY AGAIN</span></button>
+        <button class="btn-bar btn--exit" id="exit"><span>EXIT</span></button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 아이콘 8종 — 원본 B-2_06 의 인라인 심볼 그대로 (img_svg/B-2/*.svg) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="ic-B" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-2107.869739,-1049.449583)">
+        <g transform="matrix(-0.446064,0.895001,0.895001,0.446064,535.71364,302.631859)">
+            <path d="M-4.78,-2.958L1.831,-2.958" style="fill:none;fill-rule:nonzero;stroke:rgb(235,175,75);stroke-width:1.5px;"/>
+        </g>
+        <g transform="matrix(-0.446064,0.895001,0.895001,0.446064,538.84424,302.631859)">
+            <path d="M-4.78,-2.958L1.831,-2.958" style="fill:none;fill-rule:nonzero;stroke:rgb(254,201,37);stroke-width:1.5px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,527.6036,302.8664)">
+            <path d="M0,0L6.669,0" style="fill:none;fill-rule:nonzero;stroke:rgb(235,175,75);stroke-width:1.5px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,530.6707,302.8664)">
+            <path d="M0,0L7.816,0" style="fill:none;fill-rule:nonzero;stroke:rgb(254,201,37);stroke-width:1.5px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,511.1579,276.5303)">
+            <path d="M0,-1.218C0.213,-1.529 0.507,-1.718 0.857,-1.858C1.834,-2.246 2.802,-2.657 3.774,-3.06C3.375,-1.449 3.101,0.182 3.026,1.842C2.124,1.133 1.22,0.427 0.323,-0.288C0.196,-0.39 0.107,-0.539 0,-0.666L0,-1.218Z" style="fill:rgb(237,91,40);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,557.9838,276.7908)">
+            <path d="M0,6.141C-0.308,5.825 -0.672,5.811 -1.058,5.965C-3.273,6.847 -5.566,7.145 -7.933,6.876C-8.295,6.986 -8.55,7.262 -8.841,7.477C-10.632,8.805 -12.553,9.891 -14.668,10.609C-15.838,11.006 -17.043,11.23 -18.286,11.321C-20.015,11.447 -21.663,11.179 -23.225,10.47C-26.156,9.139 -27.985,6.88 -28.709,3.74C-28.867,3.056 -28.938,2.357 -28.893,1.651C-28.757,-0.038 -28.204,-1.557 -27.047,-2.823C-26.269,-3.676 -25.392,-4.393 -24.306,-4.841C-23.006,-5.378 -21.774,-5.196 -20.567,-4.569C-20.461,-4.514 -20.38,-4.404 -20.239,-4.439C-20.455,-4.982 -20.802,-5.452 -21.08,-5.96C-22.838,-9.166 -25.324,-11.453 -29.003,-12.229C-29.333,-12.298 -29.266,-12.421 -29.114,-12.625C-28.487,-13.47 -27.783,-14.258 -27.22,-15.151C-27.713,-15.028 -28.178,-14.844 -28.628,-14.626C-28.178,-14.844 -27.713,-15.028 -27.22,-15.151L-27.225,-15.162C-27.23,-15.203 -27.235,-15.244 -27.239,-15.285C-29.529,-15.271 -31.709,-14.734 -33.807,-13.854C-37.625,-12.252 -40.404,-9.574 -42.112,-5.791C-42.476,-4.985 -42.719,-4.136 -43.052,-3.32C-43.45,-1.709 -43.725,-0.079 -43.8,1.581C-43.768,2.162 -43.733,2.742 -43.703,3.322C-43.588,5.591 -43.046,7.759 -42.081,9.81C-39.912,14.424 -36.306,17.51 -31.68,19.491C-29.317,20.503 -26.835,21.041 -24.291,21.334C-23.729,21.365 -23.166,21.395 -22.604,21.426L-21.216,21.426C-20.619,21.395 -20.021,21.363 -19.424,21.332C-18.794,21.236 -18.162,21.157 -17.536,21.041C-16.448,20.839 -15.358,20.645 -14.326,20.226C-14.295,20.225 -14.262,20.231 -14.234,20.222C-10.414,19.012 -7.09,16.982 -4.304,14.108C-2.369,12.112 -0.894,9.801 0.122,7.204C0.272,6.82 0.313,6.462 0,6.141" style="fill:rgb(254,201,37);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,521.3095,271.5402)">
+            <path d="M-1.889,-1.889C-2.933,-1.889 -3.779,-1.043 -3.779,-0C-3.779,1.043 -2.933,1.889 -1.889,1.889C-0.847,1.889 -0,1.043 -0,-0C-0,-1.043 -0.847,-1.889 -1.889,-1.889" style="fill:rgb(44,43,42);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,529.0911,278.3472)">
+            <path d="M0,0.095C0.136,-1.594 0.689,-3.113 1.845,-4.38C2.624,-5.232 3.501,-5.949 4.586,-6.397C5.886,-6.934 7.119,-6.753 8.326,-6.125C8.432,-6.07 8.513,-5.961 8.654,-5.995L8.644,-5.989C8.675,-5.955 8.707,-5.921 8.739,-5.887C9.55,-5.178 10.14,-4.275 10.851,-3.478C12.815,-1.278 15.001,0.622 17.786,1.727C18.455,1.993 19.147,2.173 19.852,2.315C18.776,3.401 17.49,4.19 16.144,4.879C14.286,5.83 12.321,6.49 10.253,6.783C8.789,6.991 7.31,7.029 5.852,6.704C4.05,6.303 2.521,5.456 1.457,3.895C0.731,2.827 0.335,1.636 0.18,0.36C0.164,0.233 0.171,0.109 0,0.095" style="fill:rgb(237,91,40);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,529.0911,288.2382)">
+            <path d="M0,-9.796C0.171,-9.782 0.164,-9.658 0.18,-9.531C0.335,-8.255 0.731,-7.064 1.457,-5.996C2.521,-4.435 4.05,-3.588 5.852,-3.187C7.31,-2.862 8.789,-2.9 10.253,-3.108C12.321,-3.401 14.286,-4.061 16.144,-5.012C17.49,-5.701 18.776,-6.49 19.852,-7.576C20.488,-7.519 21.125,-7.468 21.76,-7.404C22.146,-7.365 22.405,-7.14 22.547,-6.79C22.693,-6.43 22.623,-6.091 22.344,-5.825C22.046,-5.542 21.72,-5.288 21.408,-5.02C21.248,-4.881 21.057,-4.773 20.96,-4.572C20.597,-4.461 20.343,-4.185 20.052,-3.97C18.261,-2.643 16.339,-1.556 14.225,-0.839C13.055,-0.441 11.85,-0.217 10.607,-0.127C8.878,0 7.23,-0.269 5.668,-0.978C2.737,-2.308 0.907,-4.568 0.184,-7.707C0.026,-8.391 -0.045,-9.09 0,-9.796" style="fill:rgb(237,91,40);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,530.7586,261.5051)">
+            <path d="M0,0.124C-0.005,0.083 -0.009,0.042 -0.014,0C0.078,0.032 0.088,0.072 0,0.124" style="fill:rgb(64,191,239);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,537.8297,272.3584)">
+            <path d="M0,0.102C-0.032,0.068 -0.063,0.034 -0.095,0C-0.063,0.034 -0.032,0.068 0,0.102" style="fill:rgb(64,191,239);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-C" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-2420.835625,-1055.951357)">
+        <g transform="matrix(-0.531473,0.847075,0.847075,0.531473,607.897456,305.597387)">
+            <path d="M-21.975,-12.154C-21.975,-12.154 -5.127,-17.305 6.723,-12.155" style="fill:none;fill-rule:nonzero;stroke:rgb(207,215,40);stroke-width:3px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,618.0752,276.978)">
+            <path d="M0,-14.525C-0.374,-15.152 -0.872,-15.701 -1.456,-16.137C-3.096,-17.361 -5.461,-17.743 -7.348,-16.906C-7.604,-16.792 -7.903,-16.627 -8.179,-16.575C-8.219,-16.567 -8.241,-16.57 -8.275,-16.566C-8.308,-16.57 -8.33,-16.567 -8.37,-16.575C-8.647,-16.627 -8.945,-16.792 -9.202,-16.906C-11.089,-17.743 -13.453,-17.361 -15.093,-16.137C-15.677,-15.701 -16.175,-15.152 -16.549,-14.525C-18.288,-11.612 -16.846,-8.068 -15.268,-5.43C-13.518,-2.508 -11.323,0.62 -8.602,2.698C-8.499,2.907 -8.388,3.073 -8.275,3.218C-8.161,3.073 -8.05,2.907 -7.948,2.698C-5.227,0.62 -3.031,-2.508 -1.282,-5.43C0.297,-8.068 1.739,-11.612 0,-14.525" style="fill:rgb(148,193,61);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,618.0752,283.4147)">
+            <path d="M0,14.525C-0.374,15.152 -0.872,15.701 -1.456,16.137C-3.096,17.361 -5.461,17.743 -7.348,16.906C-7.604,16.792 -7.903,16.627 -8.179,16.575C-8.219,16.567 -8.241,16.57 -8.275,16.566C-8.308,16.57 -8.33,16.567 -8.37,16.575C-8.647,16.627 -8.945,16.792 -9.202,16.906C-11.089,17.743 -13.453,17.361 -15.093,16.137C-15.677,15.701 -16.175,15.152 -16.549,14.525C-18.288,11.612 -16.846,8.068 -15.268,5.43C-13.518,2.508 -11.323,-0.62 -8.602,-2.698C-8.499,-2.907 -8.388,-3.073 -8.275,-3.218C-8.161,-3.073 -8.05,-2.907 -7.948,-2.698C-5.227,-0.62 -3.031,2.508 -1.282,5.43C0.297,8.068 1.739,11.612 0,14.525" style="fill:rgb(148,193,61);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,627.544,271.9219)">
+            <path d="M0,16.549C0.627,16.175 1.176,15.677 1.612,15.093C2.836,13.453 3.218,11.088 2.381,9.201C2.267,8.945 2.102,8.646 2.049,8.37C2.042,8.33 2.045,8.308 2.041,8.274C2.045,8.241 2.042,8.219 2.049,8.179C2.102,7.902 2.267,7.604 2.381,7.347C3.218,5.46 2.836,3.096 1.612,1.456C1.176,0.872 0.627,0.374 0,0C-2.913,-1.739 -6.457,-0.297 -9.095,1.281C-12.017,3.031 -15.145,5.226 -17.223,7.947C-17.432,8.05 -17.598,8.161 -17.743,8.274C-17.598,8.388 -17.432,8.499 -17.223,8.601C-15.145,11.322 -12.017,13.518 -9.095,15.267C-6.457,16.846 -2.913,18.288 0,16.549" style="fill:rgb(148,193,61);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,592.0573,271.9219)">
+            <path d="M0,16.549C-0.627,16.175 -1.176,15.677 -1.612,15.093C-2.836,13.453 -3.218,11.088 -2.381,9.201C-2.267,8.945 -2.102,8.646 -2.049,8.37C-2.042,8.33 -2.045,8.308 -2.041,8.274C-2.045,8.241 -2.042,8.219 -2.049,8.179C-2.102,7.902 -2.267,7.604 -2.381,7.347C-3.218,5.46 -2.836,3.096 -1.612,1.456C-1.176,0.872 -0.627,0.374 0,0C2.914,-1.739 6.457,-0.297 9.095,1.281C12.017,3.031 15.145,5.226 17.223,7.947C17.432,8.05 17.598,8.161 17.743,8.274C17.598,8.388 17.432,8.499 17.223,8.601C15.145,11.322 12.017,13.518 9.095,15.267C6.457,16.846 2.914,18.288 0,16.549" style="fill:rgb(148,193,61);"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,610.0354,277.0017)">
+            <path d="M-3.283,-3.283C-5.096,-3.283 -6.566,-1.813 -6.566,-0C-6.566,1.813 -5.096,3.283 -3.283,3.283C-1.47,3.283 -0,1.813 -0,-0C-0,-1.813 -1.47,-3.283 -3.283,-3.283" style="fill:rgb(148,193,61);"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-L" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-846.550833,-1055.950417)">
+        <g transform="matrix(0,-1,-1,0,231.9721,273.0178)">
+            <path d="M-14.218,-14.218C-22.07,-14.218 -28.436,-7.852 -28.436,-0C-28.436,7.852 -22.07,14.218 -14.218,14.218C-6.366,14.218 -0,7.852 -0,-0C-0,-7.852 -6.366,-14.218 -14.218,-14.218" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,238.1169,265.0364)">
+            <path d="M0,16.175L-12.289,16.175L-12.289,6.145C-12.289,2.751 -9.538,0 -6.145,0C-2.751,0 0,2.751 0,6.145L0,16.175Z" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,248.5503,286.2602)">
+            <path d="M0,1.177C0,-7.979 -7.422,-15.401 -16.578,-15.401C-25.734,-15.401 -33.156,-7.979 -33.156,1.177C-33.156,8.172 -28.817,14.143 -22.689,16.578L-16.578,1.177L-10.467,16.577C-4.339,14.143 0,8.172 0,1.177" style="fill:rgb(235,67,67);"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,227.6608,274.2602)">
+            <path d="M-1.889,-1.889C-2.933,-1.889 -3.779,-1.043 -3.779,-0C-3.779,1.043 -2.933,1.889 -1.889,1.889C-0.847,1.889 -0,1.043 -0,-0C-0,-1.043 -0.847,-1.889 -1.889,-1.889" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,224.1206,291.9488)">
+            <path d="M-1.889,-1.889C-2.933,-1.889 -3.779,-1.043 -3.779,-0C-3.779,1.043 -2.933,1.889 -1.889,1.889C-0.847,1.889 -0,1.043 -0,-0C-0,-1.043 -0.847,-1.889 -1.889,-1.889" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,221.4198,282.6455)">
+            <path d="M-1.889,-1.889C-2.933,-1.889 -3.779,-1.043 -3.779,-0C-3.779,1.043 -2.933,1.889 -1.889,1.889C-0.847,1.889 -0,1.043 -0,-0C-0,-1.043 -0.847,-1.889 -1.889,-1.889" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(0,1,1,0,236.4163,274.2602)">
+            <path d="M1.889,-1.889C2.933,-1.889 3.779,-1.043 3.779,-0C3.779,1.043 2.933,1.889 1.889,1.889C0.847,1.889 0,1.043 0,-0C0,-1.043 0.847,-1.889 1.889,-1.889" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(0,1,1,0,239.9565,291.9488)">
+            <path d="M1.889,-1.889C2.933,-1.889 3.779,-1.043 3.779,-0C3.779,1.043 2.933,1.889 1.889,1.889C0.847,1.889 0,1.043 0,-0C0,-1.043 0.847,-1.889 1.889,-1.889" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(0,1,1,0,242.6573,282.6455)">
+            <path d="M1.889,-1.889C2.933,-1.889 3.779,-1.043 3.779,-0C3.779,1.043 2.933,1.889 1.889,1.889C0.847,1.889 0,1.043 0,-0C0,-1.043 0.847,-1.889 1.889,-1.889" style="fill:rgb(8,7,6);"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,239.8865,266.226)">
+            <path d="M-0.93,4.608L2.769,4.608C3.784,4.608 4.608,3.785 4.608,2.769C4.608,1.753 3.784,0.93 2.769,0.93L2.544,0.93" style="fill:none;fill-rule:nonzero;stroke:rgb(8,7,6);stroke-width:1.5px;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,229.5905,262.548)">
+            <path d="M-4.608,0.93L-0.909,0.93C0.106,0.93 0.93,1.753 0.93,2.769C0.93,3.785 0.106,4.608 -0.909,4.608L-1.134,4.608" style="fill:none;fill-rule:nonzero;stroke:rgb(8,7,6);stroke-width:1.5px;"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-S" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+<g transform="matrix(4.166667,0,0,4.166667,-1160.455833,-1049.354792)">
+        <g transform="matrix(0.86601,0.500026,0.500026,-0.86601,292.368413,299.707823)">
+            <path d="M4.198,-0.908C-2.161,4.921 1.325,14.475 1.325,14.475L4.198,14.475L7.072,14.475C7.072,14.475 10.559,4.92 4.198,-0.908" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(-0.86601,-0.500026,-0.500026,0.86601,308.299313,273.735623)">
+            <path d="M-3.39,-15.667C2.971,-9.839 -0.516,-0.284 -0.516,-0.284L-3.39,-0.284L-6.263,-0.284C-6.263,-0.284 -9.749,-9.838 -3.39,-15.667" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.86601,-0.500026,-0.500026,-0.86601,322.250487,299.707823)">
+            <path d="M-4.198,-0.908C2.161,4.921 -1.325,14.475 -1.325,14.475L-4.198,14.475L-7.072,14.475C-7.072,14.475 -10.559,4.92 -4.198,-0.908" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(-0.86601,0.500026,0.500026,0.86601,306.319587,273.735623)">
+            <path d="M3.39,-15.667C-2.971,-9.839 0.516,-0.284 0.516,-0.284L3.39,-0.284L6.263,-0.284C6.263,-0.284 9.749,-9.838 3.39,-15.667" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(-1,0,0,1,307.3095,274.0943)">
+            <path d="M0,-15.383C6.36,-9.554 2.874,0 2.874,0L-2.874,0C-2.874,0 -6.36,-9.554 0,-15.383" style="fill:rgb(250,227,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,307.3095,290.3619)">
+            <path d="M0,15.383C-6.36,9.554 -2.874,0 -2.874,0L2.874,0C2.874,0 6.36,9.554 0,15.383" style="fill:rgb(250,227,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,323.1348,274.5366)">
+            <path d="M-7.692,-7.692C-1.332,-1.863 -4.818,7.692 -4.818,7.692L-10.566,7.692C-10.566,7.692 -14.052,-1.863 -7.692,-7.692" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,1,1,0,291.4842,274.5366)">
+            <path d="M7.692,-7.692C1.332,-1.863 4.818,7.692 4.818,7.692L10.566,7.692C10.566,7.692 14.052,-1.863 7.692,-7.692" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.500152,0.865938,0.865938,-0.500152,287.347395,285.70239)">
+            <path d="M6.975,-4.493C0.615,1.336 4.102,10.89 4.102,10.89L6.975,10.89L9.849,10.89C9.849,10.89 13.335,1.335 6.975,-4.493" style="fill:rgb(250,227,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(-0.500152,-0.865938,-0.865938,0.500152,313.317395,269.76959)">
+            <path d="M-7.784,-12.083C-1.424,-6.255 -4.91,3.3 -4.91,3.3L-7.784,3.3L-10.657,3.3C-10.657,3.3 -14.144,-6.254 -7.784,-12.083" style="fill:rgb(250,227,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.500152,-0.865938,-0.865938,-0.500152,327.271605,285.70239)">
+            <path d="M-6.975,-4.493C-0.615,1.336 -4.102,10.89 -4.102,10.89L-6.975,10.89L-9.849,10.89C-9.849,10.89 -13.335,1.335 -6.975,-4.493" style="fill:rgb(250,227,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(-0.500152,0.865938,0.865938,0.500152,301.301605,269.76959)">
+            <path d="M7.784,-12.083C1.424,-6.255 4.91,3.3 4.91,3.3L7.784,3.3L10.657,3.3C10.657,3.3 14.144,-6.254 7.784,-12.083" style="fill:rgb(250,227,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,307.2801,271.0718)">
+            <path d="M-11.133,-11.133C-17.282,-11.133 -22.267,-6.148 -22.267,0C-22.267,6.149 -17.282,11.133 -11.133,11.133C-4.984,11.133 0,6.149 0,0C0,-6.148 -4.984,-11.133 -11.133,-11.133" style="fill:rgb(226,153,113);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,308.4515,275.136)">
+            <path d="M-1.172,-1.172C-1.819,-1.172 -2.344,-0.647 -2.344,0C-2.344,0.647 -1.819,1.172 -1.172,1.172C-0.525,1.172 0,0.647 0,0C0,-0.647 -0.525,-1.172 -1.172,-1.172" style="fill:rgb(222,134,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,313.5392,279.8832)">
+            <path d="M-1.172,-1.172C-1.819,-1.172 -2.344,-0.647 -2.344,0C-2.344,0.647 -1.819,1.172 -1.172,1.172C-0.525,1.172 0,0.647 0,0C0,-0.647 -0.525,-1.172 -1.172,-1.172" style="fill:rgb(222,134,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,307.3093,280.9648)">
+            <path d="M-1.172,-1.172C-1.819,-1.172 -2.344,-0.647 -2.344,0C-2.344,0.647 -1.819,1.172 -1.172,1.172C-0.525,1.172 0,0.647 0,0C0,-0.647 -0.525,-1.172 -1.172,-1.172" style="fill:rgb(222,134,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,301.7007,278.3208)">
+            <path d="M-1.172,-1.172C-1.819,-1.172 -2.344,-0.647 -2.344,0C-2.344,0.647 -1.819,1.172 -1.172,1.172C-0.525,1.172 0,0.647 0,0C0,-0.647 -0.525,-1.172 -1.172,-1.172" style="fill:rgb(222,134,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,302.8725,285.0911)">
+            <path d="M-1.172,-1.172C-1.819,-1.172 -2.344,-0.647 -2.344,0C-2.344,0.647 -1.819,1.172 -1.172,1.172C-0.525,1.172 0,0.647 0,0C0,-0.647 -0.525,-1.172 -1.172,-1.172" style="fill:rgb(222,134,86);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,311.1956,286.2629)">
+            <path d="M-1.172,-1.172C-1.819,-1.172 -2.344,-0.647 -2.344,0C-2.344,0.647 -1.819,1.172 -1.172,1.172C-0.525,1.172 0,0.647 0,0C0,-0.647 -0.525,-1.172 -1.172,-1.172" style="fill:rgb(222,134,86);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-H" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-212.590417,-1055.948958)">
+        <g transform="matrix(0,1,1,0,86.6052,297.23)">
+            <path d="M-6.784,-6.784L6.784,-6.784" style="fill:none;fill-rule:nonzero;stroke:rgb(204,138,90);stroke-width:7px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,95.7794,260.4429)">
+            <path d="M0,33.58L-31.915,33.58L-31.915,11.436L-15.958,0L0,11.436L0,33.58Z" style="fill:rgb(248,236,216);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0.812534,-0.582914,-0.582914,-0.812534,66.786027,278.048328)">
+            <path d="M-2.157,6.707L20.855,6.707" style="fill:none;fill-rule:nonzero;stroke:rgb(242,145,185);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(-0.812534,-0.582914,-0.582914,0.812534,85.483827,256.249672)">
+            <path d="M-20.855,6.707L2.157,6.707" style="fill:none;fill-rule:nonzero;stroke:rgb(242,145,185);stroke-width:4px;stroke-linecap:round;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,79.8218,272.6952)">
+            <path d="M-5.558,-5.558C-8.627,-5.558 -11.116,-3.07 -11.116,0C-11.116,3.069 -8.627,5.558 -5.558,5.558C-2.489,5.558 0,3.069 0,0C0,-3.07 -2.489,-5.558 -5.558,-5.558" style="fill:rgb(161,96,76);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-F" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-530.269583,-1055.951326)">
+        <g transform="matrix(1,0,0,1,156.176,305.9055)">
+            <path d="M0,-17.618C0,-17.618 -0.727,-9.86 1.535,-5.092C3.798,-0.324 6.708,0 6.708,0" style="fill:none;fill-rule:nonzero;stroke:rgb(207,215,40);stroke-width:3px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,163.3493,273.567)">
+            <path d="M0,-13.82C-4.202,-16.729 -7.285,-13.416 -7.285,-13.416C-7.285,-13.416 -10.367,-16.729 -14.569,-13.82C-18.772,-10.911 -15.62,-5.254 -15.62,-5.254L-7.285,2.909L1.051,-5.254C1.051,-5.254 4.202,-10.911 0,-13.82" style="fill:rgb(254,201,37);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,163.3493,279.3844)">
+            <path d="M0,13.82C-4.202,16.729 -7.285,13.416 -7.285,13.416C-7.285,13.416 -10.367,16.729 -14.569,13.82C-18.772,10.911 -15.62,5.254 -15.62,5.254L-7.285,-2.909L1.051,5.254C1.051,5.254 4.202,10.911 0,13.82" style="fill:rgb(254,201,37);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,172.7934,269.1904)">
+            <path d="M0,14.57C2.909,10.368 -0.404,7.285 -0.404,7.285C-0.404,7.285 2.909,4.203 0,0.001C-2.909,-4.202 -8.566,-1.05 -8.566,-1.05L-16.729,7.285L-8.566,15.621C-8.566,15.621 -2.909,18.772 0,14.57" style="fill:rgb(254,201,37);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,139.336,269.1904)">
+            <path d="M0,14.57C-2.909,10.368 0.404,7.285 0.404,7.285C0.404,7.285 -2.909,4.203 0,0.001C2.909,-4.202 8.566,-1.05 8.566,-1.05L16.729,7.285L8.566,15.621C8.566,15.621 2.909,18.772 0,14.57" style="fill:rgb(254,201,37);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,156.0648,272.5968)">
+            <path d="M-4.081,-4.081C-6.335,-4.081 -8.162,-2.254 -8.162,0C-8.162,2.254 -6.335,4.081 -4.081,4.081C-1.827,4.081 0,2.254 0,0C0,-2.254 -1.827,-4.081 -4.081,-4.081" style="fill:rgb(243,136,32);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-U" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-1478.123125,-1049.353333)">
+        <g transform="matrix(1,0,0,1,382.2802,270.5396)">
+            <path d="M0,24.868C-1.275,27.904 -4.278,30.041 -7.776,30.045C-12.429,30.041 -16.206,26.263 -16.206,21.615C-16.201,19.907 -15.701,18.319 -14.83,16.996C-19.199,13.262 -23.145,5.149 -18.328,0.333C-12.819,-5.177 -3.739,1.757 0,9.721L0,24.868Z" style="fill:rgb(242,143,184);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,384.7603,270.5446)">
+            <path d="M0,24.863C1.275,27.899 4.278,30.036 7.776,30.04C12.429,30.035 16.206,26.258 16.206,21.61C16.201,19.902 15.701,18.314 14.83,16.991C19.199,13.257 23.145,5.144 18.328,0.328C12.824,-5.177 3.739,1.752 0,9.715L0,24.863Z" style="fill:rgb(242,143,184);"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,393.5878,287.5422)">
+            <path d="M-10.027,10.027L10.027,10.027" style="fill:none;fill-rule:nonzero;stroke:rgb(191,100,121);stroke-width:4px;"/>
+        </g>
+        <g transform="matrix(0.548479,-0.836164,-0.836164,-0.548479,388.851475,272.689313)">
+            <path d="M-1.587,2.938L5.442,2.938" style="fill:none;fill-rule:nonzero;stroke:rgb(242,145,185);stroke-width:1px;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,389.7581,263.8714)">
+            <path d="M-2.079,-2.079C-3.228,-2.079 -4.159,-1.148 -4.159,0.001C-4.159,1.149 -3.228,2.079 -2.079,2.079C-0.93,2.079 0.001,1.149 0.001,0.001C0.001,-1.148 -0.93,-2.079 -2.079,-2.079" style="fill:rgb(191,100,121);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(-0.548479,-0.836164,-0.836164,0.548479,381.080175,266.242487)">
+            <path d="M-5.442,2.939L1.587,2.938" style="fill:none;fill-rule:nonzero;stroke:rgb(242,145,185);stroke-width:1px;"/>
+        </g>
+        <g transform="matrix(0,1,1,0,377.3739,263.8714)">
+            <path d="M2.079,-2.079C3.228,-2.079 4.159,-1.148 4.159,0.001C4.159,1.149 3.228,2.079 2.079,2.079C0.93,2.079 -0.001,1.149 -0.001,0.001C-0.001,-1.148 0.93,-2.079 2.079,-2.079" style="fill:rgb(191,100,121);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(0,-1,-1,0,383.52,271.6081)">
+            <path d="M-4.484,-4.484C-6.96,-4.484 -8.966,-2.477 -8.966,-0C-8.966,2.476 -6.96,4.484 -4.484,4.484C-2.008,4.484 -0,2.476 -0,-0C-0,-2.477 -2.008,-4.484 -4.484,-4.484" style="fill:rgb(191,100,121);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</symbol>
+<symbol id="ic-T" viewBox="0 0 240 240" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;">
+<g transform="matrix(4.166667,0,0,4.166667,-1792.482083,-1055.949838)">
+        <g transform="matrix(0,1,1,0,471.5177,291.8947)">
+            <path d="M-12.522,-12.522L12.522,-12.522" style="fill:none;fill-rule:nonzero;stroke:rgb(207,215,40);stroke-width:2.18px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,456.2609,260.7002)">
+            <path d="M0,13.419L-3.02,8.796C-3.684,7.781 -3.73,6.482 -3.141,5.423L0.043,-0.308C0.527,-1.179 1.375,-1.833 2.365,-1.945C2.611,-1.973 2.859,-1.973 3.104,-1.945C4.095,-1.833 4.943,-1.179 5.427,-0.308L8.611,5.423C9.2,6.482 9.153,7.781 8.49,8.796L5.47,13.419C4.18,15.392 1.289,15.392 0,13.419" style="fill:rgb(245,189,25);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,448.1065,278.4214)">
+            <path d="M0,-16.188L0,-8.293C0,-8.293 -0.364,4.367 10.889,4.367L10.889,-7.719C10.889,-7.719 9.748,-12.306 6.484,-16.188C6.484,-16.188 5.425,-17.511 4.102,-18.438C4.102,-18.438 0.838,-20.555 0,-16.188" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,469.885,278.4214)">
+            <path d="M0,-16.188L0,-8.293C0,-8.293 0.364,4.367 -10.889,4.367L-10.889,-7.719C-10.889,-7.719 -9.748,-12.306 -6.484,-16.188C-6.484,-16.188 -5.425,-17.511 -4.102,-18.438C-4.102,-18.438 -0.838,-20.555 0,-16.188" style="fill:rgb(249,223,31);fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,473.9698,305.2567)">
+            <path d="M0,-23.231C-0.008,-23.237 -0.016,-23.243 -0.023,-23.248C-0.645,-23.699 -1.514,-23.6 -2.11,-23.115C-2.11,-23.115 -5.987,-19.956 -5.988,-19.956C-8.803,-17.662 -11.758,-15.244 -13.385,-11.922C-14.047,-10.572 -14.576,-9.153 -14.976,-7.698C-15.376,-9.148 -15.903,-10.562 -16.563,-11.908C-18.191,-15.229 -21.145,-17.647 -23.961,-19.941C-23.962,-19.942 -27.839,-23.1 -27.839,-23.1C-28.434,-23.585 -29.303,-23.685 -29.925,-23.234C-29.933,-23.228 -29.941,-23.222 -29.948,-23.217C-30.474,-22.823 -30.652,-22.109 -30.504,-21.469L-29.37,-16.57C-28.143,-11.267 -25.05,-6.583 -20.656,-3.372L-15.898,0.105C-15.818,0.165 -15.438,0.468 -14.975,0.465C-14.512,0.463 -14.115,0.144 -14.052,0.091L-9.293,-3.386C-4.899,-6.598 -1.806,-11.282 -0.578,-16.584L0.556,-21.484C0.704,-22.124 0.526,-22.837 0,-23.231" style="fill:rgb(148,193,61);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</symbol>
+</svg>
+
+<script>
+(() => {
+'use strict';
+
+/* ============================================================
+   1. 효과음 — 원본 B-2_06 SFX 값 그대로 (DESIGN.md §9.7 「효과음 · BGM 악보」)
+      + 음소거 토글(§4.1 · §11.4): 음소거 중에는 새 소리를 만들지 않는다
+   ============================================================ */
+const MUTE = {on:false};
+const SFX = (() => {
+  let ctx = null, noiseBuf = null;
+  const ac = () => {
+    if(MUTE.on) return null;
+    if(!ctx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      try{ ctx = new AC() }catch(e){ return null }
+    }
+    if(ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  };
+  function voice(freq, at, dur, o){
+    const c = ac(); if(!c) return;
+    o = o || {};
+    const t0  = c.currentTime + at;
+    const bus = o.bus || c.destination;
+    const g = c.createGain(), f = c.createBiquadFilter();
+    f.type = 'lowpass';
+    f.frequency.setValueAtTime(o.cut || Math.min(freq * 5 + 900, 11000), t0);
+    f.Q.setValueAtTime(.7, t0);
+    const peak = o.gain || .12, atk = o.atk || .006;
+    g.gain.setValueAtTime(.0001, t0);
+    g.gain.exponentialRampToValueAtTime(peak, t0 + atk);
+    g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    f.connect(g); g.connect(bus);
+    const osc = (type, mul, det) => {
+      const s = c.createOscillator();
+      s.type = type;
+      s.frequency.setValueAtTime(freq * (mul || 1), t0);
+      if(o.bend) s.frequency.exponentialRampToValueAtTime(freq * o.bend, t0 + dur * .8);
+      s.detune.setValueAtTime(det || 0, t0);
+      s.connect(f); s.start(t0); s.stop(t0 + dur + .05);
+    };
+    osc(o.type || 'sine', 1, 0);
+    if(o.layer) osc(o.layer, o.mul || 2, o.detune || 6);
+  }
+  const chord = (fs, at, dur, o) => fs.forEach(f => voice(f, at, dur, o));
+  function swoosh(at, dur, f0, f1, gain){
+    const c = ac(); if(!c) return;
+    if(!noiseBuf){
+      const n = Math.floor(c.sampleRate * 1.2);
+      noiseBuf = c.createBuffer(1, n, c.sampleRate);
+      const d = noiseBuf.getChannelData(0);
+      let s = 12345;
+      for(let i = 0; i < n; i++){ s = (s*1103515245 + 12345) % 2147483648; d[i] = s/1073741824 - 1 }
+    }
+    const t0 = c.currentTime + at;
+    const src = c.createBufferSource(); src.buffer = noiseBuf;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.setValueAtTime(1.4, t0);
+    bp.frequency.setValueAtTime(f0, t0);
+    bp.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+    const g = c.createGain();
+    g.gain.setValueAtTime(.0001, t0);
+    g.gain.exponentialRampToValueAtTime(gain, t0 + dur * .3);
+    g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    src.connect(bp); bp.connect(g); g.connect(c.destination);
+    src.start(t0); src.stop(t0 + dur + .05);
+  }
+  const C3=130.81, C4=261.63, G4=392,
+        C5=523.25, D5=587.33, E5=659.25, F5=698.46, G5=783.99, A5=880, B5=987.77,
+        C6=1046.5, D6=1174.7, E6=1318.5, G6=1568, A6=1760,
+        C7=2093, E7=2637, G7=3136, F3=174.61, G3=196;
+  const marimba = (f, at, dur, gain) =>
+    voice(f, at, dur, {type:'sine', layer:'triangle', mul:2, detune:5, gain:gain || .13, cut:f*4+700});
+  const bell = (f, at, dur, gain) =>
+    voice(f, at, dur, {type:'sine', layer:'sine', mul:3.01, detune:4, gain:gain || .10, cut:f*7+2000});
+
+  let bgmOn = false, bgmTm = null, bgmBus = null, bgmAt = 0;
+  const BEAT = .28;
+  const MEL = [[C5,0,.5],[E5,.5,.5],[G5,1,.5],[C6,1.5,.5],
+               [A5,2,.5],[G5,2.5,.5],[E5,3,.5],[G5,3.5,.5],
+               [F5,4,.5],[A5,4.5,.5],[C6,5,.5],[A5,5.5,.5],
+               [G5,6,.5],[E5,6.5,.5],[C5,7,1]];
+  const BASS = [[C3,0,1.4],[C3,2,1.4],[F3,4,1.4],[G3,6,1.4]];
+  function bgmTone(freq, at, dur, type, gain){
+    const c = ac(); if(!c || !bgmBus) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, at);
+    g.gain.setValueAtTime(.0001, at);
+    g.gain.exponentialRampToValueAtTime(gain, at + .02);
+    g.gain.exponentialRampToValueAtTime(.0001, at + dur);
+    o.connect(g); g.connect(bgmBus);
+    o.start(at); o.stop(at + dur + .05);
+  }
+  function bgmLoop(){
+    const c = ac(); if(!c || !bgmOn) return;
+    if(bgmAt < c.currentTime + .05) bgmAt = c.currentTime + .1;
+    MEL.forEach(([f,b,d]) => bgmTone(f, bgmAt + b*BEAT, d*BEAT*.92, 'triangle', .055));
+    BASS.forEach(([f,b,d]) => bgmTone(f, bgmAt + b*BEAT, d*BEAT*.92, 'sine', .045));
+    bgmAt += 8*BEAT;
+    bgmTm = setTimeout(bgmLoop, 8*BEAT*1000 - 140);
+  }
+  return {
+    ctx(){ return ctx },
+    unlock(){ ac() },
+    tick(step, ok){
+      if(ok) marimba([C5,E5,A5,C6][step] || C5, 0, .30, .13);
+      else   voice(165, 0, .12, {type:'sine', gain:.075, cut:420});
+    },
+    correct(){
+      [C6,E6,G6].forEach((f,i) => bell(f, i*.055, .55, .085));
+      voice(C4, .02, .5, {type:'sine', gain:.05, cut:900});
+    },
+    clear(){
+      swoosh(0, .38, 500, 4200, .055);
+      [C5,E5,G5,C6].forEach((f,i) => marimba(f, .06 + i*.075, .38, .12));
+      bell(C6, .40, .8, .09);
+    },
+    tap(){ voice(620, 0, .09, {type:'sine', gain:.10, cut:2200, bend:.66}) },
+    hint(){ bell(D6, 0, .30, .085); bell(A6, .13, .38, .07) },
+    fanfare(){
+      swoosh(0, .5, 400, 5200, .06);
+      [[G4,0,.16],[C5,.13,.16],[E5,.26,.24]].forEach(([f,a,d]) => marimba(f,a,d,.12));
+      [[G5,.46,.12],[A5,.55,.12],[B5,.64,.12],[C6,.73,.34]].forEach(([f,a,d]) => marimba(f,a,d,.12));
+      chord([C5,E5,G5,C6], 1.00, 1.25, {type:'triangle', layer:'sine', mul:2, gain:.055, cut:5200});
+      voice(C3, 1.00, 1.4, {type:'sine', gain:.055, cut:600});
+      [[E6,1.12,.24],[D6,1.36,.24],[C6,1.60,.38],[G5,1.98,.32],
+       [A5,2.32,.26],[B5,2.58,.26],[C6,2.84,.80]].forEach(([f,a,d]) => bell(f,a,d,.10));
+      swoosh(3.42, .45, 900, 6000, .045);
+      chord([C6,E6,G6], 3.50, 1.7, {type:'sine', layer:'triangle', mul:2, gain:.06, cut:8000});
+      voice(C4, 3.50, 1.8, {type:'sine', gain:.05, cut:900});
+      voice(C3, 3.50, 2.0, {type:'sine', gain:.05, cut:520});
+      [[E7,3.70,.55],[G7,3.92,.55],[C7,4.14,.75]].forEach(([f,a,d]) => bell(f,a,d,.045));
+    },
+    bgm(on, delay){
+      if(on){
+        const c = ac(); if(!c || bgmOn) return;
+        bgmOn = true;
+        const d = (delay === undefined) ? .35 : delay;
+        bgmBus = c.createGain();
+        bgmBus.gain.setValueAtTime(.0001, c.currentTime);
+        bgmBus.gain.setValueAtTime(.0001, c.currentTime + d);
+        bgmBus.gain.exponentialRampToValueAtTime(1, c.currentTime + d + 1.1);
+        bgmBus.connect(c.destination);
+        bgmAt = c.currentTime + d;
+        bgmLoop();
+      }else{
+        if(!bgmOn) return;
+        bgmOn = false;
+        clearTimeout(bgmTm); bgmTm = null;
+        const bus = bgmBus; bgmBus = null;
+        if(bus && ctx){
+          const t0 = ctx.currentTime;
+          try{
+            bus.gain.cancelScheduledValues(t0);
+            bus.gain.setValueAtTime(Math.max(bus.gain.value, .0001), t0);
+            bus.gain.exponentialRampToValueAtTime(.0001, t0 + .4);
+          }catch(e){}
+          setTimeout(() => { try{ bus.disconnect() }catch(e){} }, 700);
+        }
+      }
+    }
+  };
+})();
+
+/* ============================================================
+   2. 데이터 — 원본 그대로 (DESIGN.md §9.7 「문제 데이터」, 이 배열이 유일본)
+   ============================================================ */
+const COLS = 8, ROWS = 5;
+const PATTERN = ['B','C','L','S'];             /* 노란새 · 세잎클로버 · 무당벌레 · 해바라기 */
+const NAME = {
+  en:{B:'Yellow bird', C:'Clover', L:'Ladybug', S:'Sunflower', H:'Birdhouse', F:'Yellow flower', U:'Butterfly', T:'Tulip'},
+  ko:{B:'노란새', C:'세잎클로버', L:'무당벌레', S:'해바라기', H:'새집', F:'노란꽃', U:'나비', T:'노란튤립'}
+};
+const LAYOUT = [
+  'H','F','L','S','B','C','L','S',
+  'L','B','C','L','S','F','H','T',
+  'B','U','S','B','C','L','S','H',
+  'B','C','L','S','T','F','U','H',
+  'S','H','B','C','L','S','U','T'
+];
+function findAnswers(){
+  const res = [];
+  for(let i = 0; i + PATTERN.length <= LAYOUT.length; i++){
+    let ok = true;
+    for(let k = 0; k < PATTERN.length; k++) if(LAYOUT[i+k] !== PATTERN[k]){ ok = false; break }
+    if(ok) res.push(i);
+  }
+  return res;
+}
+const ANSWERS = findAnswers();
+console.log('[B-2_06 v2] 정답 시작 index:', ANSWERS,
+  '→ (행,열):', ANSWERS.map(i => '(' + (Math.floor(i/COLS)+1) + ',' + (i%COLS+1) + ')').join(' '));
+
+const I18N = {
+  en:{ instr:'Find the same pattern and circle them.', tag:'QUESTION',
+       guide:'Remember this pattern. Then find the same order and circle it.',
+       stepA:'Remember this pattern', stepB:'Find the same order and circle it!',
+       win:'You found every pattern!', retry:'PLAY AGAIN', exit:'EXIT',
+       howto:'How to play', close:'Close', pattern:'Pattern' },
+  ko:{ instr:'같은 규칙을 찾아 동그라미 하세요.', tag:'문제',
+       guide:'이 규칙을 기억해요. 그리고 같은 순서를 찾아 동그라미 하세요.',
+       stepA:'이 규칙을 기억해요', stepB:'같은 순서를 찾아 동그라미!',
+       win:'같은 규칙을 모두 찾았어!', retry:'다시하기', exit:'나가기',
+       howto:'푸는 방법', close:'닫기', pattern:'규칙' }
+};
+
+/* ============================================================
+   3. 화면 만들기
+   ============================================================ */
+const stage   = document.getElementById('stage');
+const grid    = document.getElementById('grid');
+const board   = document.getElementById('board');
+const inkLive = document.getElementById('inkLive');
+const inkLocked = document.getElementById('inkLocked');
+const starsEl = document.getElementById('stars');
+const winEl   = document.getElementById('win');
+const boyEl   = document.getElementById('boy');
+const btnSay  = document.getElementById('btnSay');
+const guideEl = document.getElementById('guide');
+const HOME    = 'B-2_00.home.html#pattern';
+const SVGNS   = 'http://www.w3.org/2000/svg';
+
+function el(tag, cls, parent){
+  const n = document.createElement(tag); if(cls) n.className = cls;
+  if(parent) parent.appendChild(n); return n;
+}
+/* 아이콘 실루엣 마스크 — 인라인 심볼을 단독 SVG 로 꺼내 data URI 로 (file:// 에서도 mask 가 막히지 않게 §11.3) */
+const ICON_URI = {};
+document.querySelectorAll('symbol[id^="ic-"]').forEach(s => {
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" style="' + (s.getAttribute('style') || '') + '">'
+            + s.innerHTML + '</svg>';
+  ICON_URI[s.id.slice(3)] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+});
+/* 종이 아이콘 = 원본 심볼 + 같은 모양으로 오린 펠트 결 */
+function paperIcon(parent, code){
+  const o = el('span', 'obj ic', parent);
+  o.style.setProperty('--m', 'url("' + ICON_URI[code] + '")');
+  const s = document.createElementNS(SVGNS, 'svg');
+  s.setAttribute('viewBox', '0 0 240 240'); s.setAttribute('aria-hidden', 'true');
+  const u = document.createElementNS(SVGNS, 'use'); u.setAttribute('href', '#ic-' + code);
+  s.appendChild(u); o.appendChild(s);
+  el('i', 'obj__tx', o);
+  return o;
+}
+
+PATTERN.forEach(c => paperIcon(document.getElementById('rule'), c));
+PATTERN.forEach(c => paperIcon(document.getElementById('ruleGuide'), c));
+/* 가이드 데모 — 본판 2행에서 6칸. 정답이 2~5번째라 줄 한가운데에 온다 (원본과 같음) */
+LAYOUT.slice(COLS, COLS + 6).forEach(c => {
+  const d = el('div', 'cell', document.getElementById('demoGrid')); d.dataset.code = c; paperIcon(d, c);
+});
+for(let i = 0; i < ANSWERS.length; i++) el('i', 'pp-star', starsEl);
+
+const cells = LAYOUT.map((code, i) => {
+  const d = el('div', 'cell', grid);
+  d.dataset.code = code; d.dataset.i = i;
+  d.setAttribute('role', 'gridcell');
+  paperIcon(d, code);
+  return d;
+});
+
+/* ============================================================
+   4. 판정 · 그리기 — 원본 규칙 그대로 (§9.7 「셀 상태 · 입력 판정」)
+   ============================================================ */
+const CW = 156, CH = 132;
+const rc = i => [Math.floor(i/COLS), i%COLS];
+let path = [], found = [], dragging = false, downIdx = -1, moved = false;
+let idleTimer = null, locked = false;
+
+function runs(idxs){
+  const out = []; let cur = null;
+  idxs.forEach(i => {
+    const [r,c] = rc(i);
+    if(cur && cur.r === r && c === cur.c2 + 1) cur.c2 = c;
+    else { cur = {r, c1:c, c2:c}; out.push(cur) }
+  });
+  return out;
+}
+function shape(run, color, width, dashed){
+  const x = run.c1 * CW + 6, y = run.r * CH + 7;
+  const w = (run.c2 - run.c1) * CW + CW - 12, h = CH - 14;
+  return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + h/2 + '" ry="' + h/2 + '"'
+       + ' fill="none" stroke="' + color + '" stroke-width="' + width + '" stroke-linecap="round"'
+       + (dashed ? ' stroke-dasharray="26 20"' : '') + '/>';
+}
+const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const isPrefixOK = () => path.every((i, k) => LAYOUT[i] === PATTERN[k]);
+function renderLive(){
+  if(!path.length){ inkLive.innerHTML = ''; return }
+  const good = isPrefixOK();
+  inkLive.innerHTML = runs(path).map(r => shape(r, cssv(good ? '--pt-ink' : '--pt-ink-bad'), 7, !good)).join('');
+}
+function renderLocked(){
+  inkLocked.innerHTML = found.map(start => {
+    const idxs = []; for(let k = 0; k < PATTERN.length; k++) idxs.push(start + k);
+    return runs(idxs).map(r => shape(r, cssv('--pt-ink-done'), 9, false)).join('');
+  }).join('');
+}
+function paintCells(){
+  cells.forEach(c => c.classList.remove('hot','cold'));
+  let bad = false;
+  path.forEach((i, k) => {
+    if(LAYOUT[i] !== PATTERN[k]) bad = true;           /* 어긋난 지점부터는 전부 cold */
+    cells[i].classList.add(bad ? 'cold' : 'hot');
+  });
+}
+function push(i){
+  if(locked) return;
+  if(!path.length) path = [i];
+  else if(i === path[path.length-1]) return;
+  else if(i === path[path.length-1] + 1 && path.length < PATTERN.length) path.push(i);
+  else if(path.length > 1 && i === path[path.length-2]) path.pop();
+  else if(path.length >= PATTERN.length) return;
+  else path = [i];                                      /* 이어지지 않으면 새로 시작 */
+  paintCells(); renderLive(); resetIdle();
+  SFX.tick(path.length - 1, isPrefixOK());
+  if(path.length === PATTERN.length) setTimeout(judge, 160);
+}
+function judge(){
+  const start = path[0];
+  const ok = isPrefixOK() && ANSWERS.includes(start) && !found.includes(start);
+  if(ok){
+    found.push(start);
+    SFX.correct(); react();
+    const got = path.slice();
+    got.forEach(i => { cells[i].classList.remove('hot'); cells[i].classList.add('done') });
+    got.forEach((i, k) => setTimeout(() => {
+      cells[i].classList.add('alive');
+      setTimeout(() => cells[i].classList.remove('alive'), 1200);
+    }, k * 130));
+    burstAt(cells[got[1]], cells[got[2]]);
+    renderLocked(); paintStars();
+    path = []; renderLive();
+    if(found.length === ANSWERS.length) clearAll();
+  }else{
+    /* 오답 — 감점 · X · 소리 없음. 동그라미가 흩어질 뿐 (원본 규칙) */
+    inkLive.style.transition = 'opacity .3s'; inkLive.style.opacity = '0';
+    setTimeout(() => {
+      path = []; paintCells(); renderLive();
+      inkLive.style.opacity = '1'; inkLive.style.transition = '';
+    }, 300);
+  }
+}
+function paintStars(){
+  [].forEach.call(starsEl.children, (s, k) => s.classList.toggle('on', k < found.length));
+}
+const U = () => stage.getBoundingClientRect().width / 1920;
+function burstAt(a, b){
+  const colors = ['#FFD23F','#FFE894','#FFFFFF','#E7B23C','#F291B9','#BFE3D8'];
+  const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+  const cx = (ra.left + rb.right) / 2 - sr.left, cy = ra.top - sr.top + ra.height * .5;
+  const u = U(), N = 16;
+  for(let i = 0; i < N; i++){
+    const e = el('i', 'spark-bit' + (i % 3 ? ' star' : ''), stage);
+    const ang = -Math.PI * (0.06 + 0.88 * (i / (N - 1)));
+    const rad = (110 + (i % 4) * 30) * u;
+    e.style.cssText = 'left:' + cx + 'px; top:' + cy + 'px;' +
+      '--s:' + Math.round((9 + (i % 5) * 4) * u) + 'px; --c:' + colors[i % colors.length] + ';' +
+      '--dx:' + (Math.cos(ang) * rad).toFixed(1) + 'px; --dy:' + (Math.sin(ang) * rad).toFixed(1) + 'px;' +
+      '--rot:' + (i * 47 % 360) + 'deg; animation-delay:' + (i * 14) + 'ms';
+    setTimeout(() => e.remove(), 900);
+  }
+}
+let reactTm = null;
+function react(){
+  boyEl.classList.remove('is-cheer'); void boyEl.offsetWidth;
+  boyEl.classList.add('is-cheer');
+  clearTimeout(reactTm); reactTm = setTimeout(() => boyEl.classList.remove('is-cheer'), 1900);
+}
+
+/* 힌트 — 8초 무입력이면 아직 못 찾은 정답의 첫 칸만 빛 (브리핑 · 가이드 중에는 멈춤) */
+function resetIdle(){
+  clearTimeout(idleTimer);
+  if(locked || briefing || guideOpen()) return;
+  idleTimer = setTimeout(hint, 8000);
+}
+function hint(){
+  const left = ANSWERS.filter(a => !found.includes(a));
+  if(!left.length) return;
+  const c = cells[left[0]];
+  SFX.hint();
+  c.classList.add('hint');
+  setTimeout(() => c.classList.remove('hint'), 1900);
+  resetIdle();
+}
+
+/* 입력 — 스와이프와 탭 4번을 모드 전환 없이 함께 받는다 (원본 규칙) */
+function idxFromPoint(x, y){
+  const t = document.elementFromPoint(x, y);
+  const c = t && t.closest ? t.closest('#grid .cell') : null;
+  return c ? +c.dataset.i : -1;
+}
+const blocked = () => locked || briefing || guideOpen();
+grid.addEventListener('pointerdown', e => {
+  if(blocked()) return;
+  const i = idxFromPoint(e.clientX, e.clientY);
+  if(i < 0) return;
+  SFX.unlock();
+  grid.setPointerCapture && grid.setPointerCapture(e.pointerId);
+  dragging = true; moved = false; downIdx = i;
+  push(i);
+  e.preventDefault();
+});
+grid.addEventListener('pointermove', e => {
+  if(!dragging || blocked()) return;
+  const i = idxFromPoint(e.clientX, e.clientY);
+  if(i < 0 || (i === downIdx && !moved)) return;
+  if(i !== path[path.length-1]){ moved = true; push(i) }
+});
+grid.addEventListener('pointerup', () => {
+  dragging = false;
+  /* 첫 칸을 벗어나지 않고 뗐다 = 탭 → path 유지 (탭 4번 모드). 스와이프가 4칸 전에 끝나면 지운다 */
+  if(moved && path.length && path.length < PATTERN.length){ path = []; paintCells(); renderLive() }
+});
+grid.addEventListener('pointercancel', () => { dragging = false; path = []; paintCells(); renderLive() });
+
+/* ============================================================
+   5. 완료 화면 §8.3
+   ============================================================ */
+(function buildSparks(){
+  const box = document.getElementById('winSparks');
+  const COLORS = ['#FFD23F','#FFE894','#FFFFFF','#E7B23C','#F291B9','#94C13D'];
+  let seed = 20261001;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+  const N = 18;
+  for(let i = 0; i < N; i++){
+    const ang = (i / N) * Math.PI * 2 + rnd() * .18, rad = .40 + rnd() * .16;
+    const e = el('i', 'spark', box);
+    e.style.cssText = '--x:' + (50 + Math.cos(ang) * rad * 116) + '%; --y:' + (50 + Math.sin(ang) * rad * 136) + '%;' +
+      '--s:calc(' + (14 + Math.round(rnd() * 22)) + '*var(--u)); --c:' + COLORS[i % COLORS.length] + ';' +
+      '--d:' + (rnd() * 2.2).toFixed(2) + 's';
+  }
+})();
+(function buildConfetti(){
+  const box = document.getElementById('winConf');
+  const C = ['#FEC925','#F291B9','#94C13D','#EB4343','#F38820','#76905F','#FFF6DF'];
+  let s = 7;
+  const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+  for(let i = 0; i < 34; i++){
+    const ang = rnd() * Math.PI * 2, dist = 180 + rnd() * 250;
+    const e = el('i', 'conf', box);
+    e.style.cssText = '--w:calc(' + (12 + Math.round(rnd() * 12)) + '*var(--u)); --h:calc(' + (16 + Math.round(rnd() * 18)) + '*var(--u));' +
+      '--c:' + C[i % C.length] + '; --r:' + (rnd() < .3 ? '50%' : 'calc(4*var(--u))') + ';' +
+      '--dx:calc(' + (Math.cos(ang) * dist).toFixed(0) + '*var(--u)); --dy:calc(' + (Math.sin(ang) * dist * .9 + 120).toFixed(0) + '*var(--u));' +
+      '--rot:' + Math.round(rnd() * 900 - 450) + 'deg; --d:' + (rnd() * .22).toFixed(2) + 's';
+  }
+})();
+function clearAll(){
+  locked = true;
+  clearTimeout(idleTimer);
+  board.classList.add('clear');
+  SFX.clear();
+  setTimeout(() => {
+    winEl.classList.add('on');
+    SFX.fanfare();
+    SFX.bgm(true, 3.4);                 /* 팡파르(≈4.8s)가 잦아들 무렵 합류 */
+    setTimeout(() => { if(winEl.classList.contains('on')) say(lang, 'win') }, 900);   /* B-2_04 v2 와 같은 타이밍 */
+  }, 520);
+}
+function resetGame(){
+  SFX.bgm(false); stopVoice(); sayFlag(false);
+  winEl.classList.remove('on');
+  found = []; path = []; locked = false;
+  cells.forEach(c => c.classList.remove('hot','cold','done','alive','hint'));
+  inkLocked.innerHTML = ''; inkLive.innerHTML = '';
+  board.classList.remove('clear');
+  paintStars(); resetIdle();
+}
+
+/* ============================================================
+   6. 음성 — Higgsfield Seed Audio · Pixie (DESIGN.md 「생성 보이스 레지스트리」, 다른 종이 화면과 같은 목소리)
+      preset 0178ef57-ada4-43d9-992b-8d9221045bb4 · mp3 · 24 kHz · rate/pitch/loudness 0 (2026-10-01)
+      앞에서부터 시도: 1) audio/voice-q/q_06_{instr,guide,win}_{en,ko}.mp3  2) Higgsfield 생성 원본 URL(온라인)  3) speechSynthesis
+   ============================================================ */
+const VOICE_SRC = {
+  instr:{
+    en:['audio/voice-q/q_06_instr_en.mp3', 'https://d8j0ntlcm91z4.cloudfront.net/user_3GI37EwhNPEfYZaScuOAJmWbs2t/hf_20261001_032744_636a16cb-f5f6-412a-beeb-57826cf79364.mp3'],
+    ko:['audio/voice-q/q_06_instr_ko.mp3', 'https://d8j0ntlcm91z4.cloudfront.net/user_3GI37EwhNPEfYZaScuOAJmWbs2t/hf_20261001_032744_83186225-a3f5-427b-9f6d-9966e5a5ba07.mp3']
+  },
+  guide:{
+    en:['audio/voice-q/q_06_guide_en.mp3', 'https://d8j0ntlcm91z4.cloudfront.net/user_3GI37EwhNPEfYZaScuOAJmWbs2t/hf_20261001_032744_fc76677f-adf7-46f0-9785-4931f8dac531.mp3'],
+    ko:['audio/voice-q/q_06_guide_ko.mp3', 'https://d8j0ntlcm91z4.cloudfront.net/user_3GI37EwhNPEfYZaScuOAJmWbs2t/hf_20261001_032744_7f335e8d-b1ff-4a06-8714-92f6e74fee9f.mp3']
+  },
+  win:{
+    en:['audio/voice-q/q_06_win_en.mp3', 'https://d8j0ntlcm91z4.cloudfront.net/user_3GI37EwhNPEfYZaScuOAJmWbs2t/hf_20261001_033117_05f7a7c4-2220-4221-8324-aa567bf3b222.mp3'],
+    ko:['audio/voice-q/q_06_win_ko.mp3', 'https://d8j0ntlcm91z4.cloudfront.net/user_3GI37EwhNPEfYZaScuOAJmWbs2t/hf_20261001_033117_ebbafb3d-ee5e-4d88-9006-45cee2801f4e.mp3']
+  }
+};
+const BAD_SRC = {};            /* 한 번 실패한 소스는 다시 시도하지 않는다 */
+let lang = 'en', curAudio = null, speakTm = null;
+function sayFlag(on){ btnSay.classList.toggle('is-playing', on) }
+function stopVoice(){
+  if(curAudio){ curAudio.onended = curAudio.onerror = curAudio.onplaying = null; curAudio.pause(); curAudio = null }
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  clearTimeout(speakTm);
+}
+function speakTTS(l, text, hooks){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = (l === 'ko') ? 'ko-KR' : 'en-US';
+    u.rate = .92; u.pitch = 1.25;       /* 원본 폴백 값 */
+    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.indexOf(l) === 0);
+    if(v) u.voice = v;
+    sayFlag(true);
+    clearTimeout(speakTm);
+    u.onstart = () => { if(hooks.start) hooks.start() };
+    u.onend = () => { sayFlag(false); if(hooks.end) hooks.end() };
+    u.onerror = () => { sayFlag(false); if(hooks.end) hooks.end() };
+    speakTm = setTimeout(() => sayFlag(false), 12000);
+    speechSynthesis.speak(u);
+  }catch(e){ sayFlag(false) }
+}
+function playChain(list, i, l, text, hooks){
+  if(i >= list.length){ speakTTS(l, text, hooks); return }
+  const src = list[i], a = new Audio(src);
+  curAudio = a;
+  let moved = false, tm = null;
+  const next = () => {
+    if(moved || curAudio !== a) return;
+    moved = true; clearTimeout(tm); BAD_SRC[src] = 1; curAudio = null;
+    a.onended = a.onerror = a.onplaying = null;
+    playChain(list, i + 1, l, text, hooks);
+  };
+  tm = setTimeout(next, 3500);          /* 느린 네트워크 — 3.5s 안에 시작 못 하면 다음 소스 */
+  a.onplaying = () => {
+    if(curAudio !== a) return;
+    clearTimeout(tm); moved = true;
+    sayFlag(true); clearTimeout(speakTm);
+    speakTm = setTimeout(() => sayFlag(false), 15000);
+    if(hooks.start) hooks.start();
+  };
+  a.onended = () => {
+    if(curAudio !== a) return;
+    curAudio = null; sayFlag(false);
+    if(hooks.end) hooks.end();
+  };
+  a.onerror = next;
+  const p = a.play();
+  if(p && p.catch) p.catch(err => {
+    if(err && err.name === 'NotAllowedError'){ clearTimeout(tm); if(curAudio === a) curAudio = null; sayFlag(false); return }
+    next();
+  });
+}
+function say(l, key, hooks){
+  l = l || lang; key = key || 'instr'; hooks = hooks || {};
+  if(MUTE.on) return;
+  stopVoice();
+  const list = ((VOICE_SRC[key] || {})[l] || []).filter(s => !BAD_SRC[s]);
+  playChain(list, 0, l, I18N[l][key], hooks);
+}
+function applyLang(){
+  const t = I18N[lang], ko = lang === 'ko';
+  document.getElementById('lgEn').className = ko ? 'off' : 'on';
+  document.getElementById('lgKo').className = ko ? 'on'  : 'off';
+  const bl = document.getElementById('btnLang');
+  bl.dataset.next = ko ? 'en' : 'ko';
+  bl.setAttribute('aria-label', ko ? 'English' : '한국어');
+  paintMute();
+  document.getElementById('talkTag').textContent  = t.tag;
+  document.getElementById('talkLine').textContent = t.instr;
+  document.getElementById('stepA').textContent = t.stepA;
+  document.getElementById('stepB').textContent = t.stepB;
+  document.getElementById('winLine').textContent = t.win;
+  document.querySelector('#retry span').textContent = t.retry;
+  document.querySelector('#exit span').textContent  = t.exit;
+  document.getElementById('rule').setAttribute('aria-label', t.pattern);
+  boyEl.setAttribute('aria-label', t.howto);
+  guideEl.setAttribute('aria-label', t.howto);
+  document.getElementById('guideClose').setAttribute('aria-label', t.close);
+  cells.forEach(c => c.setAttribute('aria-label', NAME[lang][c.dataset.code]));
+  document.documentElement.lang = lang;
+}
+
+/* ============================================================
+   7. 브리핑 · 가이드 · 상단 버튼 (B-2_04 v2 흐름)
+   브리핑 끝: 음성 끝 +0.7s / 음성이 시작되지 않으면 7s / 900ms 이후 아무 데나 탭
+   ============================================================ */
+let briefing = true, briefTm = null, skipArmed = false, voiceOn = false, retried = false;
+const guideOpen = () => guideEl.classList.contains('on');
+function briefSay(){
+  voiceOn = false;
+  say(lang, 'instr', {
+    start(){ voiceOn = true; clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 14000) },
+    end(){ if(briefing && voiceOn) setTimeout(endBriefing, 700) }
+  });
+}
+function startBriefing(){
+  briefing = true; skipArmed = false;
+  clearTimeout(idleTimer);
+  path = []; paintCells(); renderLive();
+  document.body.classList.add('is-briefing');
+  setTimeout(() => { skipArmed = true }, 900);
+  clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 7000);
+  briefSay();
+}
+function endBriefing(){
+  if(!briefing) return;
+  briefing = false; clearTimeout(briefTm);
+  document.body.classList.remove('is-briefing');
+  resetIdle();
+}
+/* 캡처 단계 — 같은 pointerdown 이 그리드(버블)에 닿기 전에 브리핑을 끝내야
+   아이의 첫 스와이프가 '건너뛰기'로만 소모되지 않고 답으로도 들어간다 (원본 규칙) */
+stage.addEventListener('pointerdown', e => {
+  SFX.unlock();
+  if(!briefing) return;
+  if(e.target.closest('.pp-ibtn, .boy, .guide, .win')) return;
+  if(!voiceOn && !retried && !curAudio && !('speechSynthesis' in window && speechSynthesis.speaking)){
+    retried = true;                     /* 자동재생이 막혀 무음이었다 — 첫 탭에서 한 번 다시 읽는다 */
+    clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 7000);
+    briefSay(); return;
+  }
+  if(skipArmed) endBriefing();
+}, true);
+
+function openGuide(){
+  if(locked) return;
+  clearTimeout(idleTimer);
+  dragging = false; path = []; paintCells(); renderLive();
+  guideEl.classList.add('on');
+  say(lang, 'guide');
+}
+function closeGuide(){
+  if(!guideOpen()) return;
+  guideEl.classList.remove('on');
+  stopVoice(); sayFlag(false);
+  resetIdle();
+}
+/* 소년 — 브리핑 중이면 문제를 다시 읽고, 플레이 중이면 플레이 방법(가이드 팝업 §8.1 · §8.5) */
+boyEl.addEventListener('click', () => {
+  SFX.tap();
+  if(briefing){ briefSay(); return }
+  openGuide();
+});
+document.getElementById('guideClose').addEventListener('click', () => { SFX.tap(); closeGuide() });
+guideEl.addEventListener('pointerdown', e => { if(e.target === guideEl){ SFX.tap(); closeGuide() } });
+
+/* 사운드 버튼 = 음소거 토글 (§4.1 · §11.4) */
+function paintMute(){
+  const L = {en:{off:'Sound off', on:'Sound on'}, ko:{off:'소리 끄기', on:'소리 켜기'}};
+  btnSay.setAttribute('aria-pressed', MUTE.on);
+  btnSay.setAttribute('aria-label', L[lang][MUTE.on ? 'on' : 'off']);
+}
+btnSay.addEventListener('click', () => {
+  if(!MUTE.on){
+    SFX.tap();
+    MUTE.on = true;
+    stopVoice(); sayFlag(false);
+    const c = SFX.ctx(); if(c && c.state === 'running') c.suspend();
+  }else{
+    MUTE.on = false;
+    const c = SFX.ctx(); if(c && c.state === 'suspended') c.resume();
+    if(winEl.classList.contains('on')){ SFX.bgm(false); SFX.bgm(true, 0) }
+    SFX.tap();
+  }
+  paintMute();
+});
+document.getElementById('btnLang').addEventListener('click', e => {
+  SFX.unlock(); SFX.tap();
+  lang = e.currentTarget.dataset.next;
+  applyLang();
+  if(briefing) briefSay(); else say(lang, winEl.classList.contains('on') ? 'win' : guideOpen() ? 'guide' : 'instr');
+});
+document.getElementById('btnBack').addEventListener('click', () => { SFX.tap(); location.href = HOME; });
+document.getElementById('exit').addEventListener('click',   () => { SFX.tap(); location.href = HOME; });
+document.getElementById('retry').addEventListener('click',  () => { SFX.tap(); resetGame(); });
+
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+applyLang();
+paintStars();
+startBriefing();
+})();
+</script>
+</body>
+</html>
