@@ -1,0 +1,1191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Step B-4 · ALGORITHMS — 할머니 댁 가는 길 찾기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
+<link rel="stylesheet" href="../DESIGN.css" type="text/css">
+<style>
+:root{ --b1-ink:#1F2937; --nb-teal:#2FA2AE; --nb-hl:#F2B632 }
+*{box-sizing:border-box}
+html,body{margin:0; height:100%; overflow:hidden; background:#8BD3DF;
+  font-family:var(--ff); -webkit-tap-highlight-color:transparent}
+body{display:grid; place-items:center; word-break:keep-all}
+button{font:inherit; color:inherit}
+img{user-select:none; -webkit-user-drag:none}
+.stage{position:relative; z-index:1; width:calc(1920 * var(--u)); height:calc(1200 * var(--u)); overflow:visible; isolation:isolate; touch-action:manipulation}
+.stage__bg{position:absolute; left:0; top:0; width:calc(1920*var(--u)); height:calc(1200*var(--u)); max-width:none; display:block; z-index:0}
+.stage__fill{position:fixed; inset:0; width:100%; height:100%; max-width:none; display:block;
+  object-fit:cover; object-position:center; z-index:0; pointer-events:none}
+.pp-ibtn svg{fill:currentColor; stroke:none}
+.pp-ibtn--sound .sound-wave{fill:none; stroke:currentColor; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round}
+.pp-ibtn.is-playing{animation:sayPulse .9s ease-in-out infinite}
+@keyframes sayPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.pp-edge-tl>.pp-ibtn,.pp-edge-tr>.pp-ibtn{flex:none}
+
+.fx{position:fixed; inset:0; z-index:70; pointer-events:none}
+.fx .bit{position:absolute; border-radius:50%; animation:ph-spark .5s ease-out 1 both}
+@keyframes ph-spark{0%{transform:translate(-50%,-50%) scale(.4); opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.9); opacity:0}}
+@keyframes ph-hint-shake{0%,100%{transform:translate(0)}14%{transform:translate(-8%)}38%{transform:translate(7%)}62%{transform:translate(-6%)}84%{transform:translate(4%)}}
+@keyframes ph-bubble-pop{0%{transform:translateX(-50%) scale(.82)}55%{transform:translateX(-50%) scale(1.06)}100%{transform:translateX(-50%) scale(1)}}
+
+/* ---------- 종이 소년 ----------
+   .boy-slot 이 자리·브리핑 이동(transform)을, 안쪽 .boy 가 반응 모션(transform)을 맡는다 (§8.1.1) */
+.boy-slot{position:absolute; z-index:14; left:calc(50.7*var(--u)); top:calc(709.3*var(--u));
+  width:calc(284.8*var(--u)); height:calc(470.3*var(--u)); transform-origin:50% 100%;
+  transition:transform .62s var(--e-out)}
+.boy{position:absolute; inset:0; padding:0; border:0; background:none; cursor:pointer;
+  transform-origin:50% 100%; filter:var(--pp-lift-m); animation:boyIdle 6s ease-in-out infinite}
+.boy > img{position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:contain; object-position:50% 100%; pointer-events:none}
+.boy-slot::before{content:""; position:absolute; left:6%; right:6%; bottom:calc(-6*var(--u)); height:calc(34*var(--u)); border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(52,26,8,.55) 0%, rgba(52,26,8,.32) 45%, rgba(52,26,8,0) 72%); filter:blur(calc(3*var(--u))); pointer-events:none}
+.boy:focus-visible{outline:none}
+@keyframes boyIdle{0%,50%,100%{transform:none}
+  25%{transform:translateY(calc(-5*var(--u))) rotate(1deg)}
+  75%{transform:translateY(calc(-5*var(--u))) rotate(-1deg)}}
+.boy.is-cheer{animation:boyHop .9s var(--e-out) 2}
+@keyframes boyHop{0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(calc(-34*var(--u))) rotate(-4deg)}
+  55%{transform:translateY(0) rotate(0)}
+  75%{transform:translateY(calc(-16*var(--u))) rotate(3deg)}}
+.boy.is-huh{animation:boyHuh .8s var(--e-out)}
+@keyframes boyHuh{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}60%{transform:rotate(7deg)}85%{transform:rotate(-3deg)}}
+
+/* ---------- 브리핑 (§8.4) ----------
+   소년이 화면 가운데 아래로 나와 커지고(바닥 -18u), 93u 위에 종이 말풍선이 뜬다.
+   B-1_02 와 같은 크기·위치: 박스 x 50.7 · 바닥 20.5 · 284.8×470.2u, 브리핑 translateX 767u · ×1.18 → 말풍선 top 296u */
+.veil{position:absolute; inset:0; z-index:12; background:var(--pp-veil);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity var(--t-slow) var(--e-out), visibility var(--t-slow)}
+body.is-briefing .veil{opacity:1; visibility:visible}
+body.is-briefing .boy-slot{z-index:16; transform:translateX(calc(767*var(--u))) scale(1.18)}
+body.is-briefing .boy{animation:boyTalk 1.5s var(--e-out) .5s infinite}
+@keyframes boyTalk{0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(calc(-8*var(--u))) rotate(-1.2deg)}
+  60%{transform:translateY(0) rotate(.8deg)}}
+.talk{top:calc(296*var(--u)); z-index:17; opacity:0; visibility:hidden;
+  transform:translateY(calc(14*var(--u)));
+  transition:opacity var(--t-slow) var(--e-out), visibility var(--t-slow), transform var(--t-slow) var(--e-out)}
+body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition-delay:.28s}
+
+/* ---------- 완료 화면 (§8.3) ---------- */
+.win{z-index:60; display:flex; align-items:center; justify-content:center; background:var(--pp-veil);
+  opacity:0; pointer-events:none; transition:opacity var(--t-base) var(--e-out)}
+.win.on{opacity:1; pointer-events:auto}
+.win__stack{position:relative; width:calc(900*var(--u)); display:flex; flex-direction:column;
+  align-items:center; gap:calc(44*var(--u));
+  transform:scale(.82) translateY(calc(28*var(--u))); transition:transform var(--t-slow) var(--e-pop)}
+.win.on .win__stack{transform:none}
+.win__rays,.win__glow{position:absolute; left:50%; top:calc(180*var(--u));
+  border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:0}
+.win__rays{width:calc(1000*var(--u)); height:calc(1000*var(--u));
+  background:repeating-conic-gradient(from 0deg, rgba(255,201,37,.6) 0deg 6deg, rgba(255,201,37,0) 6deg 20deg);
+  -webkit-mask-image:radial-gradient(circle,#000 22%,rgba(0,0,0,0) 60%); mask-image:radial-gradient(circle,#000 22%,rgba(0,0,0,0) 60%);
+  animation:raySpin 26s linear infinite}
+@keyframes raySpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.win__glow{width:calc(760*var(--u)); height:calc(760*var(--u));
+  background:radial-gradient(circle, rgba(255,232,148,.85) 0%, rgba(255,232,148,.38) 40%, rgba(255,232,148,0) 68%);
+  animation:glowBreathe 3.4s ease-in-out infinite}
+@keyframes glowBreathe{0%,100%{opacity:.8; transform:translate(-50%,-50%) scale(1)}50%{opacity:1; transform:translate(-50%,-50%) scale(1.06)}}
+.win__art{position:relative; z-index:2; width:calc(360*var(--u)); height:calc(359*var(--u)); display:block;
+  filter:drop-shadow(0 calc(12*var(--u)) calc(20*var(--u)) rgba(80,40,10,.28))}
+.win__art .obj{width:100%; height:100%; filter:none}
+.win.on .win__art{animation:winHop 1.6s var(--e-out) .3s 2}
+@keyframes winHop{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-3.5%) rotate(-1.5deg)}60%{transform:translateY(-1.5%) rotate(1.5deg)}}
+.win__stack .win__actions{position:relative; z-index:3}
+.win__sparks{position:absolute; left:50%; top:calc(-76*var(--u)); transform:translateX(-50%);
+  width:calc(600*var(--u)); height:calc(512*var(--u)); z-index:4; pointer-events:none}
+.spark{position:absolute; left:var(--x); top:var(--y); width:var(--s); height:var(--s);
+  background:var(--c); opacity:0; animation:twinkle 2.4s var(--e-out) infinite; animation-delay:var(--d);
+  clip-path:polygon(50% 0%,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0% 50%,39% 39%)}
+@keyframes twinkle{0%,100%{opacity:0; transform:scale(.4) rotate(0deg)}35%{opacity:1; transform:scale(1) rotate(35deg)}70%{opacity:.35; transform:scale(.75) rotate(70deg)}}
+.win__confetti{position:absolute; left:50%; top:calc(-100*var(--u)); transform:translateX(-50%);
+  width:calc(900*var(--u)); height:calc(700*var(--u)); z-index:5; pointer-events:none}
+.conf{position:absolute; left:50%; top:40%; width:var(--w); height:var(--h); background:var(--c); border-radius:var(--r); opacity:0}
+.win.on .conf{animation:confBurst 1.5s var(--e-out) forwards; animation-delay:var(--d)}
+@keyframes confBurst{0%{opacity:0; transform:translate(0,0) rotate(0deg) scale(.3)}12%{opacity:1}70%{opacity:1}
+  100%{opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1)}}
+
+
+
+/* 완료 화면 — B-2_03 과 동일: 소년+고양이 하이파이브 그림(600u), 광선·글로우 중심 268u, 반짝이 20u, 컨페티 150u */
+.win__rays,.win__glow{top:calc(268*var(--u))}
+.win__art{width:calc(600*var(--u)); height:auto}
+.win__art img{display:block; width:100%; height:auto}
+.win__sparks{top:calc(20*var(--u))}
+.win__confetti{top:calc(150*var(--u))}
+.spark.dot{clip-path:none; border-radius:50%}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
+}
+
+
+html,body{background:#78c8f5}
+/* ---------- 가이드 팝업 §8.1 · §8.5 · §11.9 — B-2_01 과 같은 찢은 종이 시트 · 닫기 · 스텝 ----------
+   소년을 누르면 열린다. 화면 전체(와이드 배경 포함)를 딤으로 덮는다. 닫기 = ✕ · 딤 탭 · Esc */
+.guide{position:fixed; inset:0; z-index:35; display:grid; place-items:center;
+  background:var(--pp-scrim); opacity:0; pointer-events:none; transition:opacity var(--t-base) var(--e-out)}
+.guide.on{opacity:1; pointer-events:auto}
+.guide__sheet{position:relative; width:calc(1200*var(--u)); height:calc(700*var(--u));
+  padding:calc(54*var(--u)) calc(60*var(--u));
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:calc(26*var(--u)); text-align:center;
+  transform:scale(.88); transition:transform var(--t-slow) var(--e-pop)}
+.guide.on .guide__sheet{transform:none}
+.guide__sheet > :not(.guide__paper):not(.pp-round){position:relative; z-index:1}
+.guide__paper{position:absolute; inset:0; z-index:0; pointer-events:none; filter:var(--pp-lift-l)}
+.guide__rim,.guide__face{position:absolute}
+.guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
+  -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
+.guide__face{inset:0; background:var(--pp-cream) url("../img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
+  -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
+.gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
+  font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
+.gstep i{flex:none; display:grid; place-items:center; width:calc(64*var(--u)); height:calc(64*var(--u));
+  border-radius:50%; background:var(--pp-gold); color:var(--pp-gold-ink); font-style:normal; font-size:calc(37*var(--u))}
+.gstep b{display:inline-flex; align-items:center; gap:calc(8*var(--u)); white-space:nowrap}
+.gtri{flex:none; display:inline-grid; place-items:center; width:calc(54*var(--u)); height:calc(54*var(--u));
+  border-radius:50%; background:#3DA468; vertical-align:middle}
+.gtri svg{width:calc(22*var(--u)); height:calc(24*var(--u)); transform:translateX(calc(1.5*var(--u))); fill:#fff}
+.garrow{width:calc(44*var(--u)); fill:var(--pp-teal)}
+.gdemo{display:flex; align-items:center; justify-content:center; gap:calc(22*var(--u)); pointer-events:none}
+.gdemo .pp-rbtn{cursor:default}
+.gnext{width:calc(26*var(--u)); height:calc(32*var(--u)); fill:var(--pp-teal); opacity:.7}
+.gdemo .bz-card .bz-ar{width:calc(52*var(--u)); height:calc(57*var(--u))}
+.gpick{animation:gPick 2.4s var(--e-out) infinite}
+@keyframes gPick{0%,60%,100%{transform:translateY(0)}12%,30%{transform:translateY(calc(-14*var(--u)))}}
+.grail{padding:calc(14*var(--u)) calc(52*var(--u))}
+.grail .rail__wood{border-width:0 calc(46*var(--u))}
+.grail .track{grid-template-columns:repeat(3,calc(72*var(--u))); gap:calc(12*var(--u))}
+.gslot-ar{position:absolute; inset:0; display:grid; place-items:center; color:#FFD23F; animation:gDrop 2.4s var(--e-out) infinite}
+.gslot-ar .bz-ar{width:64%; height:64%}
+@keyframes gDrop{0%,30%{opacity:0; transform:scale(.4)}40%{opacity:1; transform:scale(1.12)}48%,88%{opacity:1; transform:scale(1)}100%{opacity:0; transform:scale(1)}}
+/* ② ▶ → 화살표 길을 따라 → 유치원 */
+.garr{width:calc(46*var(--u)); height:calc(50*var(--u)); display:grid; place-items:center; color:var(--pp-teal);
+  animation:gHop 2.4s var(--e-out) infinite}
+.garr:nth-of-type(2){animation-delay:.2s}
+.garr:nth-of-type(3){animation-delay:.4s}
+.garr .bz-ar{width:100%; height:100%}
+@keyframes gHop{0%,20%,60%,100%{transform:translateY(0)}35%{transform:translateY(calc(-12*var(--u)))}}
+.gdest{flex:none; width:calc(96*var(--u)); height:calc(96*var(--u)); border-radius:50%; overflow:hidden;
+  border:calc(6*var(--u)) solid #F7EBD1; background:#CDEAF5; filter:var(--pp-lift-s)}
+.gdest img{display:block; width:100%; height:100%; object-fit:cover}
+@media (prefers-reduced-motion: reduce){.gpick,.gslot-ar,.garr{animation:none}}
+
+
+/* ============================================================
+   B-4_01 ALGORITHMS — 할머니 댁 가는 길 찾기 (Step B-4 · 경로 선택)
+   뼈대: B-3_01.algorithms (상단 크롬 · 종이 소년 브리핑 · 가이드 · 완료 화면)
+   그림: 첨부 워크시트(Step B-4 ALGORITHMS) 크롭 — 차+가족 · 놀이공원 · 마트 · 할머니 할아버지 · 집 (추후 SVG 교체: assets/B-4_01-*.png)
+   배경: 닥종이 질감·2688×1152의 할머니 댁 길 (assets/B-4_01-bg-grandma-road-v3.png)
+   판: B-4_02 배경 속 게시판 오브젝트를 그대로 크롭해 사용 + 상단 밧줄
+   플레이: A~D 덧셈식 완성 → 자동차로 각 길 체험 → 가장 빠른 길 선택
+   ============================================================ */
+:root,.stage.theme-paper{--pp-lift-s:drop-shadow(0 calc(1.5*var(--u)) calc(1.5*var(--u)) rgba(46,28,10,.2));
+  --pp-lift-m:drop-shadow(0 calc(2.5*var(--u)) calc(2.5*var(--u)) rgba(46,28,10,.2));
+  --pp-lift-l:drop-shadow(0 calc(5*var(--u)) calc(6*var(--u)) rgba(10,20,26,.28))}
+:root{--b4-teal:#A9D9D4; --b4-rim:#F7EBD1; --b4-num:#1E93A3; --b4-edge:#05727F; --b4-pill:#78C7C0}
+
+/* ---------- 하늘·잔디 위에 놓인 한 장의 종이 ---------- */
+.route-bg{object-position:right center; filter:brightness(1.025) contrast(.94) saturate(.9)}
+.game-board{position:absolute; z-index:2; left:calc(138*var(--u)); top:calc(35*var(--u));
+  width:calc(1644*var(--u)); height:calc(1130*var(--u)); overflow:visible; isolation:isolate;
+  background:url("assets/B-4_01-paper-sheet-bg-v2.png") center/100% 100% no-repeat;
+  filter:drop-shadow(0 calc(6*var(--u)) calc(7*var(--u)) rgba(52,38,24,.18))}
+.game-board::after{content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 18% 15% at 4% 5%,rgba(92,57,24,.22) 0,rgba(107,70,32,.11) 38%,transparent 74%),
+    radial-gradient(ellipse 18% 15% at 96% 5%,rgba(92,57,24,.22) 0,rgba(107,70,32,.11) 38%,transparent 74%),
+    radial-gradient(ellipse 18% 15% at 4% 95%,rgba(82,50,21,.25) 0,rgba(107,70,32,.12) 40%,transparent 75%),
+    radial-gradient(ellipse 18% 15% at 96% 95%,rgba(82,50,21,.25) 0,rgba(107,70,32,.12) 40%,transparent 75%);
+  -webkit-mask:url("assets/B-4_01-paper-sheet-bg-v2.png") center/100% 100% no-repeat;
+  mask:url("assets/B-4_01-paper-sheet-bg-v2.png") center/100% 100% no-repeat;
+  mix-blend-mode:multiply; opacity:.82}
+.mission-banner{position:absolute; z-index:8; left:50%; top:calc(137*var(--u));
+  width:calc(1120*var(--u)); height:calc(104*var(--u)); padding:0 calc(52*var(--u));
+  transform:translateX(-50%); display:flex; align-items:center; justify-content:center; gap:calc(23*var(--u));
+  color:#20344B; filter:drop-shadow(0 calc(4*var(--u)) calc(6*var(--u)) rgba(91,59,18,.18));
+  pointer-events:none; isolation:isolate}
+.mission-banner::before{content:""; position:absolute; inset:0; z-index:-1;
+  background-color:#E7B23C; background-image:url("../img_png/paper/tx-paper-grain.webp");
+  background-position:center; background-size:calc(430*var(--u)) auto; background-blend-mode:overlay;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 112' preserveAspectRatio='none'%3E%3Cpath d='M72 3C210 5 318-1 490 4C658 0 798 5 930 2C975 1 1000 24 999 56C1001 87 975 110 936 108C790 111 650 105 500 110C337 114 202 107 65 111C23 112 0 89 3 56C5 25 31 2 72 3Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 112' preserveAspectRatio='none'%3E%3Cpath d='M72 3C210 5 318-1 490 4C658 0 798 5 930 2C975 1 1000 24 999 56C1001 87 975 110 936 108C790 111 650 105 500 110C337 114 202 107 65 111C23 112 0 89 3 56C5 25 31 2 72 3Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.mission-banner svg{flex:none; width:calc(58*var(--u)); height:calc(58*var(--u)); overflow:visible}
+.mission-banner.is-pick svg{display:none}
+.mission-banner__text{font-size:calc(40*var(--u)); font-weight:900; line-height:1; letter-spacing:-.025em; white-space:nowrap}
+/* ---------- 종이 안쪽 플레이 그룹 (왼쪽 지도 + 오른쪽 경로를 한 덩어리로 정렬) ---------- */
+.play-layout{position:absolute; z-index:5; left:50%; top:calc(285*var(--u));
+  /* 실제 보이는 범위(지도 596 + 간격 24 + 오른쪽 콘텐츠 946)를 기준으로 중앙 정렬 */
+  width:calc(1566*var(--u)); height:calc(880*var(--u)); overflow:visible; isolation:isolate;
+  transform:translateX(-50%) scale(.88); transform-origin:50% 0}
+.panel{position:absolute; z-index:1; top:0; height:calc(880*var(--u));
+  border-radius:calc(34*var(--u));
+  background:rgba(255,255,255,.88) url("../img_png/paper/tx-paper-sheet.webp") center/100% auto;
+  box-shadow:0 calc(7*var(--u)) calc(13*var(--u)) rgba(86,49,25,.19);
+  isolation:isolate}
+.panel::before{content:''; position:absolute; inset:0; z-index:0; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(245,231,199,.16)); opacity:.9}
+.panel--map{left:0; width:calc(596*var(--u));
+  background:none; border-radius:0; box-shadow:none;
+  filter:saturate(1.04) contrast(1.015) brightness(1.005)}
+.panel--map::before{display:none}
+.panel--tree{left:calc(620*var(--u)); width:calc(1000*var(--u));
+  background:none; border-radius:0; box-shadow:none}
+.panel--tree::before{display:none}
+.panel > *{position:absolute; z-index:1}
+.at{left:calc(var(--x)*var(--u)); top:calc(var(--y)*var(--u)); width:calc(var(--w)*var(--u)); height:calc(var(--h)*var(--u)); transform:translate(-50%,-50%)}
+
+/* 그림 + 종이 질감 — 그림 모양(mask)에만 tx-felt 를 overlay */
+.art{position:absolute; inset:0; display:block; pointer-events:none; isolation:isolate;
+  background:var(--svg) center/100% 100% no-repeat; filter:var(--pp-lift-s)}
+.art::after{content:''; position:absolute; inset:0; background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) auto;
+  mix-blend-mode:overlay; opacity:.7;
+  -webkit-mask:var(--svg) center/100% 100% no-repeat; mask:var(--svg) center/100% 100% no-repeat}
+.panel--tree .at:not(.car) .art{
+  filter:var(--pp-lift-s) saturate(1.04) contrast(1.015) brightness(1.005)}
+
+/* 왼쪽 지도는 원본 그림의 형태를 그대로 유지하고, 펜·색연필 입자만 얹는다. */
+.map-source{inset:0; z-index:1; overflow:hidden; border-radius:calc(32*var(--u)); pointer-events:none; isolation:isolate}
+.map-source img{display:block; width:100%; height:100%; object-fit:fill}
+.map-source::before{content:""; position:absolute; inset:0; z-index:3; padding:calc(8*var(--u)); pointer-events:none;
+  border-radius:inherit;
+  background-color:var(--b4-num);
+  background-image:url("../img_png/paper/tx-felt.webp");
+  background-position:center; background-size:calc(90*var(--u)) auto; background-repeat:repeat;
+  background-blend-mode:soft-light;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask-composite:exclude;
+  opacity:.96}
+.map-source::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background-image:url("../img_png/paper/tx-paper-grain.webp");
+  background-position:center;
+  background-size:calc(150*var(--u)) auto;
+  mix-blend-mode:soft-light; opacity:.28}
+
+/* ---------- 지도 ---------- */
+.mapsvg{left:0; top:0; width:100%; height:100%; overflow:visible; pointer-events:none}
+.panel--map .mapsvg{z-index:3}
+.panel--map .seg{mask:url(#map-route-mask)}
+.panel--map .rd--b,.panel--map .rd--d{display:none}
+.rd{fill:none; stroke-linecap:round}
+.rd--h{stroke:#FFC83D; stroke-width:60; opacity:0; transition:opacity .3s}
+.rd--b{stroke:#F3E4C5; stroke-width:60}
+.rd--d{stroke:#D6C29A; stroke-width:9; stroke-dasharray:.1 26}
+.seg.on .rd--h{opacity:.8}
+.seg.lit .rd--h{opacity:1}
+.mn{position:absolute; z-index:2; transform:translate(-50%,-50%); font-size:calc(58*var(--u)); font-weight:900; color:var(--b4-num);
+  text-shadow:0 0 calc(6*var(--u)) rgba(255,255,255,.7)}
+/* ---------- 트리 ---------- */
+.edges{left:0; top:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:2}
+.eg{transition:opacity .25s}
+.eg line{stroke:var(--b4-edge); stroke-width:11; stroke-linecap:round}
+.eg path{fill:var(--b4-edge); stroke:none}
+.eg.is-off{opacity:.22}
+.eg.is-lit line{stroke:#F5A623}.eg.is-lit path{fill:#F5A623}
+.en{z-index:3; position:absolute; transform:translate(-50%,-50%); width:calc(116*var(--u)); height:calc(116*var(--u)); padding:0; border:0; background:none;
+  display:grid; place-items:center; cursor:pointer; font:inherit; font-size:calc(72*var(--u)); font-weight:900; color:var(--b4-num); line-height:1;
+  text-shadow:0 0 calc(6*var(--u)) rgba(255,255,255,.75); transition:opacity .25s, transform .15s, color .2s}
+.en:active{transform:translate(-50%,-50%) scale(.9)}
+.en.is-off{opacity:.25}
+.en.is-used{color:#E8901A}
+.en.is-next{animation:nextPulse .9s ease-in-out infinite}
+@keyframes nextPulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.22)}}
+.en.is-shake{animation:shakeX .5s}
+@keyframes shakeX{0%,100%{translate:0}20%{translate:calc(-9*var(--u))}40%{translate:calc(8*var(--u))}60%{translate:calc(-6*var(--u))}80%{translate:calc(4*var(--u))}}
+.car{z-index:6; transform:none; margin:calc(var(--h)*var(--u)*-.5) 0 0 calc(var(--w)*var(--u)*-.5); transform-origin:50% 50%; will-change:left,top;
+  transition:left .72s cubic-bezier(.45,.05,.3,1), top .72s cubic-bezier(.45,.05,.3,1), scale .3s;
+  animation:carIdle 2.4s ease-in-out infinite}
+.car .art{filter:drop-shadow(0 calc(3*var(--u)) calc(3*var(--u)) rgba(46,28,10,.25)) saturate(1.08) contrast(1.025) brightness(1.015)}
+.car .art::after{background-image:url("../img_png/paper/tx-paper-grain.webp"); background-size:calc(120*var(--u)) auto;
+  mix-blend-mode:soft-light; opacity:.34}
+.car.is-drive{animation:none; scale:.9}
+@keyframes carIdle{0%,100%{translate:0 0}50%{translate:0 calc(-5*var(--u))}}
+.car.is-hop{animation:carHop .8s var(--e-out) 2}
+@keyframes carHop{0%,100%{translate:0 0}35%{translate:0 calc(-26*var(--u))}}
+
+/* 도착지 (A~D) */
+.dest{z-index:3; padding:0; border:0; background:none; cursor:pointer; font:inherit; color:inherit}
+.dest .ring{position:absolute; z-index:3; inset:0; border-radius:50%; border:calc(8*var(--u)) solid #F5B63C; opacity:0; transform:scale(.9); transition:opacity .2s, transform .2s}
+.dest.is-sel .ring{opacity:1; transform:none}
+.dest.is-hint .ring{opacity:1; transform:none; animation:askPulse .9s ease-in-out infinite}
+.dest .lt{position:absolute; z-index:4; left:50%; top:calc(-16*var(--u)); transform:translateX(-50%); min-width:calc(76*var(--u)); height:calc(48*var(--u)); padding:0 calc(12*var(--u));
+  border-radius:calc(24*var(--u)); background:var(--b4-pill); color:#fff; font-size:calc(32*var(--u)); font-weight:800; display:grid; place-items:center}
+.dest.is-sel .lt{background:#F5B63C; color:#4A2F1B}
+.pill{z-index:4; width:calc(212*var(--u)); height:calc(76*var(--u)); border-radius:calc(40*var(--u)); background:#fff; border:calc(7*var(--u)) solid var(--b4-pill);
+  display:flex; align-items:center; justify-content:center; gap:calc(5*var(--u)); font-size:calc(46*var(--u)); font-weight:900; color:var(--b4-num);
+  filter:var(--pp-lift-s); white-space:nowrap}
+.pill i{font-style:normal; color:#9AD3CD}
+.pill b{font-weight:900}
+.pill .is-new{animation:okPop .35s cubic-bezier(.3,1.5,.4,1) 1}
+@keyframes okPop{0%{transform:scale(.2);opacity:0}100%{transform:scale(1);opacity:1}}
+.pill.is-sel{border-color:#F5B63C}
+.fly{position:absolute; z-index:90; font-size:calc(80*var(--u)); font-weight:900; color:#E8901A; line-height:1; text-shadow:0 0 calc(8*var(--u)) #fff; pointer-events:none}
+
+/* 가이드 팝업 데모 */
+.gd-c{position:relative; flex:none; width:calc(120*var(--u)); height:calc(120*var(--u))}
+.gd-c.is-tap{animation:gPick 2.4s var(--e-out) infinite}
+.gd-c .lt{position:absolute; z-index:2; left:50%; top:calc(-14*var(--u)); transform:translateX(-50%); min-width:calc(64*var(--u)); height:calc(40*var(--u)); border-radius:calc(20*var(--u));
+  background:#F5B63C; color:#4A2F1B; font-size:calc(28*var(--u)); font-weight:800; display:grid; place-items:center}
+.gd-n{font-size:calc(76*var(--u)); font-weight:900; color:var(--b4-num)}
+.gd-p{font-size:calc(60*var(--u)); font-weight:900; color:#9AD3CD}
+@media (prefers-reduced-motion:reduce){.car,.en.is-next,.dest.is-hint .ring,.gd-c.is-tap{animation:none}}
+#nums{left:0; top:0; width:100%; height:100%; z-index:3; pointer-events:none}
+#nums .en{pointer-events:auto}
+</style>
+<link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
+</head>
+<body class="is-briefing">
+<img class="stage__fill route-bg" alt="" aria-hidden="true" src="assets/B-4_01-bg-grandma-road-v3.png">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="bz-arrow" viewBox="0 0 184.02 143.87">
+    <path d="M 184.02,71.99 C 183.84,74.02 182.78,75.86 181.11,77.03 C 162.92,92.78 127.77,127.63 107.36,143.09 C 106.49,143.66 105.47,143.93 104.44,143.86 C 101.23,143.86 98.63,141.26 98.63,138.05 L 97,103.45 C 97,103.45 128,105.3 6.69,103.45 C 3.52,103.35 0.97,100.8 0.88,97.63 C -0.29,80.13 -0.29,62.56 0.88,45.05 C 0.97,41.88 3.52,39.33 6.69,39.24 C 125.44,37.38 97,39.24 97,39.24 L 98.63,5.9 C 98.63,3.82 99.74,1.9 101.54,0.86 C 103.31,-0.29 105.59,-0.29 107.36,0.86 C 127.19,16.01 163.23,50.86 181.11,66.93 C 182.77,68.11 183.84,69.95 184.02,71.99"/>
+  </symbol>
+<defs>
+  <path id="cloud-shape" d="M18 7C48 4 79 7 109 5c39 3 76-1 112 1 28-2 54 1 77 4 8 18 6 39 8 60-2 25 1 48-1 72 3 26-1 56-5 84-26 8-53 5-80 8-32-3-63 1-94-2-35 3-67-1-99 2-17-7-21-28-18-52-4-32 1-60-2-86 3-24-1-49 3-72 1-7 4-13 8-16Z"/>
+  <clipPath id="cloud-clip"><use href="#cloud-shape"/></clipPath>
+  <filter id="cloud-paper-texture" x="-8%" y="-10%" width="116%" height="122%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".045 .072" numOctaves="3" seed="23" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G" result="roughPaper"/>
+    <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+    <feComponentTransfer in="mono" result="grain">
+      <feFuncR type="linear" slope=".45" intercept=".45"/>
+      <feFuncG type="linear" slope=".45" intercept=".45"/>
+      <feFuncB type="linear" slope=".45" intercept=".45"/>
+      <feFuncA type="table" tableValues="0 .16"/>
+    </feComponentTransfer>
+    <feComposite in="grain" in2="roughPaper" operator="in" result="paperGrain"/>
+    <feBlend in="roughPaper" in2="paperGrain" mode="multiply"/>
+  </filter>
+  <filter id="felt-crinkle" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".03 .04" numOctaves="4" seed="8" result="n"/>
+    <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale="1.9" result="l"><feDistantLight azimuth="235" elevation="56"/></feDiffuseLighting>
+    <feComposite in="SourceGraphic" in2="l" operator="arithmetic" k1="1.12" k2="0" k3="0" k4="0"/>
+  </filter>
+  <filter id="paper-crinkle" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".03 .04" numOctaves="4" seed="8" result="n"/>
+    <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale=".8" result="l"><feDistantLight azimuth="235" elevation="62"/></feDiffuseLighting>
+    <feComposite in="SourceGraphic" in2="l" operator="arithmetic" k1="1.2" k2="0" k3="0" k4="0"/>
+  </filter>
+  <filter id="map-pencil-rough" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".055 .075" numOctaves="2" seed="41" result="pencilNoise"/>
+    <feDisplacementMap in="SourceGraphic" in2="pencilNoise" scale=".72" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs>
+<symbol id="paper-tile" viewBox="0 0 312 242">
+  <g filter="url(#paper-crinkle)">
+    <rect x="6" y="6" width="300" height="230" rx="40" style="fill:var(--rim)"/>
+    <rect x="19" y="19" width="274" height="204" rx="29" style="fill:var(--face)"/>
+  </g>
+</symbol>
+<symbol id="felt-tile" viewBox="0 0 312 242">
+  <g filter="url(#felt-crinkle)">
+    <rect x="6" y="6" width="300" height="230" rx="40" style="fill:var(--rim);opacity:.92"/>
+    <rect x="19" y="19" width="274" height="204" rx="29" style="fill:var(--face)"/>
+  </g>
+</symbol>
+<symbol id="cloud" viewBox="0 0 312 242">
+  <g filter="url(#cloud-paper-texture)">
+    <use href="#cloud-shape" style="fill:var(--rim);stroke:var(--rim);stroke-width:7;stroke-linejoin:round"/>
+    <use href="#cloud-shape" style="fill:var(--lo)"/>
+    <g clip-path="url(#cloud-clip)"><use href="#cloud-shape" transform="translate(0 -9)" style="fill:var(--hi)"/></g>
+  </g>
+</symbol>
+</svg>
+<main class="stage theme-paper" id="stage">
+  <div class="game-board" aria-hidden="true"></div>
+  <div class="mission-banner" aria-live="polite">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M27 8h10v19h19v10H37v19H27V37H8V27h19Z" fill="#3F9A4E" stroke="#fff" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill"/></svg>
+    <span class="mission-banner__text" id="missionTitle"></span>
+  </div>
+
+  <div class="play-layout">
+    <!-- 왼쪽: 지도 -->
+    <section class="panel panel--map" aria-hidden="true">
+      <div class="map-source"><img src="../img_svg/B-4/img_알고리즘지도.svg" alt=""></div>
+    </section>
+
+    <!-- 오른쪽: 길 트리 -->
+    <section class="panel panel--tree" id="tree">
+    <svg class="edges" id="edges" viewBox="0 0 1000 880"></svg>
+    <div class="at" style="--x:160;--y:300;--w:150;--h:150"><i class="art" style="--svg:url(assets/B-4_01-park.png)"></i></div>
+    <div class="at" style="--x:840;--y:300;--w:150;--h:150"><i class="art" style="--svg:url(assets/B-4_01-market.png)"></i></div>
+    <div class="at" style="--x:387;--y:465;--w:140;--h:140"><i class="art" style="--svg:url(assets/B-4_01-market.png)"></i></div>
+    <div class="at" style="--x:613;--y:465;--w:140;--h:140"><i class="art" style="--svg:url(assets/B-4_01-park.png)"></i></div>
+    <div id="nums"></div>
+    <button class="dest at" data-r="A" type="button" style="--x:160;--y:725;--w:140;--h:140"><i class="ring"></i><i class="art" style="--svg:url(assets/B-4_01-grand.png)"></i><span class="lt">A</span></button>
+    <button class="dest at" data-r="B" type="button" style="--x:387;--y:725;--w:140;--h:140"><i class="ring"></i><i class="art" style="--svg:url(assets/B-4_01-grand.png)"></i><span class="lt">B</span></button>
+    <button class="dest at" data-r="C" type="button" style="--x:613;--y:725;--w:140;--h:140"><i class="ring"></i><i class="art" style="--svg:url(assets/B-4_01-grand.png)"></i><span class="lt">C</span></button>
+    <button class="dest at" data-r="D" type="button" style="--x:840;--y:725;--w:140;--h:140"><i class="ring"></i><i class="art" style="--svg:url(assets/B-4_01-grand.png)"></i><span class="lt">D</span></button>
+    <div class="pill at" id="pillA" style="--x:160;--y:828"></div>
+    <div class="pill at" id="pillB" style="--x:387;--y:828"></div>
+    <div class="pill at" id="pillC" style="--x:613;--y:828"></div>
+    <div class="pill at" id="pillD" style="--x:840;--y:828"></div>
+      <div class="car at" id="car" style="--w:210;--h:176.4;left:calc(500*var(--u));top:calc(75*var(--u))"><i class="art" style="--svg:url(../img_svg/B-4/img_드라이브가족.svg)"></i></div>
+    </section>
+  </div>
+
+  
+<div class="pp-edge-tl">
+    <button class="pp-ibtn" id="btnBack" type="button" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1 2.9a2.4 2.4 0 0 0-3.4 0L4.6 11a1.4 1.4 0 0 0 0 2l8.1 8.1a2.4 2.4 0 1 0 3.4-3.4L10.1 12l6-6a2.4 2.4 0 0 0 0-3.1Z"/></svg></button>
+  </div>
+  <div class="pp-edge-tr">
+    <button class="pp-ibtn pp-ibtn--lang" id="btnLang" type="button" data-next="ko" aria-label="한국어"><span class="lg"><i id="lgEn" class="on">A</i><b id="lgKo" class="off">한</b></span></button>
+    <button class="pp-ibtn pp-ibtn--sound" id="btnSay" type="button" aria-label="소리 끄기" aria-pressed="false"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3.5 10.2h4.1l5.3-4.3c.9-.7 2.2-.1 2.2 1.1v14c0 1.2-1.3 1.8-2.2 1.1l-5.3-4.3H3.5c-.8 0-1.5-.7-1.5-1.5v-4.6c0-.8.7-1.5 1.5-1.5Z"/><path class="sound-wave" d="M18.2 10.7a4.6 4.6 0 0 1 0 6.6"/><path class="sound-wave" d="M21.7 7.5a8.8 8.8 0 0 1 0 13"/><path class="sound-wave sound-x" d="M18.4 10.4l6 6.8M24.4 10.4l-6 6.8"/></svg></button>
+  </div>
+
+  
+  <!-- 브리핑 딤 · 말풍선 -->
+  <div class="veil" id="veil" aria-hidden="true"></div>
+  <div class="pp-talk talk" id="talk" aria-live="polite">
+    <div class="pp-talk__paper"><div class="pp-talk__sheet"></div></div>
+    <span class="pp-tag"><span id="talkTag">문제</span></span>
+    <p class="pp-talk__line" id="talkLine"></p>
+  </div>
+
+  <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 다시 듣기 -->
+  <div class="boy-slot" id="boySlot">
+    <button class="boy" id="boy" type="button" aria-label="문제 다시 듣기"></button>
+  </div>
+
+  <!-- 가이드 팝업 — 소년을 누르면 -->
+  <div class="guide" id="guide" role="dialog" aria-modal="true" aria-label="How to play" aria-hidden="true">
+    <div class="guide__sheet">
+      <div class="guide__paper" aria-hidden="true"><div class="guide__rim"></div><div class="guide__face"></div></div>
+      <button class="pp-round" id="guideClose" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 4.5 19.5 19.5M19.5 4.5 4.5 19.5"/></svg>
+      </button>
+      <div class="gstep"><i>1</i><b id="stepA"></b></div>
+      <div class="gdemo" id="gdemoA" aria-hidden="true"></div>
+      <svg class="garrow" viewBox="0 0 46 60" aria-hidden="true">
+        <path d="M16 0h14v34h11a2 2 0 0 1 1.5 3.3L24.5 59a2 2 0 0 1-3 0L3.5 37.3A2 2 0 0 1 5 34h11Z"/>
+      </svg>
+      <div class="gstep"><i>2</i><b id="stepB"></b></div>
+      <div class="gdemo" id="gdemoB" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- 완료 -->
+  <div class="win" id="win" aria-hidden="true">
+    <div class="win__stack">
+      <div class="win__rays"></div>
+      <div class="win__glow"></div>
+      <span class="win__art" id="winArt"></span>
+      <div class="win__sparks" id="winSparks"></div>
+      <div class="win__confetti" id="winConf"></div>
+      <div class="win__actions">
+        <button class="btn-bar btn--retry" id="retry" type="button"><span id="retryTx">다시하기</span></button>
+        <button class="btn-bar btn--exit" id="exit" type="button"><span id="exitTx">나가기</span></button>
+      </div>
+    </div>
+  </div>
+
+</main>
+<div class="fx" id="fx"></div>
+
+<script>
+(() => {
+'use strict';
+const MUTE = {on:false};
+/* 배경음악 — B-3_01 전용 곡(신나는 하늘·구름 루프). 첫 사용자 입력부터 반복 재생(자동재생 정책 대응) */
+const stageBgm = new Audio('../audio/bgm/B-3_01-sky-cloud-loop.mp3');
+stageBgm.loop = true; stageBgm.preload = 'auto'; stageBgm.volume = .22;
+function startStageBgm(){
+  if(MUTE.on || document.hidden || document.body.classList.contains('is-done') || !stageBgm.paused) return;
+  const p = stageBgm.play(); if(p && p.catch) p.catch(() => {});
+}
+function pauseStageBgm(){ stageBgm.pause() }
+['pointerdown','keydown'].forEach(t => window.addEventListener(t, startStageBgm));
+document.addEventListener('visibilitychange', () => { if(document.hidden) pauseStageBgm(); else startStageBgm() });
+const SFX = (() => {
+    let ctx = null, noiseBuf = null;
+    const ac = () => {
+      if(MUTE.on) return null;           /* 음소거 중에는 새 소리를 만들지 않는다 */
+      if(!ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return null;
+        ctx = new AC();
+      }
+      if(ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    };
+
+    /* ---------- 공용 보이스 ----------
+       오실 2개(디튠 레이어) + 로우패스로 배음을 깎는다.
+       단일 오실 삐 소리보다 마림바·글로켄에 가깝게 들린다 */
+    function voice(freq, at, dur, o){
+      const c = ac(); if(!c) return;
+      o = o || {};
+      const t0  = c.currentTime + at;
+      const bus = o.bus || c.destination;
+      const g = c.createGain(), f = c.createBiquadFilter();
+      f.type = 'lowpass';
+      f.frequency.setValueAtTime(o.cut || Math.min(freq * 5 + 900, 11000), t0);
+      f.Q.setValueAtTime(.7, t0);
+      const peak = o.gain || .12, atk = o.atk || .006;
+      g.gain.setValueAtTime(.0001, t0);
+      g.gain.exponentialRampToValueAtTime(peak, t0 + atk);
+      g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+      f.connect(g); g.connect(bus);
+      const osc = (type, mul, det) => {
+        const s = c.createOscillator();
+        s.type = type;
+        s.frequency.setValueAtTime(freq * (mul || 1), t0);
+        if(o.bend) s.frequency.exponentialRampToValueAtTime(freq * o.bend, t0 + dur * .8);
+        s.detune.setValueAtTime(det || 0, t0);
+        s.connect(f); s.start(t0); s.stop(t0 + dur + .05);
+      };
+      osc(o.type || 'sine', 1, 0);
+      if(o.layer) osc(o.layer, o.mul || 2, o.detune || 6);
+    }
+    const chord = (fs, at, dur, o) => fs.forEach(f => voice(f, at, dur, o));
+
+    /* 노이즈 스웹 — 화음 앞에 붙이면 '쨘' 하는 공기감이 생긴다 */
+    function swoosh(at, dur, f0, f1, gain){
+      const c = ac(); if(!c) return;
+      if(!noiseBuf){
+        const n = Math.floor(c.sampleRate * 1.2);
+        noiseBuf = c.createBuffer(1, n, c.sampleRate);
+        const d = noiseBuf.getChannelData(0);
+        let s = 12345;
+        for(let i = 0; i < n; i++){ s = (s*1103515245 + 12345) % 2147483648; d[i] = s/1073741824 - 1 }
+      }
+      const t0 = c.currentTime + at;
+      const src = c.createBufferSource(); src.buffer = noiseBuf;
+      const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.setValueAtTime(1.4, t0);
+      bp.frequency.setValueAtTime(f0, t0);
+      bp.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+      const g = c.createGain();
+      g.gain.setValueAtTime(.0001, t0);
+      g.gain.exponentialRampToValueAtTime(gain, t0 + dur * .3);
+      g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+      src.connect(bp); bp.connect(g); g.connect(c.destination);
+      src.start(t0); src.stop(t0 + dur + .05);
+    }
+
+    const C3=130.81, C4=261.63, G4=392,
+          C5=523.25, D5=587.33, E5=659.25, F5=698.46, G5=783.99, A5=880, B5=987.77,
+          C6=1046.5, D6=1174.7, E6=1318.5, F6=1396.9, G6=1568, A6=1760,
+          C7=2093, E7=2637, G7=3136;
+    const F3=174.61, G3=196;
+
+    /* 마림바 — 짧은 어택, 배음 얇게 */
+    const marimba = (f, at, dur, gain) =>
+      voice(f, at, dur, {type:'sine', layer:'triangle', mul:2, detune:5,
+                         gain:gain || .13, cut:f*4+700});
+    /* 글로켄 — 밝고 길게 울린다 */
+    const bell = (f, at, dur, gain) =>
+      voice(f, at, dur, {type:'sine', layer:'sine', mul:3.01, detune:4,
+                         gain:gain || .10, cut:f*7+2000});
+
+    /* ---- BGM 스케줄러 ---- */
+    let bgmOn = false, bgmTm = null, bgmBus = null, bgmAt = 0;
+    const BEAT = .28;                       // 8박 = 2.24s 루프
+    const MEL = [[C5,0,.5],[E5,.5,.5],[G5,1,.5],[C6,1.5,.5],
+                 [A5,2,.5],[G5,2.5,.5],[E5,3,.5],[G5,3.5,.5],
+                 [F5,4,.5],[A5,4.5,.5],[C6,5,.5],[A5,5.5,.5],
+                 [G5,6,.5],[E5,6.5,.5],[C5,7,1]];
+    const BASS = [[C3,0,1.4],[C3,2,1.4],[F3,4,1.4],[G3,6,1.4]];
+    function bgmTone(freq, at, dur, type, gain){
+      const c = ac(); if(!c || !bgmBus) return;
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = type; o.frequency.setValueAtTime(freq, at);
+      g.gain.setValueAtTime(.0001, at);
+      g.gain.exponentialRampToValueAtTime(gain, at + .02);
+      g.gain.exponentialRampToValueAtTime(.0001, at + dur);
+      o.connect(g); g.connect(bgmBus);
+      o.start(at); o.stop(at + dur + .05);
+    }
+    function bgmLoop(){
+      const c = ac(); if(!c || !bgmOn) return;
+      if(bgmAt < c.currentTime + .05) bgmAt = c.currentTime + .1;   // 밀렸으면 따라잡는다
+      MEL.forEach(([f,b,d]) => bgmTone(f, bgmAt + b*BEAT, d*BEAT*.92, 'triangle', .055));
+      BASS.forEach(([f,b,d]) => bgmTone(f, bgmAt + b*BEAT, d*BEAT*.92, 'sine', .045));
+      bgmAt += 8*BEAT;
+      bgmTm = setTimeout(bgmLoop, 8*BEAT*1000 - 140);               // 다음 루프를 미리 예약
+    }
+
+    return {
+      unlock(){ ac() },
+      ctx(){ return ctx },
+
+      /* 칸을 짚을 때 — 규칙과 맞으면 마림바가 한 칸씩 올라가고,
+         어긋나면 낮고 둔한 나무 소리(경고음 아님) */
+      tick(step, ok){
+        if(ok) marimba([C5,E5,A5,C6][step] || C5, 0, .30, .13);
+        else   voice(165, 0, .12, {type:'sine', gain:.075, cut:420});
+      },
+
+      /* 정답 1개 완성 — 글로켄 3음 + 낮은 화음으로 받쳐 준다 */
+      correct(){
+        [C6,E6,G6].forEach((f,i) => bell(f, i*.055, .55, .085));
+        voice(C4, .02, .5, {type:'sine', gain:.05, cut:900});
+      },
+
+      /* 5개 클리어 — 스웹 + 상승 마림바. 팝업 팡파르로 이어진다 */
+      clear(){
+        swoosh(0, .38, 500, 4200, .055);
+        [C5,E5,G5,C6].forEach((f,i) => marimba(f, .06 + i*.075, .38, .12));
+        bell(C6, .40, .8, .09);
+      },
+
+      tap(){ voice(620, 0, .09, {type:'sine', gain:.10, cut:2200, bend:.66}) },
+      hint(){ bell(D6, 0, .30, .085); bell(A6, .13, .38, .07) },
+
+      /* ---- 팝업 팡파르 — 약 4.8초로 길게 이어진다 ----
+         ① 콜(3연음) ② 상승 런 ③ 지속 화음 ④ 해결 멜로디 ⑤ 종결 화음 + 반짝임 */
+      fanfare(){
+        swoosh(0, .5, 400, 5200, .06);
+        // ① 콜
+        [[G4,0,.16],[C5,.13,.16],[E5,.26,.24]].forEach(([f,a,d]) => marimba(f,a,d,.12));
+        // ② 상승 런
+        [[G5,.46,.12],[A5,.55,.12],[B5,.64,.12],[C6,.73,.34]]
+          .forEach(([f,a,d]) => marimba(f,a,d,.12));
+        // ③ 지속 화음
+        chord([C5,E5,G5,C6], 1.00, 1.25, {type:'triangle', layer:'sine', mul:2, gain:.055, cut:5200});
+        voice(C3, 1.00, 1.4, {type:'sine', gain:.055, cut:600});
+        // ④ 해결 멜로디
+        [[E6,1.12,.24],[D6,1.36,.24],[C6,1.60,.38],[G5,1.98,.32],
+         [A5,2.32,.26],[B5,2.58,.26],[C6,2.84,.80]]
+          .forEach(([f,a,d]) => bell(f,a,d,.10));
+        // ⑤ 종결 화음 + 베이스 + 반짝임
+        swoosh(3.42, .45, 900, 6000, .045);
+        chord([C6,E6,G6], 3.50, 1.7, {type:'sine', layer:'triangle', mul:2, gain:.06, cut:8000});
+        voice(C4, 3.50, 1.8, {type:'sine', gain:.05, cut:900});
+        voice(C3, 3.50, 2.0, {type:'sine', gain:.05, cut:520});
+        [[E7,3.70,.55],[G7,3.92,.55],[C7,4.14,.75]].forEach(([f,a,d]) => bell(f,a,d,.045));
+      },
+
+      /* ---- 승리 BGM — 2.24s 루프 (C-F-G 진행) ----
+         파일 없이 합성한다. 팝업이 열려 있는 동안만 돌고 다시하기에서 멈춘다.
+         delay: 팡파르가 잦아든 뒤 들어오도록 시작을 늦춘다 */
+      bgm(on, delay){
+        const c = ac(); if(!c) return;
+        if(on){
+          if(bgmOn) return;
+          bgmOn = true;
+          const d = (delay === undefined) ? .35 : delay;
+          bgmBus = c.createGain();
+          bgmBus.gain.setValueAtTime(.0001, c.currentTime);
+          bgmBus.gain.setValueAtTime(.0001, c.currentTime + d);
+          bgmBus.gain.exponentialRampToValueAtTime(1, c.currentTime + d + 1.1);
+          bgmBus.connect(c.destination);
+          bgmAt = c.currentTime + d;
+          bgmLoop();
+        }else{
+          if(!bgmOn) return;
+          bgmOn = false;
+          clearTimeout(bgmTm); bgmTm = null;
+          const bus = bgmBus; bgmBus = null;
+          if(bus){
+            const t0 = c.currentTime;
+            bus.gain.cancelScheduledValues(t0);
+            bus.gain.setValueAtTime(Math.max(bus.gain.value, .0001), t0);
+            bus.gain.exponentialRampToValueAtTime(.0001, t0 + .4);
+            setTimeout(() => { try{ bus.disconnect() }catch(e){} }, 700);
+          }
+        }
+      }
+    };
+  })();
+
+/* B-2_01 과 같은 짧은 사인파 효과음 — 되감기·삭제·실행 */
+const CHIME_FREQUENCY = {up:720, down:470, left:540, right:620, pick:880, remove:340, play:680};
+let audioCtx = null;
+function chime(kind){
+  if(MUTE.on) return;
+  if(!audioCtx){
+    if(typeof AudioContext === 'undefined') return;
+    audioCtx = new AudioContext();
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  const f = CHIME_FREQUENCY[kind], osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+  const now = audioCtx.currentTime;
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(f, now);
+  if(kind === 'pick') osc.frequency.exponentialRampToValueAtTime(f * 1.5, now + .16);
+  gain.gain.setValueAtTime(.0001, now);
+  gain.gain.linearRampToValueAtTime(.2, now + .012);
+  gain.gain.exponentialRampToValueAtTime(.0001, now + .3);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(now); osc.stop(now + .34);
+}
+
+/* ============================================================
+   데이터 — 트리 좌표는 패널(1000×880u) 기준
+   길(간선) 8개 · 선택 가능한 도착 경로 A~D
+   ============================================================ */
+const BOY = '../img_png/B-2_02-boy-v5.webp';
+const HAS_MP3 = true;                       /* 음성 mp3(../audio/voice-q/q_b4_01_*) 가 생기면 true */
+const NODE = {car:[500,75], p1:[160,300], m1:[840,300], mb:[387,465], pc:[613,465], gA:[160,725], gB:[387,725], gC:[613,725], gD:[840,725]};
+const W = {e1:1, e2:3, e3:3, e4:3, e5:2, e6:3, e7:3, e8:2};
+const EDGE = {                              /* [x1,y1,x2,y2] 화살표 · [nx,ny] 숫자 위치 · seg 지도 길 */
+  e1:{l:[382,153,229,254], n:[300,140], seg:'hp'},
+  e2:{l:[618,153,771,254], n:[700,140], seg:'hm'},
+  e3:{l:[160,383,160,625], n:[98,505],  seg:'pg'},
+  e4:{l:[227,349,324,419], n:[310,335], seg:'pm'},
+  e5:{l:[387,543,387,625], n:[332,585], seg:'mg'},
+  e6:{l:[773,349,676,419], n:[690,335], seg:'pm'},
+  e7:{l:[613,543,613,625], n:[668,585], seg:'pg'},
+  e8:{l:[840,383,840,625], n:[902,505], seg:'mg'}
+};
+const ROUTES = {A:['e1','e3'], B:['e1','e4','e5'], C:['e2','e6','e7'], D:['e2','e8']};
+const PATH = {A:['p1','gA'], B:['p1','mb','gB'], C:['m1','pc','gC'], D:['m1','gD']};
+const IDS = ['A','B','C','D'];
+const SUM = Object.fromEntries(IDS.map(r => [r, ROUTES[r].reduce((s, e) => s + W[e], 0)]));
+const BEST = IDS.reduce((b, r) => SUM[r] < SUM[b] ? r : b, 'A');
+const GIVEN = 'A';
+
+const EN_NUM = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+const KO_NUM = ['영','일','이','삼','사','오','육','칠','팔','구'];
+const I18N = {
+  en:{
+    howto:'How to play', close:'Close',
+    mission:'Pick a road and tap the numbers in order!',
+    guideA:'Complete each road’s addition', guideB:'Watch the car, then pick the fastest road!',
+    guide:'Pick a road and tap the numbers on its arrows in order. Add the numbers and watch the car drive that road. After every road, pick the fastest one!',
+    tag:'QUESTION', ask:'Complete each road’s addition!', askPick:'Which road was the fastest?',
+    brief:'Let’s tap each road’s numbers and find the fastest way!',
+    pick:'Now, which route is the fastest: A, B, C, or D?', wrong:'Hmm, there is a faster road. Try again!',
+    win:'Yay! You found the fastest road! You’re amazing!', retry:'PLAY AGAIN', exit:'EXIT',
+    num:['', 'one', 'two', 'three'],
+    sum:(a, s) => a.map(n => EN_NUM[n]).join(' plus ') + ' is ' + EN_NUM[s] + '!'
+  },
+  ko:{
+    howto:'플레이 방법', close:'닫기',
+    mission:'길을 골라 숫자를 차례대로 눌러 봐!',
+    guideA:'각 길의 덧셈식을 완성해 보자', guideB:'자동차를 보고 가장 빠른 길을 골라 보자!',
+    guide:'길을 고르고 화살표 위 숫자를 차례대로 눌러 봐. 숫자를 더한 다음 자동차가 그 길을 달리는 모습을 보고, 마지막에 가장 빠른 길을 골라 보자!',
+    tag:'문제', ask:'각 길의 덧셈식을 완성해 보자!', askPick:'어느 길이 가장 빨랐을까?',
+    brief:'길마다 숫자를 눌러 보고 가장 빠른 길을 찾아보자!',
+    pick:'그럼 이제 A, B, C, D 중 가장 빠른 길은 무엇일까?', wrong:'음, 더 빠른 길이 있어. 다시 골라 보자!',
+    win:'야호! 가장 빠른 길을 찾았어! 정말정말 잘했다!', retry:'다시하기', exit:'나가기',
+    num:['', '일', '이', '삼'],
+    sum:(a, s) => a.map(n => KO_NUM[n]).join(' 더하기 ') + (a[a.length-1] === 2 ? '는 ' : '은 ') + KO_NUM[s] + (s === 6 ? '이야!' : '야!')
+  }
+};
+
+let lang = 'en', phase = 'brief';           /* brief · play · run · pick · done */
+let moves = {}, done = {}, sel = null, busy = false, wrongN = 0, hintOn = false, hintTm = null;
+const $ = id => document.getElementById(id);
+const guideEl = $('guide');
+const guideOpen = () => guideEl.classList.contains('on');
+const stage = $('stage'), boyEl = $('boy'), winEl = $('win'), btnSay = $('btnSay'), fx = $('fx'),
+      carEl = $('car'), numsEl = $('nums'), edgesEl = $('edges');
+const timers = new Set();
+const later = (fn, ms) => { const t = setTimeout(() => { timers.delete(t); fn() }, ms); timers.add(t); return t };
+const clearLater = () => { timers.forEach(clearTimeout); timers.clear() };
+const U = v => 'calc(' + v + '*var(--u))';
+
+/* ---------- 플랫 화살표 · 숫자 · 지도 길 ---------- */
+(function buildTree(){
+  const NS = 'http://www.w3.org/2000/svg';
+  Object.entries(EDGE).forEach(([id, e]) => {
+    const [x1, y1, x2, y2] = e.l, dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L, HL = 36, HW = 21;
+    const bx = x2 - ux * HL, by = y2 - uy * HL;
+    const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'eg'); g.dataset.e = id;
+    const ln = document.createElementNS(NS, 'line');
+    ln.setAttribute('x1', x1); ln.setAttribute('y1', y1); ln.setAttribute('x2', bx); ln.setAttribute('y2', by);
+    const ah = document.createElementNS(NS, 'path');
+    ah.setAttribute('d', 'M' + x2 + ' ' + y2 + 'L' + (bx - uy * HW) + ' ' + (by + ux * HW) + 'L' + (bx + uy * HW) + ' ' + (by - ux * HW) + 'Z');
+    g.appendChild(ln); g.appendChild(ah); edgesEl.appendChild(g);
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'en'; b.dataset.e = id; b.textContent = W[id];
+    b.style.left = U(e.n[0]); b.style.top = U(e.n[1]);
+    numsEl.appendChild(b);
+  });
+})();
+const egOf = id => edgesEl.querySelector('[data-e="' + id + '"]');
+const enOf = id => numsEl.querySelector('[data-e="' + id + '"]');
+const destOf = r => document.querySelector('.dest[data-r="' + r + '"]');
+const pillOf = r => $('pill' + r);
+
+/* ---------- 상태 ---------- */
+function initState(){
+  moves = {}; done = {}; IDS.forEach(r => { moves[r] = []; done[r] = false });
+  moves[GIVEN] = ROUTES[GIVEN].slice(); done[GIVEN] = true;
+  sel = nextTodo(); busy = false; wrongN = 0; hintOn = false;
+  carEl.classList.remove('is-drive', 'is-hop');
+  carEl.style.transitionDuration = '';
+  carEl.style.left = U(NODE.car[0]); carEl.style.top = U(NODE.car[1]);
+}
+const nextTodo = () => IDS.find(r => !done[r]) || null;
+const expected = () => sel && phase === 'play' ? ROUTES[sel][moves[sel].length] : null;
+
+function armHint(){
+  clearTimeout(hintTm); hintOn = false;
+  hintTm = setTimeout(() => { if(phase === 'play' && sel && !busy){ hintOn = true; paintTree() } }, 6000);
+}
+
+/* ---------- 그리기 ---------- */
+function paintPills(newR){
+  IDS.forEach(r => {
+    const p = pillOf(r), m = moves[r];
+    p.innerHTML = m.map((e, i) => (i ? '<i>+</i>' : '') + '<b' + (r === newR && i === m.length - 1 ? ' class="is-new"' : '') + '>' + W[e] + '</b>').join('');
+    p.classList.toggle('is-sel', r === sel && phase === 'play');
+  });
+}
+function paintTree(){
+  const route = (phase === 'play' || phase === 'run') && sel ? ROUTES[sel] : null, mv = sel ? moves[sel] : [], exp = expected();
+  Object.keys(EDGE).forEach(id => {
+    const inR = route ? route.includes(id) : true, used = !!route && mv.includes(id);
+    egOf(id).classList.toggle('is-off', !inR);
+    egOf(id).classList.toggle('is-lit', used);
+    const en = enOf(id);
+    en.classList.toggle('is-off', !inR); en.classList.toggle('is-used', used);
+    en.classList.toggle('is-next', hintOn && id === exp);
+  });
+  IDS.forEach(r => {
+    const d = destOf(r);
+    d.classList.toggle('is-sel', (phase === 'play' || phase === 'run') && r === sel);
+    d.classList.toggle('is-hint', phase === 'pick' && wrongN >= 2 && r === BEST);
+  });
+  document.querySelectorAll('.seg').forEach(s => {
+    const id = s.dataset.s; let on = false, lit = false;
+    if(route) route.forEach(e => { if(EDGE[e].seg === id){ on = true; if(mv.includes(e)) lit = true } });
+    s.classList.toggle('on', on && !lit); s.classList.toggle('lit', lit);
+  });
+}
+function paintText(){
+  const pickMode = phase === 'pick';
+  $('missionTitle').textContent = pickMode ? I18N[lang].pick : I18N[lang].mission;
+  document.querySelector('.mission-banner').classList.toggle('is-pick', pickMode);
+  IDS.forEach(r => destOf(r).setAttribute('aria-label', 'Route ' + r));
+}
+function render(newR){
+  paintPills(newR); paintTree(); paintText();
+}
+
+/* ---------- 효과 ---------- */
+function burstAt(el, colors){
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  for(let i = 0; i < 10; i++){
+    const b = document.createElement('i'), a = i / 10 * Math.PI * 2, d = 50 + Math.random() * 40, s = 8 + Math.random() * 8;
+    b.className = 'bit';
+    b.style.cssText = 'left:' + cx + 'px;top:' + cy + 'px;width:' + s + 'px;height:' + s + 'px;background:' + colors[i % colors.length] +
+      ';--dx:' + Math.cos(a) * d + 'px;--dy:' + Math.sin(a) * d + 'px';
+    fx.appendChild(b); setTimeout(() => b.remove(), 600);
+  }
+}
+function react(kind){
+  boyEl.classList.remove('is-cheer', 'is-huh'); void boyEl.offsetWidth;
+  boyEl.classList.add(kind === 'ok' ? 'is-cheer' : 'is-huh');
+  later(() => boyEl.classList.remove('is-cheer', 'is-huh'), 1800);
+}
+function shake(el){
+  if(!el) return;
+  el.classList.remove('is-shake'); void el.offsetWidth; el.classList.add('is-shake');
+  later(() => el.classList.remove('is-shake'), 600);
+}
+function fly(srcEl, dstEl, text, cb){
+  const a = srcEl.getBoundingClientRect(), b = dstEl.getBoundingClientRect();
+  const sx = a.left + a.width / 2, sy = a.top + a.height / 2, dx = b.left + b.width / 2 - sx, dy = b.top + b.height / 2 - sy;
+  const t = document.createElement('i'); t.className = 'fly'; t.textContent = text;
+  t.style.left = sx + 'px'; t.style.top = sy + 'px'; t.style.fontStyle = 'normal'; t.style.position = 'fixed';
+  fx.appendChild(t);
+  const an = t.animate([
+    {transform:'translate(-50%,-50%) scale(1)'},
+    {transform:'translate(calc(-50% + ' + dx * .5 + 'px),calc(-50% + ' + (dy * .5 - 70) + 'px)) scale(1.3)', offset:.5},
+    {transform:'translate(calc(-50% + ' + dx + 'px),calc(-50% + ' + dy + 'px)) scale(.8)'}
+  ], {duration:460, easing:'ease-in-out'});
+  an.onfinish = () => { t.remove(); cb() };
+}
+
+/* ---------- 플레이 ---------- */
+function select(r){
+  if(phase !== 'play' || busy || done[r]) return;
+  sel = r; chime('pick'); hintOn = false; armHint(); render();
+}
+function moveCar(key, duration, arrived){
+  const p = NODE[key];
+  carEl.style.transitionDuration = duration + 'ms';
+  carEl.style.left = U(p[0]); carEl.style.top = U(p[1]); chime('play');
+  /* 각 구간이 끝날 때 목표 원의 정중앙 좌표를 다시 확정한다. */
+  later(() => {
+    carEl.style.transitionDuration = '0ms';
+    carEl.style.left = U(p[0]); carEl.style.top = U(p[1]);
+    void carEl.offsetWidth;
+    if(arrived) arrived();
+  }, duration + 40);
+}
+function drive(r, cb){
+  phase = 'run'; busy = true; sel = r;
+  carEl.classList.remove('is-hop'); carEl.classList.add('is-drive'); render();
+  const route = ROUTES[r], path = PATH[r], UNIT = 340, CENTER_HOLD = 420;
+  let i = 0;
+  const next = () => {
+    if(i >= path.length){
+      carEl.classList.remove('is-drive'); carEl.classList.add('is-hop');
+      if(cb) cb();
+      return;
+    }
+    const key = path[i], duration = W[route[i]] * UNIT;
+    moveCar(key, duration, () => {
+      i += 1;
+      later(next, CENTER_HOLD);
+    });
+  };
+  later(next, 140);
+}
+function returnCar(cb){
+  carEl.classList.remove('is-drive', 'is-hop');
+  carEl.style.transitionDuration = '650ms';
+  carEl.style.left = U(NODE.car[0]); carEl.style.top = U(NODE.car[1]);
+  later(() => { carEl.style.transitionDuration = ''; if(cb) cb() }, 760);
+}
+function tapNum(id){
+  if(phase !== 'play' || busy || !sel) return;
+  SFX.unlock();
+  const exp = expected(), el = enOf(id);
+  if(!exp || id !== exp){ chime('remove'); shake(el); react('huh'); return }
+  busy = true; hintOn = false; clearTimeout(hintTm);
+  const r = sel; moves[r].push(id);
+  speak('n' + W[id], I18N[lang].num[W[id]], null, 'q_b4_01_');
+  fly(el, pillOf(r), W[id], () => {
+    chime('pick'); render(r);
+    if(moves[r].length < ROUTES[r].length){ busy = false; armHint(); return }
+    done[r] = true;
+    const arr = moves[r].map(e => W[e]);
+    speak('sum' + r, I18N[lang].sum(arr, SUM[r]), null, 'q_b4_01_');
+    drive(r, () => {
+      burstAt(destOf(r), ['#F5B63C', '#FFFFFF', '#2FBF71', '#F291B9']);
+      react('ok'); try{ SFX.correct() }catch(e){}
+      later(() => returnCar(() => {
+        sel = nextTodo();
+        if(sel){ phase = 'play'; busy = false; armHint(); render() }
+        else{
+          phase = 'pick'; busy = false; wrongN = 0; sel = null; render();
+          speak('pick', I18N[lang].pick, null, 'q_b4_01_');
+        }
+      }), 500);
+    });
+  });
+}
+function choose(r){
+  if(phase !== 'pick' || busy) return;
+  SFX.unlock(); chime('pick');
+  drive(r, () => {
+    if(r === BEST){
+      react('ok'); try{ SFX.correct() }catch(e){}
+      burstAt(destOf(r), ['#F5B63C', '#FFFFFF', '#2FBF71', '#F291B9']);
+      later(allDone, 1200);
+    }else{
+      wrongN++; chime('remove'); shake(destOf(r)); react('huh');
+      speak('wrong', I18N[lang].wrong, null, 'q_b4_01_');
+      later(() => returnCar(() => {
+        sel = null; phase = 'pick'; busy = false; render();
+      }), 650);
+    }
+  });
+}
+$('tree').addEventListener('click', e => {
+  const n = e.target.closest('.en'); if(n){ tapNum(n.dataset.e); return }
+  const d = e.target.closest('.dest'); if(!d) return;
+  SFX.unlock();
+  if(phase === 'play') select(d.dataset.r); else if(phase === 'pick') choose(d.dataset.r);
+});
+
+/* ---------- 완료 (§8.3) ---------- */
+(function buildSparks(){
+  const box = $('winSparks'), COLORS = ['#F9DF1F','#FEC925','#F38820','#F291B9','#94C13D','#9463D6','#FFFFFF'];
+  let seed = 20261006;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+  const N = 18;
+  for(let i = 0; i < N; i++){
+    const ang = (i / N) * Math.PI * 2 + rnd() * .18, rad = .40 + rnd() * .16, el = document.createElement('i');
+    el.className = 'spark' + (rnd() < .35 ? ' dot' : '');
+    el.style.cssText = '--x:' + (50 + Math.cos(ang) * rad * 116) + '%;--y:' + (50 + Math.sin(ang) * rad * 136) + '%;' +
+      '--s:calc(' + (14 + Math.round(rnd() * 22)) + '*var(--u));--c:' + COLORS[i % COLORS.length] + ';--d:' + (rnd() * 2.2).toFixed(2) + 's';
+    box.appendChild(el);
+  }
+})();
+(function buildConfetti(){
+  const box = $('winConf'), C = ['#FFD23F','#FF9D02','#2FBF71','#A57BE0','#F291B9','#4FC3E8','#EE3A44'];
+  let s = 424242;
+  const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+  for(let i = 0; i < 34; i++){
+    const ang = rnd() * Math.PI * 2, dist = 180 + rnd() * 250, el = document.createElement('i');
+    el.className = 'conf';
+    el.style.cssText = '--w:calc(' + (12 + Math.round(rnd() * 12)) + '*var(--u));--h:calc(' + (16 + Math.round(rnd() * 18)) + '*var(--u));' +
+      '--c:' + C[i % C.length] + ';--r:' + (rnd() < .4 ? '50%' : 'calc(4*var(--u))') + ';' +
+      '--dx:calc(' + (Math.cos(ang) * dist).toFixed(0) + '*var(--u));--dy:calc(' + (Math.sin(ang) * dist - 60).toFixed(0) + '*var(--u));' +
+      '--rot:' + Math.round(rnd() * 900 - 450) + 'deg;--d:' + (rnd() * .35).toFixed(2) + 's';
+    box.appendChild(el);
+  }
+})();
+
+
+
+function allDone(){ phase = 'done'; later(finish, 300) }
+function finish(){
+  document.body.classList.add('is-done'); pauseStageBgm();
+  winEl.classList.add('on'); winEl.setAttribute('aria-hidden', 'false');
+  if(!MUTE.on){ SFX.fanfare(); SFX.bgm(true, 3.4) }
+  winSay();
+}
+function resetGame(){
+  SFX.bgm(false); stopVoice(); clearLater();
+  winEl.classList.remove('on'); winEl.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('is-done');
+  startGame();
+}
+
+/* ---------- 음성 — Pixie mp3(../audio/voice-q/q_b4_01_*) 우선, 없으면 TTS ---------- */
+let curAudio = null, voiceTok = 0;
+function sayFlag(on){ btnSay.classList.toggle('is-playing', on) }
+function stopTts(){ try{ if('speechSynthesis' in window) speechSynthesis.cancel() }catch(e){} }
+function stopVoice(){
+  voiceTok++;
+  if(curAudio){ curAudio.onended = curAudio.onerror = null; try{ curAudio.pause() }catch(e){} curAudio = null }
+  stopTts(); sayFlag(false);
+}
+function tts(text, hooks, tok){
+  hooks = hooks || {};
+  if(!text || !('speechSynthesis' in window)){ if(hooks.blocked) hooks.blocked(); return false }
+  try{
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang === 'ko' ? 'ko-KR' : 'en-US'; u.rate = lang === 'ko' ? 1.02 : .94; u.pitch = 1.13;
+    u.onstart = () => { if(tok === voiceTok){ sayFlag(true); if(hooks.start) hooks.start() } };
+    u.onend = u.onerror = () => { if(tok === voiceTok){ sayFlag(false); if(hooks.end) hooks.end() } };
+    speechSynthesis.speak(u); return true;
+  }catch(e){ if(hooks.blocked) hooks.blocked(); return false }
+}
+function speak(key, text, hooks, base){
+  hooks = hooks || {};
+  stopVoice();
+  if(MUTE.on){ if(hooks.end) setTimeout(hooks.end, 1200); return false }
+  const tok = voiceTok;
+  if(!HAS_MP3){ curAudio = null; tts(text, hooks, tok); return true }
+  const a = new Audio('../audio/voice-q/' + (base || 'q_b4_01_') + key + '_' + lang + '.mp3');
+  curAudio = a; a.preload = 'auto';
+  let done = false;
+  const fin = () => { if(done || tok !== voiceTok) return; done = true; curAudio = null; sayFlag(false); if(hooks.end) hooks.end() };
+  const fallback = () => { if(done || tok !== voiceTok) return; done = true; curAudio = null; tts(text, hooks, tok) };
+  a.addEventListener('ended', fin);
+  a.addEventListener('error', fallback);
+  a.addEventListener('playing', () => { if(tok === voiceTok){ sayFlag(true); if(hooks.start) hooks.start() } });
+  const p = a.play();
+  if(p && p.catch) p.catch(err => {
+    if(tok !== voiceTok || done) return;
+    if(err && err.name === 'NotAllowedError'){ done = true; curAudio = null; if(hooks.blocked) hooks.blocked() }
+    else fallback();
+  });
+  return true;
+}
+const winSay = () => speak('win', I18N[lang].win);
+
+/* ---------- 언어 ---------- */
+function applyLang(){
+  const t = I18N[lang], ko = lang === 'ko';
+  document.documentElement.lang = lang;
+  $('lgEn').className = ko ? 'off' : 'on'; $('lgKo').className = ko ? 'on' : 'off';
+  $('btnLang').dataset.next = ko ? 'en' : 'ko'; $('btnLang').setAttribute('aria-label', ko ? 'English' : '한국어');
+  $('btnBack').setAttribute('aria-label', ko ? '뒤로 가기' : 'Back');
+  $('missionTitle').textContent = t.mission;
+  boyEl.setAttribute('aria-label', t.howto); guideEl.setAttribute('aria-label', t.howto);
+  $('guideClose').setAttribute('aria-label', t.close);
+  $('stepA').textContent = t.guideA; $('stepB').textContent = t.guideB;
+  $('talkTag').textContent = t.tag; $('talkLine').textContent = t.brief;
+$('retryTx').textContent = t.retry; $('exitTx').textContent = t.exit;
+  paintMute(); paintText();
+}
+
+/* ---------- 브리핑 (§8.2 · §8.4) ---------- */
+let briefing = true, briefTm = null, skipArmed = false, voiceOn = false, retried = false;
+function briefSay(){
+  voiceOn = false;
+  speak('brief', I18N[lang].brief, {
+    start(){ voiceOn = true; clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 14000) },
+    end(){ if(briefing && voiceOn) setTimeout(endBriefing, 700) },
+    blocked(){ voiceOn = false }
+  });
+}
+function startBriefing(){
+  briefing = true; skipArmed = false; retried = false; document.body.classList.add('is-briefing');
+  setTimeout(() => { skipArmed = true }, 900);
+  clearTimeout(briefTm); briefTm = setTimeout(endBriefing, MUTE.on ? 3500 : 7000);
+  setTimeout(briefSay, 350);
+}
+function endBriefing(){
+  if(!briefing) return;
+  briefing = false; clearTimeout(briefTm); stopVoice();
+  document.body.classList.remove('is-briefing');
+  phase = 'play'; armHint(); render();
+}
+function startGame(){
+  stopVoice(); clearTimeout(briefTm);
+  phase = 'brief'; initState(); render(); applyLang();
+  startBriefing(); startStageBgm();
+}
+stage.addEventListener('pointerdown', e => {
+  SFX.unlock();
+  if(!briefing) return;
+  if(e.target.closest('.pp-ibtn, .boy, .win')) return;
+  if(!voiceOn && !retried && !(curAudio || ('speechSynthesis' in window && speechSynthesis.speaking))){
+    retried = true; clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 7000); briefSay(); return;
+  }
+  if(skipArmed) endBriefing();
+}, true);
+
+/* ---------- 소년 — 누르면 다시 설명 / 플레이 방법 팝업 ---------- */
+boyEl.addEventListener('click', () => {
+  if(briefing){ briefSay(); return }
+  openGuide();
+});
+function openGuide(){
+  if(guideOpen() || phase === 'run' || phase === 'done') return;
+  guideEl.classList.add('on'); guideEl.setAttribute('aria-hidden', 'false');
+  speak('guide', I18N[lang].guide);
+}
+function closeGuide(){
+  if(!guideOpen()) return;
+  guideEl.classList.remove('on'); guideEl.setAttribute('aria-hidden', 'true');
+  stopVoice();
+}
+$('guideClose').addEventListener('click', () => { chime('remove'); closeGuide() });
+guideEl.addEventListener('pointerdown', e => { if(e.target === guideEl) closeGuide() });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeGuide() });
+(function buildGuideDemo(){
+  const art = k => '<i class="art" style="--svg:url(assets/B-4_01-' + k + '.png)"></i>';
+  $('gdemoA').innerHTML = '<span class="gd-c is-tap">' + art('grand') + '<span class="lt">B</span></span>';
+  $('gdemoB').innerHTML = '<b class="gd-n">1</b><b class="gd-p">+</b><b class="gd-n">3</b><b class="gd-p">+</b><b class="gd-n">2</b>';
+})();
+
+/* ---------- 상단 버튼 ---------- */
+function paintMute(){
+  const L = {en:{off:'Sound off', on:'Sound on'}, ko:{off:'소리 끄기', on:'소리 켜기'}};
+  btnSay.setAttribute('aria-pressed', MUTE.on);
+  btnSay.setAttribute('aria-label', L[lang][MUTE.on ? 'on' : 'off']);
+}
+btnSay.addEventListener('click', () => {
+  if(!MUTE.on){ SFX.bgm(false); MUTE.on = true; stopVoice() }
+  else{ MUTE.on = false; if(document.body.classList.contains('is-done')) SFX.bgm(true, 0) }
+  paintMute();
+  if(MUTE.on) pauseStageBgm(); else startStageBgm();
+});
+$('btnLang').addEventListener('click', e => {
+  SFX.unlock();
+  lang = e.currentTarget.dataset.next; applyLang();
+  if(briefing) briefSay();
+  else if(guideOpen()) speak('guide', I18N[lang].guide);
+  else if(phase === 'done') winSay();
+  else speak('brief', I18N[lang].brief);
+});
+const leave = () => { SFX.bgm(false); location.href = 'B-4_00.submain.html' };
+$('btnBack').addEventListener('click', leave);
+$('exit').addEventListener('click', leave);
+$('retry').addEventListener('click', () => { resetGame() });
+
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+{ const bi = new Image(); bi.alt = ''; bi.src = BOY; bi.draggable = false; boyEl.appendChild(bi) }
+{ const wi = new Image(); wi.alt = ''; wi.src = '../img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
+startGame();
+})();
+
+</script>
+<script>/* MAP-PROGRESS v1 — 완료 화면이 뜨면 맵(B-4_00.submain.html)에 완료 기록 */(function(){var ID='algorithms',K='ck.b4.sub.done';var done=false;function mark(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');if(a.indexOf(ID)<0)a.push(ID);localStorage.setItem(K,JSON.stringify(a));localStorage.setItem('ck.b4.sub.just',ID)}catch(e){}}function chk(){if(done)return;if(document.querySelector('#win.on,#win.is-on,[class*="_exit_"]')){done=true;mark();mo.disconnect()}}var mo=new MutationObserver(chk);mo.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});})();</script>
+<script src="../EXIT_CONFIRM.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>짝 맞추기 카드 — B-3 에셋 · 종이 질감</title>
+<style>
+/* ── design-system.css 토큰 발췌 (실제로는 link 로 불러오세요) ── */
+:root{
+  --design-w:1920; --design-h:1200;
+  --u-min:.5px; --u-max:1.25px;
+  --u: clamp(var(--u-min), min(100vw / var(--design-w), 100vh / var(--design-h)), var(--u-max));
+  --c-white:#FFFFFF; --c-surface:#FFFFFF;
+  --c-primary:#6B3FA0; --c-primary-300:#D8CDEA;
+  --c-success:#2FBF71; --c-success-bg:#EAFBF1;
+  --c-danger:#F08A8A;  --c-danger-bg:#FEF0F0;
+  --c-teal-light:#2E86AD; --c-sky:#2FB6E3;
+  --r-pill:999px;
+  --sh-card: 0 calc(6 * var(--u)) 0 rgba(0,0,0,.10);
+  --ff:'Paperlogy',-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+}
+@supports (height:100dvh){
+  :root{ --u: clamp(var(--u-min), min(100dvw / var(--design-w), 100dvh / var(--design-h)), var(--u-max)); }
+}
+@keyframes ds-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-2%)}
+  40%{transform:translateX(2%)}60%{transform:translateX(-1.2%)}80%{transform:translateX(1%)}}
+
+html,body{margin:0;height:100%;overflow:hidden;font-family:var(--ff)}
+.app{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(180deg,#54B6F2 0%,#7FCCF7 55%,#A8DDFA 100%)}
+.cloud{position:absolute;border-radius:999px;background:rgba(255,255,255,.5);filter:blur(2px)}
+.safe{position:relative;width:calc(var(--design-w) * var(--u));height:calc(var(--design-h) * var(--u))}
+</style>
+<link rel="stylesheet" href="pair-card.css">
+<style>
+/* 배경에도 같은 종이 결 — 화면 전체가 한 장의 종이처럼 보이게 */
+.app{ --paper-strength:.22 }
+/* 데모 전용 */
+body.guides .pair-card__slot{outline:1px dashed rgba(226,0,122,.55)}
+body.guides .pair-card__arrow{outline:1px dashed rgba(226,0,122,.55)}
+body.guides .safe{outline:1px dashed rgba(255,255,255,.6)}
+.toggle{position:fixed;left:10px;top:10px;z-index:40;border:0;cursor:pointer;
+  background:#fff;color:#4A2E73;font:600 12px/1 ui-monospace,Menlo,monospace;
+  padding:8px 12px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.cap{position:fixed;right:10px;top:10px;z-index:40;background:rgba(255,255,255,.92);
+  color:#4A2E73;font:11px/1.55 ui-monospace,Menlo,monospace;padding:6px 10px;border-radius:8px}
+</style>
+</head>
+<body>
+<div class="app paper">
+  <div class="cloud" style="left:5%;top:7%;width:30%;height:20%"></div>
+  <div class="cloud" style="right:7%;top:48%;width:34%;height:24%"></div>
+
+  <div class="safe">
+   <div class="pair-stage">
+    <div class="pair-grid">
+
+      <div class="pair-card paper is-correct">
+        <span class="pair-card__slot"><img src="../B-3/img_고양이.svg" alt="고양이"></span>
+        <span class="pair-card__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h11V6l6 6-6 6v-5H4z"/></svg></span>
+        <span class="pair-card__slot"><img src="../B-3/img_생선.svg" alt="생선"></span>
+        <span class="pair-card__badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg></span>
+      </div>
+
+      <div class="pair-card paper" style="--pair-edge:#F2B632">
+        <span class="pair-card__slot"><img src="../B-3/img_강아지.svg" alt="강아지"></span>
+        <span class="pair-card__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h11V6l6 6-6 6v-5H4z"/></svg></span>
+        <span class="pair-card__slot"><img src="../B-3/img_뼈다귀.svg" alt="뼈다귀"></span>
+      </div>
+
+      <div class="pair-card paper" style="--pair-edge:#6C6FB2">
+        <span class="pair-card__slot"><img src="../B-3/img_토끼.svg" alt="토끼"></span>
+        <span class="pair-card__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h11V6l6 6-6 6v-5H4z"/></svg></span>
+        <span class="pair-card__slot"><img src="../B-3/img_당근.svg" alt="당근"></span>
+      </div>
+
+      <div class="pair-card paper" style="--pair-edge:#4598CF">
+        <span class="pair-card__slot"><img src="../B-3/img_원숭이.svg" alt="원숭이"></span>
+        <span class="pair-card__arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11h11V6l6 6-6 6v-5H4z"/></svg></span>
+        <span class="pair-card__slot"><img src="../B-3/img_바나나.svg" alt="바나나"></span>
+      </div>
+
+    </div>
+   </div>
+  </div>
+</div>
+
+<button class="toggle" id="t" type="button">정렬 가이드 보기</button>
+<div class="cap" id="c"></div>
+<script>
+document.getElementById('t').addEventListener('click',()=>{
+  document.body.classList.toggle('guides');
+  document.getElementById('t').textContent =
+    document.body.classList.contains('guides') ? '정렬 가이드 끄기' : '정렬 가이드 보기';
+});
+function report(){
+  const safe=document.querySelector('.safe').getBoundingClientRect();
+  const g=document.querySelector('.pair-grid').getBoundingClientRect();
+  const dx=((g.left+g.width/2)-(safe.left+safe.width/2)).toFixed(1);
+  const dy=((g.top+g.height/2)-(safe.top+safe.height/2)).toFixed(1);
+  const cs=[...document.querySelectorAll('.pair-card')].map(c=>{
+    const r=c.getBoundingClientRect();
+    const s=c.querySelectorAll('.pair-card__slot');
+    const a=c.querySelector('.pair-card__arrow').getBoundingClientRect();
+    const f=el=>{const b=el.getBoundingClientRect();return ((b.left+b.width/2-r.left)/r.width*100).toFixed(1)};
+    return `w${Math.round(r.width)}×${Math.round(r.height)} ${f(s[0])}% / ${((a.left+a.width/2-r.left)/r.width*100).toFixed(1)}% / ${f(s[1])}%`;
+  });
+  document.getElementById('c').innerHTML = cs.join('<br>') + `<br>중심오차 x${dx} y${dy}`;
+}
+addEventListener('resize',report); addEventListener('load',report); report();
+</script>
+</body>
+</html>

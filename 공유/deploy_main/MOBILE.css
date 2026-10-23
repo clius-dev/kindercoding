@@ -1,0 +1,36 @@
+/* ============================================================
+   MOBILE.css — 배포본(deploy_main) 전용 폰 대응 레이어. RESPONSIVE.css 뒤에 로드.
+   · 세로 모드(폭 900px 이하)에서는 화면 전체를 가리는 "가로로 돌려주세요" 안내를 띄운다.
+     RESPONSIVE.css 의 body::after 안내는 화면마다 가려지거나 어긋나서(main·login·B-1_01·B-2_03 등)
+     MOBILE.js 가 만든 #mbRotate 를 최상단에 덮는 방식으로 통일한다. 세로 레이아웃은 만들지 않는다.
+   · 색·모서리·그림자·글꼴은 DESIGN.css 토큰만 쓴다.
+   ============================================================ */
+#mbRotate{display:none}
+
+@media (orientation:portrait) and (max-width:900px){
+  #mbRotate{
+    display:flex; position:fixed; inset:0; z-index:2147483647;
+    align-items:center; justify-content:center;
+    padding:max(24px, env(safe-area-inset-top,0px)) max(24px, env(safe-area-inset-right,0px))
+            max(24px, env(safe-area-inset-bottom,0px)) max(24px, env(safe-area-inset-left,0px));
+    background:var(--pp-ink,#1F2937);
+    touch-action:none;
+  }
+  html, body{overflow:hidden !important}
+}
+
+#mbRotate .mb-card{
+  display:flex; flex-direction:column; align-items:center; gap:16px;
+  width:min(100%, 360px); padding:36px 28px 32px;
+  background:var(--pp-cream,#F0E2C4); color:var(--pp-ink,#1F2937);
+  border-radius:var(--r-lg,34px); box-shadow:var(--sh-card,0 6px 0 rgba(0,0,0,.10));
+  font-family:Paperlogy,"Noto Sans KR",sans-serif; text-align:center;
+  word-break:keep-all; line-height:1.4;
+}
+#mbRotate .mb-icon{width:96px; height:96px; color:var(--pp-ink,#1F2937);
+  animation:mbTurn 2.4s ease-in-out infinite}
+#mbRotate .mb-main{margin:0; font-size:26px; font-weight:800}
+#mbRotate .mb-sub{margin:0; font-size:17px; font-weight:700; opacity:.72}
+
+@keyframes mbTurn{0%,20%{transform:rotate(0)} 50%,80%{transform:rotate(-90deg)} 100%{transform:rotate(0)}}
+@media (prefers-reduced-motion:reduce){ #mbRotate .mb-icon{animation:none; transform:rotate(-90deg)} }
