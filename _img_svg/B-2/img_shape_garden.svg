@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1134 930" role="img" aria-label="Flowers made from circles, squares and triangles">
+  <defs>
+    <filter id="rough" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="2" seed="12" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g filter="url(#rough)">
+    <g fill="#a398cd">
+      <rect x="177" y="40" width="94" height="94" rx="5" transform="rotate(45 224 87)"/>
+      <rect x="294" y="62" width="94" height="94" rx="5" transform="rotate(12 341 109)"/>
+      <rect x="85" y="171" width="94" height="94" rx="5" transform="rotate(-12 132 218)"/>
+      <rect x="366" y="176" width="94" height="94" rx="5" transform="rotate(-12 413 223)"/>
+      <rect x="141" y="303" width="94" height="94" rx="5" transform="rotate(12 188 350)"/>
+      <rect x="287" y="311" width="94" height="94" rx="5" transform="rotate(45 334 358)"/>
+    </g>
+    <circle cx="270" cy="224" r="74" fill="#ffd400"/>
+    <rect x="246" y="387" width="44" height="424" rx="9" fill="#62b765"/>
+    <path d="M116 590 246 522V657Z" fill="#62b765"/>
+
+    <g fill="#f1a900">
+      <circle cx="494" cy="460" r="55"/><circle cx="603" cy="397" r="55"/><circle cx="711" cy="454" r="55"/>
+      <circle cx="497" cy="574" r="55"/><circle cx="708" cy="568" r="55"/><circle cx="606" cy="638" r="55"/>
+    </g>
+    <circle cx="604" cy="519" r="62" fill="#ffd400"/>
+    <rect x="582" y="684" width="44" height="127" rx="8" fill="#62b765"/>
+
+    <g fill="#f7b786">
+      <rect x="884" y="143" width="92" height="92" rx="5"/>
+      <rect x="778" y="236" width="92" height="92" rx="5" transform="rotate(24 824 282)"/>
+      <rect x="995" y="228" width="92" height="92" rx="5" transform="rotate(-22 1041 274)"/>
+      <rect x="821" y="350" width="92" height="92" rx="5" transform="rotate(43 867 396)"/>
+      <rect x="967" y="353" width="92" height="92" rx="5" transform="rotate(43 1013 399)"/>
+    </g>
+    <circle cx="931" cy="304" r="59" fill="#f27600"/>
+    <rect x="909" y="425" width="44" height="386" rx="8" fill="#62b765"/>
+
+    <g fill="#a6cc55">
+      <path d="M91 812 170 692 249 812Z"/><path d="M242 812 324 687 406 812Z"/><path d="M395 812 478 690 561 812Z"/>
+      <path d="M548 812 631 686 714 812Z"/><path d="M700 812 783 691 866 812Z"/><path d="M851 812 934 686 1017 812Z"/>
+      <path d="M1001 812 1084 691 1167 812Z"/>
+    </g>
+  </g>
+</svg>

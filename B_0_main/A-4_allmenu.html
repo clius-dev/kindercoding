@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nori Factory · All menu</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css">
+<link rel="stylesheet" href="../DESIGN.css">
+<style>
+/* ============================================================
+   A-4 ALL MENU — 전체 메뉴 (DESIGN.md §9.11 · §11 · §12 규칙 기준)
+   · main.html 좌상단 ☰(#allmenu)에서 진입. 부모가 주 사용자 · 아이도 사용 가능(썸네일 + 이름 병기).
+   · 역할: 앱 전체(테마 12개 · 활동 6개)를 한눈에 보고 바로 들어가는 곳. 설정·결제·계정은 넣지 않는다(→ A-3 부모 영역).
+   · 구성: 세로 스크롤. 4열 × 3행 = 테마 12개(준비 중은 활동 6줄만 비활성) → 맨 아래 부모 영역 카드.
+   · 진도 배지 값은 각 활동의 완료 기록(localStorage ck.b{n}.sub.done)을 읽는다.
+   · §12.2 체크리스트: --u 는 DESIGN.css + RESPONSIVE.css 가 정함(여기서 다시 쓰지 않음) · 색은 --pp-* · 그림자는 --pp-lift-* · 크롬은 .pp-edge-*
+   ============================================================ */
+:root{--design-w:1920; --design-h:1200; --a4-bg:#9FD0F2}   /* 바탕: 하늘색 — 이미지(B-3_01-sky-bg-v1)가 안 떠도 같은 톤. 화면 전용 값 */
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0; width:100%; min-height:100%; background:var(--a4-bg)}
+button{font:inherit; color:inherit; border:0; background:none; cursor:pointer; padding:0}
+button:focus-visible{outline:calc(4 * var(--u)) solid var(--pp-hl); outline-offset:calc(3 * var(--u))}
+.pp-ibtn:focus-visible{outline:none}
+
+/* 세로 스크롤 화면 — 다른 화면의 고정 아트보드(1920×1200)를 풀고, 폭만 1920u 로 가운데 정렬한다.
+   RESPONSIVE.css 의 html,body{overflow:hidden} 은 이 화면에서만 푼다. */
+html{overflow-x:hidden!important; overflow-y:auto!important}   /* RESPONSIVE.css(뒤에 로드)의 html,body{overflow:hidden} 보다 이겨야 해서 !important */
+body{overflow:visible!important}
+body.pp-kit .stage{position:relative; left:auto; top:auto; width:100%; height:auto; min-height:100dvh; background:none; color:var(--pp-ink); user-select:none}
+.fade{position:fixed; z-index:9; left:0; right:0; top:0; height:calc(176 * var(--uc)); pointer-events:none; background:rgba(159,208,242,.78); -webkit-backdrop-filter:blur(calc(8 * var(--u))); backdrop-filter:blur(calc(8 * var(--u))); -webkit-mask:linear-gradient(#000 35%, transparent); mask:linear-gradient(#000 35%, transparent)}   /* 단색 띠 대신 흐림 — 하늘 · 구름 위에서도 띠가 안 보인다 */
+/* 배경 — 다른 테마(B-3_01)의 하늘 이미지를 가져온다. 1586×992, 구름이 네 모서리에만 있어 컬럼 영역을 가리지 않는다. 고정 + cover */
+body.pp-kit .stage::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:url("../B-3_동식물과자연/assets/B-3_01-sky-bg-v1.png") center/cover no-repeat}
+.pp-edge-tl,.pp-edge-tr,.pp-edge-tc{z-index:12}
+.pp-ibtn{filter:var(--pp-lift-s)}
+.pp-ibtn--lang{color:#6C4689}
+.pp-ibtn--back svg{fill:currentColor}
+.pp-edge-tc{height:calc(120 * var(--u)); display:flex; align-items:center; pointer-events:none}
+.ttl{margin:0; display:flex; align-items:center; gap:calc(18 * var(--u)); white-space:nowrap; font-size:calc(64 * var(--u)); font-weight:800; line-height:1.15; letter-spacing:-.02em}   /* §2.2 H2(스텝 제목) 64u · 800 — .t-h2 클래스는 DESIGN.css 에 없어 값을 직접 둔다 */
+
+/* 본문 */
+.page{position:relative; z-index:1; width:calc(1920 * var(--u)); max-width:100%; margin:0 auto; padding:calc(176 * var(--uc)) calc(48 * var(--u)) calc(90 * var(--u))}
+.grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:calc(24 * var(--u))}   /* main 카드 한 페이지(4장)와 같은 4열 */
+
+/* 테마 컬럼 — 타이틀 영역 색은 main.html 카드 c1~c12 의 --paper 와 같은 값 */
+.col{--paper:#64b8b4; position:relative; display:flex; flex-direction:column; border-radius:calc(36 * var(--u)); background:var(--pp-rim); filter:var(--pp-lift-m); overflow:hidden}
+.col__head{position:relative; flex:none; background:var(--paper); padding:calc(18 * var(--u)) calc(16 * var(--u)) calc(16 * var(--u)); display:flex; flex-direction:column; align-items:center; gap:calc(6 * var(--u)); color:var(--pp-ink); cursor:pointer}
+.col__head::before{content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:var(--pp-tx-grain) 0 0/calc(460 * var(--u)) calc(160 * var(--u)) repeat; mix-blend-mode:multiply; opacity:.55}   /* 타이틀 영역 닥종이 결 — 배경과 같은 §11.3 grain */
+.col__head>*{position:relative; z-index:1}
+.col__head .ico{flex:none; width:100%; height:calc(112 * var(--u)); display:flex; align-items:center; justify-content:center}   /* 컬러박스 안의 아이콘 칸 — 12개 모두 같은 크기(박스 높이가 같아진다) */
+.col__head img{width:auto; max-width:92%; height:calc(100 * var(--u) * var(--s,1)); max-height:100%; object-fit:contain}   /* 칸 안에서 아이콘마다 --s(배율)로 크기 조절. 기본 1 = 100u */
+.col__head strong{font-size:calc(34 * var(--u)); white-space:nowrap; font-weight:800; line-height:1.1; letter-spacing:-.02em; text-align:center}
+.acts{display:flex; flex-direction:column; padding:calc(8 * var(--u)) calc(12 * var(--u)) calc(12 * var(--u)); gap:calc(2 * var(--u))}
+.act{display:flex; align-items:center; gap:calc(14 * var(--u)); padding:calc(6 * var(--u)) calc(8 * var(--u)); border-radius:calc(22 * var(--u)); text-align:left; min-height:calc(80 * var(--u)); transition:background .15s, transform .15s}
+@media (hover:hover){.act:hover{background:rgba(0,0,0,.06)}}
+.act:active{transform:scale(.97); background:rgba(0,0,0,.09)}
+.act__ic{position:relative; flex:none; width:calc(64 * var(--u)); height:calc(64 * var(--u)); border-radius:calc(20 * var(--u)); background:color-mix(in srgb,var(--paper) 28%,#fff); display:grid; place-items:center}
+.act__ic img{width:78%; height:78%; object-fit:contain}
+.act__ic svg.shape{width:70%; height:70%}
+.act__ic svg.lock{width:48%; height:48%; fill:currentColor; color:color-mix(in srgb,var(--paper) 55%,#6b5b4b)}   /* 준비 중 활동: 자물쇠 */
+.act__ic .crop{position:absolute; inset:6% 0 5% 0; overflow:hidden; -webkit-mask-image:linear-gradient(#000 82%,transparent); mask-image:linear-gradient(#000 82%,transparent)}
+.act__ic .crop img{position:absolute; left:50%; top:0; width:auto; height:132%; transform:translateX(-50%); object-fit:contain}   /* 서브메인 node__crop 과 같은 상체 크롭 */
+.act__nm{flex:1; min-width:0; word-break:keep-all; font-size:calc(27 * var(--u)); font-weight:800; letter-spacing:-.02em; line-height:1.15}
+html[lang=en] .act__nm{font-size:calc(22 * var(--u)); letter-spacing:-.01em}   /* 영문은 한글과 시각 크기를 맞추려 27u→22u */
+.act__nm small{display:block; margin-top:calc(2 * var(--u)); font-size:calc(15 * var(--u)); font-weight:700; letter-spacing:.05em; opacity:.55; text-transform:uppercase}
+.act__done{flex:none; margin-left:auto; padding:calc(4 * var(--u)) calc(16 * var(--u)); border-radius:calc(24 * var(--u)); background:var(--pp-gold); color:var(--pp-gold-ink); font-size:calc(22 * var(--u)); font-weight:800; letter-spacing:-.01em; line-height:1.2; white-space:nowrap}   /* 완료한 활동만, 메뉴 오른쪽 */
+
+/* 준비 중 컬럼 — 컬러 타이틀 영역은 활성과 동일, 아래 활동 6개만 비활성 (색 빠짐 · 글자 흐림 · 별 없음 · 눌림 반응 없음) */
+.col.is-soon .col__head{cursor:default}
+.col.is-soon .acts{filter:grayscale(.6); opacity:.62}
+.col.is-soon .act{cursor:default}
+.col.is-soon .act:hover,.col.is-soon .act:active{background:none; transform:none}
+
+/* 부모 영역 */
+.parent{width:100%; margin-top:calc(36 * var(--u)); display:flex; align-items:center; gap:calc(36 * var(--u)); padding:calc(36 * var(--u)) calc(48 * var(--u)); border-radius:calc(44 * var(--u)); background:var(--pp-rim); border:calc(5 * var(--u)) solid #9c89cb; filter:var(--pp-lift-m); text-align:left; transition:transform .15s}
+@media (hover:hover){.parent:hover{transform:translateY(calc(-3 * var(--u)))}}
+.parent:active{transform:scale(.99)}
+.parent__ic{flex:none; width:calc(128 * var(--u)); height:calc(128 * var(--u)); border-radius:50%; background:#9c89cb; display:grid; place-items:center}
+.parent__ic svg{width:52%; height:52%; fill:#fff}
+.parent__tx{flex:1; min-width:0}
+.parent__tx strong{display:block; font-size:calc(46 * var(--u)); font-weight:800; letter-spacing:-.02em}
+.parent__tx p{margin:calc(6 * var(--u)) 0 calc(16 * var(--u)); font-size:calc(28 * var(--u)); font-weight:700; opacity:.65}
+.chips{display:flex; flex-wrap:wrap; gap:calc(12 * var(--u))}
+.chips span{padding:calc(6 * var(--u)) calc(20 * var(--u)); border-radius:calc(30 * var(--u)); background:rgba(156,137,203,.22); font-size:calc(26 * var(--u)); font-weight:800}
+.parent__go{flex:none; width:calc(84 * var(--u)); height:calc(84 * var(--u)); fill:none; stroke:#6C4689; stroke-width:4; stroke-linecap:round; stroke-linejoin:round}
+</style>
+<link rel="stylesheet" href="../RESPONSIVE.css?v=3">
+</head>
+<body class="pp-kit">
+<main class="stage theme-paper" id="app">
+  <div class="fade" aria-hidden="true"></div>
+  <div class="pp-edge-tl"><button class="pp-ibtn pp-ibtn--back" id="back" type="button" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1 2.9a2.4 2.4 0 0 0-3.4 0L4.6 11a1.4 1.4 0 0 0 0 2l8.1 8.1a2.4 2.4 0 1 0 3.4-3.4L10.1 12l6-6a2.4 2.4 0 0 0 0-3.1Z"/></svg></button></div>
+  <div class="pp-edge-tc"><h1 class="ttl" id="ttl"></h1></div>
+  <div class="pp-edge-tr"><button class="pp-ibtn pp-ibtn--lang" id="lang" type="button" aria-label="Change language"><span class="lg"><b class="on">A</b><i class="off">한</i></span></button></div>
+  <section class="page" id="page"></section>
+</main>
+<script>
+/* ---------- 데이터 ---------- */
+const IMG='../_img_svg/';
+const ACTS=[ /* 6개 활동 이름(B-1·B-2·B-3 공통) */
+  {id:'algorithms',   ko:'알고리즘', en:'Algorithms'},
+  {id:'sequencing',   ko:'순서',     en:'Sequencing'},
+  {id:'decomposition',ko:'분해',     en:'Decomposition'},
+  {id:'branching',    ko:'분기',     en:'Branching'},
+  {id:'abstraction',  ko:'추상화',   en:'Abstraction'},
+  {id:'pattern',      ko:'패턴 인식', en:'Pattern Recognition'}
+];
+/* 활동 아이콘 = 각 테마 서브메인(B-n_00.submain.html) 노드 아이콘과 같은 것. crop = 서브메인과 같은 상체 크롭 */
+const SHAPES='<svg class="shape" viewBox="1 2 100 100" aria-hidden="true"><circle cx="30" cy="34" r="20" fill="#E2543D"/><path d="M70 12 92 52H48Z" fill="#E7B23C"/><rect x="14" y="58" width="34" height="34" rx="4" fill="#1E9CC4"/><path d="M72 58l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2Z" fill="#3DA468"/></svg>';
+const LOCK='<svg class="lock" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7.5a5 5 0 0 1 10 0V10h.5A2.5 2.5 0 0 1 20 12.5v7A2.5 2.5 0 0 1 17.5 22h-11A2.5 2.5 0 0 1 4 19.5v-7A2.5 2.5 0 0 1 6.5 10Zm2.6 0h4.8V7.5a2.4 2.4 0 0 0-4.8 0Z"/></svg>';
+const ICONS={
+  B1:[{icon:IMG+'B_1/img_버스와아이들.svg'},{icon:IMG+'B_1/seq_3.svg',crop:1},{svg:SHAPES},{icon:IMG+'B_1/bran_1.svg'},{icon:IMG+'B_1/abs_art_color.svg'},{icon:IMG+'B_1/pat_puzzle.svg'}],
+  B2:[{icon:IMG+'B-2/img_딸기바구니cat.svg'},{icon:'../_img_png/B-2_00-node-hen.png'},{svg:SHAPES},{icon:IMG+'B-2/img_umbrella.svg'},{icon:IMG+'B-2/img_꽃1.svg'},{icon:IMG+'B-2/img_무당벌레.svg'}],
+  B3:[{icon:IMG+'B-3/img_토끼당근.svg'},{icon:IMG+'B-3/img_개구리연잎.svg'},{icon:IMG+'B-3/img_칠교완성.svg'},{icon:IMG+'B-3/img_뱀개미.svg'},{icon:IMG+'B-3/img_곰꽃.svg'},{icon:IMG+'B-3/img_개고양이.svg'}]
+};
+const FILES={ /* 실제 파일 경로 (main.html 기준 상대경로) */
+  B1:['B-1_01.algorithms','B-1_02.sequencing','B-1_03.decomposition','B-1_04.branching','B-1_05.abstraction','B-1_06.pattern'].map(f=>'../B-1_어린이집과친구/'+f+'.html'),
+  B2:['B-2_01.algorithms_v2','B-2_02.sequencing_v4','B-2_03.decomposition_v2','B-2_04.branching_v2','B-2_05.abstraction_v2','B-2_06.pattern_v2'].map(f=>'../B-2_봄/'+f+'.html'),
+  B3:['B-3_01.algorithms','B-3_02.sequencing','B-3_03.decomposition','B-3_04.branching','B-3_05.abstraction_v2','B-3_06.pattern'].map(f=>'../B-3_동식물과자연/'+f+'.html')
+};
+const OPEN=[ /* main.html 카드 c1·c2·c3 와 같은 색·아이콘 */
+  {key:'B1',paper:'#ef7a6d',icon:IMG+'../_img_png/titleimg_B-1.png',          en:'School & Friends', ko:'어린이집과 친구', sub:'../B-1_어린이집과친구/B-1_00.submain.html'},
+  {key:'B2',paper:'#64b8b4',icon:IMG+'../_img_png/titleimg_B-2.png',   en:'Spring',           ko:'봄',             sub:'../B-2_봄/B-2_00.submain.html'},
+  {key:'B3',paper:'#f3bd4e',icon:IMG+'../_img_png/titleimg_B-3.png', en:'Plants & Animals', ko:'동식물과 자연',   sub:'../B-3_동식물과자연/B-3_00.submain.html'}
+];
+const SOONS=[ /* main.html 카드 c4~c12 */
+  {paper:'#9c89cb',icon:IMG+'../_img_png/titleimg_B-4.png',          en:'Me & My Family',  ko:'나와 가족'},
+  {paper:'#e69a57',icon:IMG+'../_img_png/titleimg_B-5.png',          en:'My Town',         ko:'우리 동네'},
+  {paper:'#86b65f',icon:IMG+'../_img_png/titleimg_B-6.png',    en:'Health & Nature', ko:'건강과 자연'},
+  {paper:'#69aadb',icon:IMG+'../_img_png/titleimg_B-7.png',           en:'Summer',          ko:'여름'},
+  {paper:'#d67b93',icon:IMG+'../_img_png/titleimg_B-8.png',  en:'Transportation',  ko:'교통기관'},
+  {paper:'#d69545',icon:IMG+'../_img_png/titleimg_B-9.png',    en:'Autumn & Fruits', ko:'가을과 열매'},
+  {paper:'#55b497',icon:IMG+'../_img_png/titleimg_B-10.png',    en:'Environment',     ko:'환경과 생활'},
+  {paper:'#8eaac7',icon:IMG+'../_img_png/titleimg_B-11.png',       en:'Winter & Play',   ko:'겨울과 놀이'},
+  {paper:'#b58b67',icon:IMG+'../_img_png/titleimg_B-12.png',           en:'Tools We Use',    ko:'생활과 도구'}
+];
+/* 진도 — 각 활동 파일의 MAP-PROGRESS 스크립트가 완료 화면에서 localStorage 'ck.b{1,2,3}.sub.done'(활동 id 배열)에 기록한다.
+   서브메인(B-n_00.submain.html)이 읽는 값과 같은 것을 그대로 읽는다. 쿼리 ?demo 를 붙이면 예전 더미(Spring 앞 3개)를 보여 준다. */
+const DONE_KEY={B1:'ck.b1.sub.done',B2:'ck.b2.sub.done',B3:'ck.b3.sub.done'};
+const DEMO=new URLSearchParams(location.search).has('demo');
+function doneFlags(key){
+  if(DEMO)return key==='B2'?[1,1,1,0,0,0]:[0,0,0,0,0,0];
+  let ids=[];try{const v=JSON.parse(localStorage.getItem(DONE_KEY[key])||'[]');if(Array.isArray(v))ids=v}catch(e){}
+  return ACTS.map(a=>ids.indexOf(a.id)>=0?1:0);
+}
+
+const I18N={
+  en:{ttl:'All Menu',soonTtl:'Coming soon',soonMsg:'Coming soon!',lang:'한국어',openTtl:'Available now',
+      parent:'Parents',parentDesc:'For parents only — a quick check comes first',chips:['Child info','Learning report','Learning settings','App settings'],soonBadge:'Soon'},
+  ko:{ttl:'전체 메뉴',soonTtl:'준비 중',soonMsg:'준비 중이에요!',lang:'English',openTtl:'지금 할 수 있어요',
+      parent:'부모 영역',parentDesc:'부모님 전용이에요 · 먼저 간단한 확인이 있어요',chips:['아이 정보','학습 리포트','학습 설정','환경 설정'],soonBadge:'준비 중'}
+};
+let lang='en';try{if(localStorage.getItem('noriLang')==='ko')lang='ko'}catch(e){}
+const STAR='<svg viewBox="0 0 48 48"><path d="M24 4l6.2 13.2 14.4 1.9-10.5 10 2.7 14.3L24 36.2 11.2 43.4l2.7-14.3-10.5-10 14.4-1.9z"/></svg>';
+const $=id=>document.getElementById(id);
+
+function go(href,title){ /* main.html 과 같은 로딩 화면 경유 */
+  const u=new URL('../loading.html',location.href),t=new URL(href,location.href);
+  u.searchParams.set('to',t.href);u.searchParams.set('title',title||'');u.searchParams.set('lang',lang);location.href=u.href;
+}
+
+function icoHtml(o){
+  if(!o)return LOCK;   /* 준비 중 테마: 자물쇠 */
+  if(o.svg)return o.svg;
+  return o.crop?`<span class="crop"><img src="${o.icon}" alt=""></span>`:`<img src="${o.icon}" alt="">`;
+}
+function actRows(L,done,files,name,key){
+  return ACTS.map((a,i)=>`<button class="act${done&&done[i]?' done':''}" type="button"${files?` data-href="${files[i]}" data-t="${name}"`:' data-soon="1"'}>
+    <span class="act__ic">${icoHtml(key?ICONS[key][i]:null)}</span>
+    <span class="act__nm">${L?a.ko:a.en}${L?`<small>${a.en}</small>`:''}</span>${done&&done[i]?`<span class="act__done">${L?'완료':'Done'}</span>`:''}</button>`).join('');
+}
+function render(){
+  const L=lang==='ko',t=I18N[lang];
+  document.documentElement.lang=lang;
+  $('ttl').textContent=t.ttl;
+  $('lang').querySelector('.lg').innerHTML=L?'<b class="off">A</b><i class="on">한</i>':'<b class="on">A</b><i class="off">한</i>';
+  $('lang').setAttribute('aria-label',t.lang);
+  const open=OPEN.map(th=>{
+    const done=doneFlags(th.key),n=done.filter(Boolean).length,name=L?th.ko:th.en;
+    return `<article class="col" style="--paper:${th.paper}">
+      <div class="col__head" data-href="${th.sub}" data-t="${name}" role="button" tabindex="0"><span class="ico"><img src="${th.icon}" alt=""${th.s?` style="--s:${th.s}"`:''}></span><strong>${name}</strong></div>
+      <div class="acts">${actRows(L,done,FILES[th.key],name,th.key)}</div></article>`}).join('');
+  const soon=SOONS.map(s=>{const name=L?s.ko:s.en;
+    return `<article class="col is-soon" style="--paper:${s.paper}" data-soon="1" aria-disabled="true">
+      <div class="col__head"><span class="ico"><img src="${s.icon}" alt=""${s.s?` style="--s:${s.s}"`:''}></span><strong>${name}</strong></div>
+      <div class="acts">${actRows(L,null,null,name)}</div></article>`}).join('');
+  const parent=`<button class="parent" id="parent" type="button">
+      <span class="parent__ic"><svg viewBox="0 0 24 24"><path d="M7 10V8a5 5 0 0 1 10 0v2h1.2c.9 0 1.8.9 1.8 1.8v8.4c0 .9-.9 1.8-1.8 1.8H5.8C4.9 22 4 21.1 4 20.2v-8.4C4 10.9 4.9 10 5.8 10zm2 0h6V8a3 3 0 0 0-6 0z"/></svg></span>
+      <span class="parent__tx"><strong>${t.parent}</strong><p>${t.parentDesc}</p><span class="chips">${t.chips.map(c=>`<span>${c}</span>`).join('')}</span></span>
+      <svg class="parent__go" viewBox="0 0 24 24"><path d="M9 4.5 16.5 12 9 19.5"/></svg></button>`;
+  $('page').innerHTML=`<section class="grid">${open}${soon}</section>
+    <div style="height:calc(36 * var(--u))"></div>${parent}`;
+}
+$('page').addEventListener('click',e=>{
+  if(e.target.closest('#parent')){go('A-3_parent.html',I18N[lang].parent);return}   /* 부모 확인(수식)은 A-3 안에서 */
+  if(e.target.closest('[data-soon]'))return;   /* 준비 중은 반응 없음 */
+  const h=e.target.closest('[data-href]');if(h)go(h.dataset.href,h.dataset.t);
+});
+$('lang').addEventListener('click',()=>{lang=lang==='en'?'ko':'en';try{localStorage.setItem('noriLang',lang)}catch(e){}render()});
+$('back').addEventListener('click',()=>{location.href='main.html'});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Step B-4 · ABSTRACTION — Find the Siblings (Me and My Family)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
+<link rel="stylesheet" href="../DESIGN.css" type="text/css">
+<link rel="preload" href="assets/B-4_05-bg-v2.webp" as="image">
+<style>
+/* ============================================================
+   B-4_05 ABSTRACTION — 형제자매 찾아 동그라미 (나와 가족)
+   배경: B-4_03 배경에서 하늘을 넓히고 잔디를 하단으로 내림 (assets/B-4_05-bg-v1.webp)
+   오브젝트: 첨부 워크시트(Step B-4 가족 관계도) 인물 17명을 그대로 크롭 (assets/B-4_05-fam-*.webp)
+   플레이: 사람을 톡 → 점선이 부모 쪽으로 켜짐 → 같은 부모의 사람을 톡 → 종이 링으로 묶임 (5그룹)
+   좌표는 전부 아트보드 1920×1200u
+   ============================================================ */
+.tree{position:absolute; inset:0; z-index:5; pointer-events:none; transform:translateX(calc(-94*var(--u)))}
+.tree svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none}
+.ln circle{transform-box:fill-box; transform-origin:center; transition:transform .25s var(--e-out), fill .2s}
+.ln .u{fill:#2C7F96; fill-opacity:.38}
+.ln .t{fill:#FFF8E8}
+.ln.lit .u{fill:#B9761C; fill-opacity:.5}
+.ln.lit .t{fill:#FFD23F; transform:scale(1.3)}
+.ln.lit{animation:dotPulse 1.1s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.ln.on .u{fill:#7C5A1C; fill-opacity:.45}
+.ln.on .t{fill:#FFD23F; transform:scale(1.3)}
+.ln.bad .u{fill:#9B2F1E; fill-opacity:.5}
+.ln.bad .t{fill:#FF7A5C; transform:scale(1.3)}
+.ring-u{fill:none; stroke:#FFFFFF; stroke-opacity:.75; stroke-width:19; stroke-linecap:round}
+.ring{fill:none; stroke-width:10; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; animation:ringDraw .9s var(--e-out) forwards}
+@keyframes ringDraw{to{stroke-dashoffset:0}}
+.ring-g{opacity:0; animation:ringIn .2s ease-out forwards}
+@keyframes ringIn{to{opacity:1}}
+
+.p{position:absolute; padding:0; border:0; background:none; cursor:pointer; pointer-events:auto; z-index:2;
+  width:calc(176*var(--u)); height:calc(176*var(--u)); border-radius:50%;
+  transition:transform .2s var(--e-out)}
+.p .ph{position:absolute; inset:0; border-radius:50%; background:var(--img) center/100% 100% no-repeat; isolation:isolate; pointer-events:none}
+.p::before{content:''; position:absolute; inset:calc(-9*var(--u)); border-radius:50%; background:#FFF3E0; z-index:-1}
+.p .ph::after{content:''; position:absolute; inset:0; border-radius:50%;
+  background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) auto; mix-blend-mode:overlay; opacity:.28;
+  -webkit-mask:var(--img) center/100% 100% no-repeat; mask:var(--img) center/100% 100% no-repeat}
+.p .nm{position:absolute; left:50%; bottom:calc(-30*var(--u)); transform:translateX(-50%); isolation:isolate; overflow:hidden;
+  display:grid; place-items:center; width:calc(188*var(--u)); height:calc(60*var(--u)); padding:0 calc(10*var(--u)); border-radius:999px;
+  background:#2F8F8A; color:#FFF6E6; font-family:var(--ff); font-weight:800; font-size:calc(29*var(--u)*var(--k,1));
+  letter-spacing:.01em; line-height:1; white-space:nowrap; pointer-events:none; z-index:3}
+/* 종이 질감 — 살짝 */
+.p .nm::before{content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:url("../_img_png/paper/tx-paper-grain.webp") 0 0/calc(460*var(--u)) calc(160*var(--u));
+  mix-blend-mode:overlay; opacity:.55}
+.p::after{content:''; position:absolute; inset:calc(-15*var(--u)); border-radius:50%; pointer-events:none;
+  border:calc(8*var(--u)) solid #FFD23F; opacity:0;
+  box-shadow:0 0 calc(30*var(--u)) calc(6*var(--u)) rgba(255,205,90,.6)}
+@media (hover:hover){.p:not(.is-done):not(.is-sel):hover{transform:translateY(calc(-6*var(--u)))}}
+.p:active{transform:scale(.97)}
+.p:focus-visible{outline:none}
+.p.is-sel{transform:translateY(calc(-10*var(--u)))}
+.p.is-sel::after{opacity:1}
+.p.is-hint::after{animation:pHint 1.1s ease-in-out 3}
+@keyframes pHint{0%,100%{opacity:0}50%{opacity:1}}
+.p.is-no{animation:pShake .42s var(--e-out)}
+@keyframes pShake{0%,100%{transform:translateX(0) rotate(0)}
+  20%{transform:translateX(calc(-14*var(--u))) rotate(-2deg)}
+  45%{transform:translateX(calc(12*var(--u))) rotate(1.6deg)}
+  70%{transform:translateX(calc(-7*var(--u))) rotate(-1deg)}}
+.p.is-pop{animation:pPop .56s var(--e-pop)}
+@keyframes pPop{0%{transform:scale(1)}22%{transform:scale(.95)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+:root{
+  --design-w:1920; --design-h:1200;
+  --br-line:#76905F;           /* = --pp-green. 연결된 점과 같은 색 */
+  --br-port:#E7B23C;           /* = --pp-gold */
+  --br-port-on:#76905F;
+  --br-ring:#FFFFFF;
+  }
+/* DESIGN.css 의 --pp-edge 는 --sp-gutter(단위 없음) 때문에 무효값 — 길이로 다시 잡는다 (B-2_05 v2 와 같음) */
+.stage.theme-paper{--pp-edge:calc(28 * var(--u))}
+*{box-sizing:border-box}
+html,body{margin:0; height:100%; background:#0B1722; overflow:hidden;
+  font-family:var(--ff); -webkit-tap-highlight-color:transparent;
+  -webkit-user-select:none; user-select:none; touch-action:none}
+body{display:grid; place-items:center}
+img{user-select:none; -webkit-user-drag:none}
+
+/* ---------- 무대 ---------- */
+.stage{position:relative; width:calc(1920 * var(--u)); height:calc(1200 * var(--u));
+  overflow:hidden; isolation:isolate}
+.stage__bg{position:absolute; left:0; top:0; width:100%; height:100%; display:block; z-index:0}
+
+/* ---------- 상단 크롬 §11.2 · §11.4 ---------- */
+.pp-edge-tl,.pp-edge-tr,.pp-edge-tc{z-index:20}
+.pp-ibtn svg{fill:currentColor}
+.pp-ibtn--sound .sound-wave{fill:none; stroke:currentColor; stroke-width:2.8;
+  stroke-linecap:round; stroke-linejoin:round}
+#btnSay.is-playing{animation:sayPulse .9s ease-in-out infinite}
+@keyframes sayPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+
+/* ---------- 소년 — v4 와 같은 자리 · 같은 브리핑 이동 ---------- */
+.boy-slot .boy{pointer-events:auto}
+.boy-slot{position:absolute; z-index:14; transform-origin:50% 100%;
+  left:calc(817.6 * var(--u)); top:calc(709.3 * var(--u)); pointer-events:none;
+  width:calc(284.8 * var(--u)); height:calc(470.3 * var(--u));
+  transition:transform .62s var(--e-out)}
+.boy{position:absolute; inset:0; padding:0; border:0; background:none; cursor:pointer;
+  transform-origin:50% 100%; transition:transform var(--t-fast) var(--e-out)}
+.boy img{width:100%; height:100%; display:block}
+.boy:active{transform:scale(.96)}
+.boy:focus-visible{outline:none}
+.boy.is-cheer{animation:boyHop .9s var(--e-out) 2}
+@keyframes boyHop{0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(calc(-42*var(--u))) rotate(-3deg)}
+  55%{transform:translateY(0) rotate(0)}
+  75%{transform:translateY(calc(-20*var(--u))) rotate(2deg)}}
+.boy.is-huh{animation:boyHuh .8s var(--e-out)}
+@keyframes boyHuh{0%,100%{transform:rotate(0)}
+  25%{transform:rotate(-7deg)}60%{transform:rotate(6deg)}85%{transform:rotate(-3deg)}}
+
+/* ---------- 브리핑 §8.4 · §11.8 ----------
+   소년 중심 x 136u → 960u : translateX 823.6u / scale 1.18 → 머리 top ≈ 625u
+   말풍선 박스 바닥 = 머리 top − 93u = 532u → 말풍선 top = 296u (v4 와 같은 값) */
+.veil{position:absolute; inset:0; z-index:12; background:var(--pp-veil);
+  opacity:0; visibility:hidden;
+  transition:opacity var(--t-slow) var(--e-out), visibility var(--t-slow)}
+body.is-briefing .veil{opacity:1; visibility:visible}
+/* 플레이 중 대기 모션 — 좌우로 살랑살랑 움직여 '눌러 봐' 하고 부른다 */
+body:not(.is-briefing) .boy:not(.is-cheer):not(.is-huh){animation:boyCall 3.8s ease-in-out 1s infinite}
+@keyframes boyCall{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  25%{transform:translate(calc(22*var(--u)),calc(-5*var(--u))) rotate(2.2deg)}
+  50%{transform:translate(0,0) rotate(0)}
+  75%{transform:translate(calc(-22*var(--u)),calc(-5*var(--u))) rotate(-2.2deg)}}
+@media (prefers-reduced-motion:reduce){body:not(.is-briefing) .boy:not(.is-cheer):not(.is-huh){animation:none}}
+body.is-briefing .boy-slot{z-index:16; transform:scale(1.18)}
+body.is-briefing .boy{animation:boyTalk 1.5s var(--e-out) .5s infinite}
+@keyframes boyTalk{0%,100%{transform:translateY(0) rotate(0)}
+  30%{transform:translateY(calc(-12*var(--u))) rotate(-1.2deg)}
+  60%{transform:translateY(0) rotate(.8deg)}}
+.talk{top:calc(296*var(--u)); z-index:17; opacity:0; visibility:hidden;
+  transform:translateY(calc(26*var(--u))) rotate(-1.4deg) scale(.94); transform-origin:50% 100%;
+  transition:opacity var(--t-slow) var(--e-out), visibility var(--t-slow), transform .5s var(--e-pop)}
+#talkLine{white-space:pre-line}
+body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition-delay:.28s}
+
+/* 반짝이 — v4 와 같은 별가루 */
+.spark-bit{position:absolute; z-index:28; width:var(--s); height:var(--s);
+  background:var(--c); pointer-events:none; border-radius:50%;
+  animation:bitFly .78s var(--e-out) forwards}
+.spark-bit.star{border-radius:0;
+  clip-path:polygon(50% 0%,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0% 50%,39% 39%)}
+@keyframes bitFly{0%{opacity:0; transform:translate(-50%,-50%) scale(.3)}
+  15%{opacity:1}
+  100%{opacity:0; transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.05) rotate(var(--rot))}}
+
+/* ---------- 완료 화면 §8.3 (v4 와 같은 값 · 일러스트만 날씨·행동 그림) ---------- */
+.win{position:absolute; inset:0; z-index:60; display:flex; align-items:center;
+  justify-content:center; background:var(--pp-scrim);
+  opacity:0; pointer-events:none; transition:opacity var(--t-base) var(--e-out)}
+.win.on{opacity:1; pointer-events:auto}
+.win__stack{position:relative; width:calc(1040*var(--u)); display:flex; flex-direction:column;
+  align-items:center; gap:calc(44*var(--u));
+  transform:scale(.82) translateY(calc(28*var(--u)));
+  transition:transform var(--t-slow) var(--e-pop)}
+.win.on .win__stack{transform:none}
+.win__rays,.win__glow{position:absolute; left:50%; top:calc(200*var(--u));
+  border-radius:50%; transform:translate(-50%,-50%); pointer-events:none; z-index:0}
+.win__rays{width:calc(1000*var(--u)); height:calc(1000*var(--u));
+  background:repeating-conic-gradient(from 0deg, rgba(255,201,37,.6) 0deg 6deg, rgba(255,201,37,0) 6deg 20deg);
+  -webkit-mask-image:radial-gradient(circle,#000 22%,rgba(0,0,0,0) 60%);
+          mask-image:radial-gradient(circle,#000 22%,rgba(0,0,0,0) 60%);
+  animation:raySpin 26s linear infinite}
+@keyframes raySpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.win__glow{width:calc(760*var(--u)); height:calc(760*var(--u));
+  background:radial-gradient(circle, rgba(255,232,148,.85) 0%, rgba(255,232,148,.38) 40%, rgba(255,232,148,0) 68%);
+  animation:glowBreathe 3.4s ease-in-out infinite}
+@keyframes glowBreathe{0%,100%{opacity:.8; transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1; transform:translate(-50%,-50%) scale(1.06)}}
+/* 그림 아치 — 가운데가 가장 높다. 박스가 내용을 감싸야 아래 gap 이 실제 간격이 된다 */
+/* 완료 일러스트 — B-2_03 v2 와 같은 이미지 · 같은 값 (소년 + 고양이 하이파이브, 종이 콜라주판) */
+.win__art{position:relative; z-index:2; display:block; width:calc(600*var(--u)); height:auto;
+  filter:drop-shadow(0 calc(12*var(--u)) calc(20*var(--u)) rgba(80,40,10,.28))}
+.win.on .win__art{animation:winHop 1.6s var(--e-out) .3s 2}
+@keyframes winHop{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-3.5%) rotate(-1.5deg)}60%{transform:translateY(-1.5%) rotate(1.5deg)}}
+.win__stack .win__actions{position:relative; z-index:3}
+.win__sparks{position:absolute; left:50%; top:calc(-40*var(--u)); transform:translateX(-50%);
+  width:calc(760*var(--u)); height:calc(480*var(--u)); z-index:4; pointer-events:none}
+.spark{position:absolute; left:var(--x); top:var(--y); width:var(--s); height:var(--s);
+  background:var(--c); opacity:0; animation:twinkle 2.4s var(--e-out) infinite;
+  animation-delay:var(--d);
+  clip-path:polygon(50% 0%,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0% 50%,39% 39%)}
+@keyframes twinkle{0%,100%{opacity:0; transform:scale(.4) rotate(0deg)}
+  35%{opacity:1; transform:scale(1) rotate(35deg)}
+  70%{opacity:.35; transform:scale(.75) rotate(70deg)}}
+.win__confetti{position:absolute; left:50%; top:calc(80*var(--u)); transform:translateX(-50%);
+  width:calc(900*var(--u)); height:calc(700*var(--u)); z-index:5; pointer-events:none}
+.conf{position:absolute; left:50%; top:40%; width:var(--w); height:var(--h);
+  background:var(--c); border-radius:var(--r); opacity:0}
+.win.on .conf{animation:confBurst 1.5s var(--e-out) forwards; animation-delay:var(--d)}
+@keyframes confBurst{0%{opacity:0; transform:translate(0,0) rotate(0deg) scale(.3)}
+  12%{opacity:1}70%{opacity:1}
+  100%{opacity:0; transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1)}}
+
+
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+}
+
+/* 진행 별 판 — main.html 시계와 같은 종이 간판(394×78u) */
+.pp-stars{margin-top:calc(21*var(--u)); /* 좌우 버튼(120u) 세로 중심에 맞춤 */ width:calc(394*var(--u)); height:calc(78*var(--u)); box-sizing:border-box; padding:calc(8*var(--u)) calc(38*var(--u)) calc(11*var(--u)); gap:calc(9*var(--u));
+  background:transparent url("../_img_png/main/main-clock-sign-reference-v5-noline.png?v=20261012-1") center/contain no-repeat;
+  filter:drop-shadow(0 calc(2*var(--u)) calc(1.5*var(--u)) rgba(45,24,18,.24))}
+.pp-stars .pp-star{width:calc(54*var(--u)); height:calc(54*var(--u))}
+.pp-stars .pp-star{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23D9C7A6'/><stop offset='1' stop-color='%23C7B28D'/></linearGradient><filter id='i' x='-20%' y='-20%' width='140%' height='140%'><feOffset dx='0' dy='3.5'/><feGaussianBlur stdDeviation='2.2' result='b'/><feComposite in='SourceAlpha' in2='b' operator='out' result='o'/><feFlood flood-color='%237A5C34' flood-opacity='.55'/><feComposite in2='o' operator='in' result='s'/><feComposite in='s' in2='SourceGraphic' operator='over'/></filter></defs><g filter='url(%23i)' opacity='0.9'><polygon points='50.0,15.0 60.6,38.4 86.1,41.3 67.1,58.6 72.3,83.7 50.0,71.0 27.7,83.7 32.9,58.6 13.9,41.3 39.4,38.4' fill='url(%23g)' stroke='url(%23g)' stroke-width='9' stroke-linejoin='round'/></g></svg>")}
+.pp-stars .pp-star::after{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23F6B63A'/><stop offset='1' stop-color='%23E08A0C'/></linearGradient><filter id='i' x='-20%' y='-20%' width='140%' height='140%'><feOffset dx='0' dy='3.5'/><feGaussianBlur stdDeviation='2.2' result='b'/><feComposite in='SourceAlpha' in2='b' operator='out' result='o'/><feFlood flood-color='%236B3A06' flood-opacity='.55'/><feComposite in2='o' operator='in' result='s'/><feComposite in='s' in2='SourceGraphic' operator='over'/></filter></defs><g filter='url(%23i)' opacity='1'><polygon points='50.0,15.0 60.6,38.4 86.1,41.3 67.1,58.6 72.3,83.7 50.0,71.0 27.7,83.7 32.9,58.6 13.9,41.3 39.4,38.4' fill='url(%23g)' stroke='url(%23g)' stroke-width='9' stroke-linejoin='round'/></g></svg>")}
+/* 소년 — 브리핑(문제 설명) 때만 나와 설명하고, 끝나면 페이드아웃으로 사라진다 */
+.boy-slot{left:0}
+body:not(.is-briefing) .boy-slot{opacity:0; visibility:hidden; pointer-events:none; transition:transform .62s var(--e-out), opacity .5s ease, visibility 0s .5s}
+body:not(.is-briefing) .boy-slot .boy{pointer-events:none}
+body.is-briefing .boy-slot{transform:translateX(calc(817.6*var(--u))) scale(1.18)}
+
+</style>
+<link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
+</head>
+<body class="is-briefing">
+<div class="stage__fill" aria-hidden="true" style="position:fixed;inset:0;background:linear-gradient(#8FCBEA 0 58%,#5C9B42 58% 100%);z-index:-1;pointer-events:none"></div>
+
+<main class="stage theme-paper" id="stage">
+  <img class="stage__bg" id="bg" alt="" src="assets/B-4_05-bg-v2.webp" style="--bgw:2688;--bgh:1200;--bgx:-384;--bgy:0">
+
+  <!-- 상단 크롬 §11.2 · §11.4 -->
+  <div class="pp-edge-tl">
+    <button class="pp-ibtn" id="btnBack" aria-label="Back">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1 2.9a2.4 2.4 0 0 0-3.4 0L4.6 11a1.4 1.4 0 0 0 0 2l8.1 8.1a2.4 2.4 0 1 0 3.4-3.4L10.1 12l6-6a2.4 2.4 0 0 0 0-3.1Z"/></svg>
+    </button>
+  </div>
+  <div class="pp-edge-tr">
+    <button class="pp-ibtn pp-ibtn--lang" id="btnLang" data-next="ko" aria-label="한국어">
+      <span class="lg"><b id="lgEn" class="on">A</b><i id="lgKo" class="off">한</i></span>
+    </button>
+    <button class="pp-ibtn pp-ibtn--sound" id="btnSay" aria-label="Sound off" aria-pressed="false">
+      <svg viewBox="0 0 28 28" aria-hidden="true">
+        <path d="M3.5 10.2h4.1l5.3-4.3c.9-.7 2.2-.1 2.2 1.1v14c0 1.2-1.3 1.8-2.2 1.1l-5.3-4.3H3.5c-.8 0-1.5-.7-1.5-1.5v-4.6c0-.8.7-1.5 1.5-1.5Z"/>
+        <path class="sound-wave" d="M18.2 10.7a4.6 4.6 0 0 1 0 6.6"/>
+        <path class="sound-wave" d="M21.7 7.5a8.8 8.8 0 0 1 0 13"/>
+        <path class="sound-wave sound-x" d="M18.4 10.4l6 6.8M24.4 10.4l-6 6.8"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 진행 별 5개 — DESIGN.md §11.5 (나무 알약 + 파인 별, DESIGN.css .pp-stars) -->
+  <div class="pp-edge-tc">
+    <div class="pp-stars" id="stars" role="img" aria-label="0 / 5"></div>
+  </div>
+
+  <!-- 가족 관계도 — 워크시트 그림 그대로. 사람마다 터치 버튼 (JS 로 생성) -->
+  <div class="tree" id="tree">
+    <svg viewBox="0 0 1920 1200" id="lines" aria-hidden="true"></svg>
+    <svg viewBox="0 0 1920 1200" id="rings" aria-hidden="true" style="z-index:3"></svg>
+  </div>
+
+  <!-- 브리핑 딤 + 종이 말풍선 §11.8 -->
+  <div class="veil" id="veil" aria-hidden="true"></div>
+  <div class="pp-talk talk" id="talk" aria-live="polite">
+    <div class="pp-talk__paper"><div class="pp-talk__sheet"></div></div>
+    <span class="pp-tag" id="talkTag">QUESTION</span>
+    <p class="pp-talk__line" id="talkLine"></p>
+  </div>
+
+  <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 플레이 방법(가이드 팝업)을 연다 -->
+  <div class="boy-slot" id="boySlot">
+    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+  </div>
+
+  <!-- 완료 화면 §8.3 -->
+  <!-- 완료 화면 §8.3 -->
+  <div class="win" id="win">
+    <div class="win__stack">
+      <div class="win__rays"></div>
+      <div class="win__glow"></div>
+      <img class="win__art" id="winArt" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <div class="win__sparks" id="winSparks"></div>
+      <div class="win__confetti" id="winConf"></div>
+      <div class="win__actions">
+        <button class="btn-bar btn--retry" id="retry"><span>PLAY AGAIN</span></button>
+        <button class="btn-bar btn--exit" id="exit"><span>EXIT</span></button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+/* ============================================================
+   1. 효과음 — B-2_02.sequencing_v4 SFX 모듈 그대로 (다른 화면과 소리가 같아야 한다)
+   ============================================================ */
+const MUTE = {on:false};
+const SFX = (() => {
+  let C = null, bgmBus = null, bgmOn = false, bgmAt = 0, bgmTm = null, noiseBuf = null;
+  const ac = () => {
+    if(MUTE.on) return null;           /* 음소거 중에는 새 소리를 만들지 않는다 */
+    if(!C){
+      try{ const AC = window.AudioContext || window.webkitAudioContext; C = new AC() }catch(e){ return null }
+    }
+    if(C.state === 'suspended') C.resume();
+    return C;
+  };
+  function voice(freq, at, dur, o){
+    o = o || {}; const c = ac(); if(!c) return;
+    const t0 = c.currentTime + at, bus = o.bus || c.destination;
+    const g = c.createGain(), f = c.createBiquadFilter();
+    f.type = 'lowpass'; f.frequency.setValueAtTime(o.cut || 5200, t0);
+    const peak = o.gain || .12, atk = o.atk || .006;
+    g.gain.setValueAtTime(.0001, t0);
+    g.gain.exponentialRampToValueAtTime(peak, t0 + atk);
+    g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    const osc = (type, mul, det) => {
+      const s = c.createOscillator();
+      s.type = type; s.frequency.setValueAtTime(freq * mul, t0);
+      if(det) s.detune.setValueAtTime(det, t0);
+      s.connect(g); s.start(t0); s.stop(t0 + dur + .04);
+    };
+    osc(o.type || 'sine', 1, 0);
+    if(o.h2) osc('sine', 2, 4);
+    g.connect(f); f.connect(bus);
+  }
+  const chord = (fs, at, dur, o) => fs.forEach(f => voice(f, at, dur, o));
+  function swoosh(at, dur, f0, f1, gain){
+    const c = ac(); if(!c) return;
+    if(!noiseBuf){
+      const n = Math.floor(c.sampleRate * 1.2);
+      noiseBuf = c.createBuffer(1, n, c.sampleRate);
+      const d = noiseBuf.getChannelData(0);
+      for(let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    }
+    const t0 = c.currentTime + at;
+    const src = c.createBufferSource(); src.buffer = noiseBuf;
+    const bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.setValueAtTime(1.4, t0);
+    bp.frequency.setValueAtTime(f0, t0);
+    bp.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+    const g = c.createGain();
+    g.gain.setValueAtTime(.0001, t0);
+    g.gain.exponentialRampToValueAtTime(gain, t0 + dur * .25);
+    g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    src.connect(bp); bp.connect(g); g.connect(c.destination);
+    src.start(t0); src.stop(t0 + dur + .05);
+  }
+  /* 오답 — 짧은 타격 뒤 음정이 크게 내려가는 두꺼운 경고음 */
+  function wrongHit(){
+    const c = ac(); if(!c) return;
+    const t0 = c.currentTime;
+    const master = c.createGain(), lp = c.createBiquadFilter();
+    lp.type = 'lowpass'; lp.Q.setValueAtTime(1.25, t0);
+    lp.frequency.setValueAtTime(1800, t0);
+    lp.frequency.exponentialRampToValueAtTime(620, t0 + .44);
+    master.gain.setValueAtTime(.0001, t0);
+    master.gain.exponentialRampToValueAtTime(.16, t0 + .008);
+    master.gain.setValueAtTime(.14, t0 + .09);
+    master.gain.exponentialRampToValueAtTime(.0001, t0 + .46);
+    [
+      {type:'square',   from:330, to:185, det:-5},
+      {type:'sawtooth', from:220, to:110, det: 5}
+    ].forEach(v => {
+      const o = c.createOscillator();
+      o.type = v.type; o.detune.setValueAtTime(v.det, t0);
+      o.frequency.setValueAtTime(v.from, t0);
+      o.frequency.exponentialRampToValueAtTime(v.to, t0 + .4);
+      o.connect(master); o.start(t0); o.stop(t0 + .48);
+    });
+    master.connect(lp); lp.connect(c.destination);
+    swoosh(0, .18, 1500, 260, .11);
+    voice(98, .17, .32, {type:'triangle', gain:.13, atk:.004, cut:760, h2:true});
+  }
+  const C3=130.81, C4=261.63, G4=392, C5=523.25, E5=659.25, G5=784,
+        C6=1046.5, E6=1318.5, G6=1568, C7=2093, E7=2637, G7=3136,
+        A4=440, B4=493.88, D5=587.33, F5=698.46, A5=880, B5=987.77, D6=1174.7,
+        F3=174.61, G3=196;
+  const marimba = (f, at, dur, gain) =>
+    voice(f, at, dur, {type:'triangle', gain:gain, atk:.004, cut:4200, h2:true});
+  const bell = (f, at, dur, gain) =>
+    voice(f, at, dur, {type:'sine', gain:gain, atk:.004, cut:8000, h2:true});
+  const BEAT = .28;
+  const MEL = [[C5,0,.5],[E5,.5,.5],[G5,1,.5],[C6,1.5,.5],
+               [G5,2,.5],[E5,2.5,.5],[F5,3,1],[E5,4,.5],[D5,4.5,.5],
+               [C5,5,.5],[E5,5.5,.5],[G5,6,1],[C5,7,1]];
+  const BASS = [[C3,0,1.4],[C3,2,1.4],[F3,4,1.4],[G3,6,1.4]];
+  function bgmTone(freq, at, dur, type, gain){
+    const c = ac(); if(!c || !bgmBus) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, at);
+    g.gain.setValueAtTime(.0001, at);
+    g.gain.exponentialRampToValueAtTime(gain, at + .02);
+    g.gain.exponentialRampToValueAtTime(.0001, at + dur);
+    o.connect(g); g.connect(bgmBus); o.start(at); o.stop(at + dur + .05);
+  }
+  function bgmLoop(){
+    const c = ac(); if(!c || !bgmOn) return;
+    if(bgmAt < c.currentTime + .05) bgmAt = c.currentTime + .1;
+    MEL.forEach(m => bgmTone(m[0], bgmAt + m[1]*BEAT, m[2]*BEAT*.92, 'triangle', .055));
+    BASS.forEach(m => bgmTone(m[0], bgmAt + m[1]*BEAT, m[2]*BEAT*.92, 'sine', .045));
+    bgmAt += 8 * BEAT;
+    bgmTm = setTimeout(bgmLoop, 8*BEAT*1000 - 140);
+  }
+  return {
+    ctx(){ return C },
+    unlock(){ ac() },
+    tap(){ marimba(G5, 0, .14, .09) },
+    step(i){ marimba([C5,D5,E5,G5,A5,C6][Math.min(i,5)], 0, .26, .11) },
+    good(){ [C6,E6,G6].forEach((f,i) => bell(f, i*.055, .55, .085));
+            chord([C5,G5], .02, .5, {type:'triangle', gain:.05}) },
+    bad(){ wrongHit() },
+    clear(){ swoosh(0, .5, 700, 5200, .1);
+             [C5,E5,G5,C6].forEach((f,i) => marimba(f, .06 + i*.075, .38, .12)) },
+    fanfare(){
+      [[G4,0,.16],[C5,.13,.16],[E5,.26,.24]].forEach(m => marimba(m[0],m[1],m[2],.12));
+      [[G5,.5,.14],[A5,.62,.14],[B5,.74,.14],[C6,.86,.3]]
+        .forEach(m => marimba(m[0],m[1],m[2],.12));
+      chord([C5,E5,G5,C6], 1.2, 1.1, {type:'triangle', gain:.07});
+      [[E6,2.35,.4],[D6,2.6,.4],[C6,2.85,.55]]
+        .forEach(m => bell(m[0],m[1],m[2],.10));
+      chord([C5,E5,G5,C6], 3.5, 1.5, {type:'triangle', gain:.08});
+      voice(C4, 3.5, 1.5, {type:'sine', gain:.07});
+      [[E7,3.70,.55],[G7,3.92,.55],[C7,4.14,.75]].forEach(m => bell(m[0],m[1],m[2],.045));
+    },
+    bgmStart(delay){
+      const c = ac(); if(!c) return;
+      if(bgmOn) return;
+      bgmOn = true;
+      bgmBus = c.createGain(); bgmBus.gain.setValueAtTime(.9, c.currentTime);
+      bgmBus.connect(c.destination);
+      bgmAt = c.currentTime + (delay === undefined ? .35 : delay);
+      bgmLoop();
+    },
+    bgmStop(){
+      const c = ac(); bgmOn = false;
+      if(bgmTm){ clearTimeout(bgmTm); bgmTm = null }
+      if(bgmBus && c){
+        const bus = bgmBus; bgmBus = null;
+        try{
+          const t0 = c.currentTime;
+          bus.gain.setValueAtTime(bus.gain.value, t0);
+          bus.gain.exponentialRampToValueAtTime(.0001, t0 + .5);
+        }catch(e){}
+        setTimeout(() => { try{ bus.disconnect() }catch(e){} }, 700);
+      }
+    }
+  };
+})();
+
+/* ============================================================
+   2. 데이터 — 워크시트 Step B-4: 형제자매 그룹 5개 (같은 부모)
+      나·언니·동생 / 아빠·삼촌 / 엄마·이모 / 왼쪽 사촌 2 / 오른쪽 사촌 2
+      그룹이 없는 사람(오답): 조부모 4 · 결혼해서 들어온 숙모(왼쪽 Aunt) · 이모부(오른쪽 Uncle)
+   ============================================================ */
+const A = 290, B = 590, C = 890;
+const PEOPLE = {
+  gm1:{x:716,y:A,en:'Grandmother',ko:'할머니'},  gf1:{x:948,y:A,en:'Grandfather',ko:'할아버지'},
+  gm2:{x:1160,y:A,en:'Grandmother',ko:'할머니'}, gf2:{x:1392,y:A,en:'Grandfather',ko:'할아버지'},
+  aunt1:{x:348,y:B,en:'Aunt',ko:'숙모'}, uncle1:{x:732,y:B,en:'Uncle',ko:'삼촌'}, dad:{x:932,y:B,en:'Dad',ko:'아빠'},
+  mom:{x:1176,y:B,en:'Mom',ko:'엄마'}, aunt2:{x:1376,y:B,en:'Aunt',ko:'이모'}, uncle2:{x:1760,y:B,en:'Uncle',ko:'이모부'},
+  cousin1:{x:440,y:C,en:'Cousin',ko:'사촌'}, cousin2:{x:640,y:C,en:'Cousin',ko:'사촌'},
+  sister:{x:854,y:C,en:'Sister',ko:'언니'}, me:{x:1054,y:C,en:'Me',ko:'나'}, brother:{x:1254,y:C,en:'Brother',ko:'동생'},
+  cousin3:{x:1468,y:C,en:'Cousin',ko:'사촌'}, cousin4:{x:1668,y:C,en:'Cousin',ko:'사촌'}
+};
+const GROUPS = [
+  {id:'me',   m:['sister','me','brother'], col:'#F28C3A',
+   d:['M1020 590H1088','M1054 590V802','M854 802V778Q854 758 874 758H1234Q1254 758 1254 778V802']},
+  {id:'dadU', m:['uncle1','dad'], col:'#E96F8F',
+   d:['M804 290H860','M832 290V470','M732 502V490Q732 470 752 470H912Q932 470 932 490V502']},
+  {id:'momA', m:['mom','aunt2'], col:'#8E67C6',
+   d:['M1248 290H1304','M1276 290V470','M1176 502V490Q1176 470 1196 470H1356Q1376 470 1376 490V502']},
+  {id:'cL',   m:['cousin1','cousin2'], col:'#E2543D',
+   d:['M436 590H644','M540 590V758','M440 802V778Q440 758 460 758H620Q640 758 640 778V802']},
+  {id:'cR',   m:['cousin3','cousin4'], col:'#E7B23C',
+   d:['M1464 590H1672','M1568 590V758','M1468 802V778Q1468 758 1488 758H1648Q1668 758 1668 778V802']}
+];
+const groupOf = k => GROUPS.find(g => g.m.indexOf(k) >= 0);
+const T = {
+  intro:{en:"Wow, let's find the siblings! Tap the people who have the same mom and dad.", ko:'우와, 형제자매를 찾아 보자! 엄마 아빠가 같은 사람들을 톡톡 눌러 줘!'},
+  wrong:{en:"Hmm, let's look at the lines again!", ko:'음, 선을 다시 살펴봐!'},
+  diff: {en:'Hmm, they have different parents!', ko:'음, 부모님이 달라!'},
+  ok_me:  {en:'My sister, my brother, and I are siblings!', ko:'나랑 언니, 동생은 형제자매야!'},
+  ok_dadU:{en:'Dad and Uncle are siblings!', ko:'아빠랑 삼촌은 형제야!'},
+  ok_momA:{en:'Mom and Aunt are siblings!', ko:'엄마랑 이모는 자매야!'},
+  ok_cL:  {en:'These cousins are siblings!', ko:'이 사촌들은 형제자매야!'},
+  ok_cR:  {en:'These cousins are siblings, too!', ko:'이 사촌들도 형제자매야!'},
+  win:{en:'Woohoo! You found all the siblings! Great job!', ko:'와아! 야호! 형제자매를 다 찾았어! 정말정말 잘했다!'}
+};
+const I18N = {
+  en:{tag:'QUESTION', retry:'PLAY AGAIN', exit:'EXIT', back:'Back', again:'Hear it again'},
+  ko:{tag:'문제', retry:'다시하기', exit:'나가기', back:'뒤로 가기', again:'다시 듣기'}
+};
+
+/* ============================================================
+   3. 화면
+   ============================================================ */
+const stage  = document.getElementById('stage');
+const winEl  = document.getElementById('win');
+const btnSay = document.getElementById('btnSay');
+const boyEl  = document.getElementById('boy');
+const tree   = document.getElementById('tree');
+const linesEl = document.getElementById('lines');
+const ringsEl = document.getElementById('rings');
+const starsEl = document.getElementById('stars');
+const HOME   = 'B-4_00.submain.html';
+const NS = 'http://www.w3.org/2000/svg';
+let briefing = true, lang = 'en', locked = true, wrongN = 0, hintTimer = null, won = false, sel = [];
+let runId = 0, winTms = [], resetTm = null;   /* runId: 다시하기 전의 예약 타이머가 새 판에서 실행되지 않게 */
+const done = {};
+const U = () => stage.getBoundingClientRect().width / 1920;
+const el = (tag, cls, parent) => { const n = document.createElement(tag); if(cls) n.className = cls; if(parent) parent.appendChild(n); return n };
+const sv = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for(const k in attrs) n.setAttribute(k, attrs[k]); if(parent) parent.appendChild(n); return n };
+const pEl = {};
+
+/* 점선(부모 연결) · 사람 버튼 · 별 만들기 */
+const lnEl = {};
+GROUPS.forEach(g => {
+  const gr = sv('g', {'class':'ln'}, linesEl); lnEl[g.id] = gr;
+  g.dots = [];
+});
+/* 점선 — 선분마다 점을 찍으면 꺾임·교차 지점에서 점이 겹친다. 선 위를 18u 간격으로 재서 점 좌표를 모으고,
+   이미 있는 점과 12u 안이면 건너뛴 뒤 점 하나씩 그린다 (두 겹: 아래 어두운 테두리 · 위 밝은 점) */
+(function buildDots(){
+  const GAP = 18, MIN = 12, all = [];
+  GROUPS.forEach(g => {
+    g.d.forEach(d => {
+      const p = sv('path', {d:d}, linesEl), len = p.getTotalLength(), n = Math.max(1, Math.round(len / GAP));
+      for(let i = 0; i <= n; i++){
+        const pt = p.getPointAtLength(len * i / n);
+        if(all.some(q => Math.hypot(q.x - pt.x, q.y - pt.y) < MIN)) continue;
+        all.push({x:pt.x, y:pt.y}); g.dots.push({x:pt.x, y:pt.y});
+      }
+      linesEl.removeChild(p);
+    });
+    ['u','t'].forEach(c => g.dots.forEach(q => sv('circle', {'class':c, cx:q.x.toFixed(1), cy:q.y.toFixed(1), r:c === 'u' ? 6.5 : 3.6}, lnEl[g.id])));
+  });
+})();
+Object.keys(PEOPLE).forEach(k => {
+  const p = PEOPLE[k], b = el('button', 'p', tree);
+  b.dataset.k = k;
+  b.style.left = 'calc(' + (p.x - 88) + ' * var(--u))'; b.style.top = 'calc(' + (p.y - 88) + ' * var(--u))';
+  const ph = el('span', 'ph', b);
+  ph.style.setProperty('--img', 'url("assets/B-4_05-fam-' + k + '.webp")');
+  el('span', 'nm', b);
+  b.addEventListener('pointerdown', e => { e.preventDefault(); pick(k) });
+  pEl[k] = b;
+});
+for(let i = 0; i < GROUPS.length; i++){
+  el('i', 'pp-star', starsEl);
+}
+
+function paintLines(){
+  GROUPS.forEach(g => {
+    const c = lnEl[g.id].classList;
+    c.toggle('on', !!done[g.id]);
+    c.toggle('lit', !done[g.id] && sel.length > 0 && groupOf(sel[0]) === g);
+  });
+}
+function flashBad(g){
+  const c = lnEl[g.id].classList; c.add('bad');
+  setTimeout(() => c.remove('bad'), 1700);
+}
+function paintLabels(){
+  Object.keys(PEOPLE).forEach(k => {
+    const nm = pEl[k].querySelector('.nm');
+    nm.textContent = PEOPLE[k][lang]; nm.style.removeProperty('--k');
+    pEl[k].setAttribute('aria-label', PEOPLE[k].en);
+  });
+  fitLabels();
+}
+/* 이름판은 한글·영문 모두 같은 크기 — 글자가 넘치면 글자만 줄인다 */
+function fitLabels(){
+  Object.keys(PEOPLE).forEach(k => {
+    const nm = pEl[k].querySelector('.nm'), room = nm.clientWidth - parseFloat(getComputedStyle(nm).paddingLeft) * 2;
+    if(room > 0 && nm.scrollWidth > room + 1) nm.style.setProperty('--k', (room / nm.scrollWidth * .97).toFixed(3));
+  });
+}
+window.addEventListener('load', fitLabels);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitLabels);
+function paintTalk(){
+  document.getElementById('talkTag').textContent = I18N[lang].tag;
+  document.getElementById('talkLine').textContent = lang === 'ko' ? T.intro.ko.replace('! ', '!\n') : T.intro.en;
+}
+
+function shake(b){
+  b.classList.remove('is-no'); void b.offsetWidth; b.classList.add('is-no');
+  setTimeout(() => b.classList.remove('is-no'), 450);
+}
+function pick(k){
+  if(locked || won || briefing) return;
+  SFX.unlock();
+  const b = pEl[k], g = groupOf(k);
+  if(b.classList.contains('is-done')){ SFX.tap(); return }
+  const si = sel.indexOf(k);
+  if(si >= 0){ sel.splice(si, 1); b.classList.remove('is-sel'); SFX.tap(); paintLines(); armHint(); return }
+  if(!g){                                  /* 조부모 · 결혼해서 들어온 분 — 형제자매 그룹 없음 */
+    wrongN++; shake(b); SFX.bad(); react('huh'); say(lang, 'wrong');
+    if(wrongN >= 2) hintNow(); armHint(); return;
+  }
+  if(sel.length && groupOf(sel[0]) !== g){ /* 부모가 다른 사람 — 두 점선을 서로 다른 색으로 보여 준다 */
+    wrongN++; shake(b); SFX.bad(); react('huh'); say(lang, 'diff'); flashBad(g);
+    if(wrongN >= 2) hintNow(); armHint(); return;
+  }
+  sel.push(k); b.classList.add('is-sel'); SFX.step(sel.length - 1); paintLines(); clearTimeout(hintTimer);
+  if(sel.length === g.m.length) completeGroup(g); else armHint();
+}
+function ringOf(g){
+  const ms = g.m.map(k => PEOPLE[k]);
+  const x0 = Math.min.apply(null, ms.map(p => p.x)) - 106, x1 = Math.max.apply(null, ms.map(p => p.x)) + 106;
+  const y0 = ms[0].y - 102, y1 = ms[0].y + 126;
+  const gr = sv('g', {'class':'ring-g'}, ringsEl);
+  const a = {x:x0, y:y0, width:x1 - x0, height:y1 - y0, rx:(y1 - y0) / 2, ry:(y1 - y0) / 2, pathLength:1};
+  sv('rect', Object.assign({'class':'ring-u', 'stroke-dasharray':'none'}, a), gr);
+  const r = sv('rect', Object.assign({'class':'ring', stroke:g.col}, a), gr);
+  return gr;
+}
+function completeGroup(g){
+  done[g.id] = true; locked = true; clearTimeout(hintTimer); wrongN = 0;
+  const rid = runId;
+  const ks = sel.slice(); sel = [];
+  ks.forEach(k => { const b = pEl[k]; b.classList.remove('is-sel'); b.classList.add('is-done', 'is-pop'); setTimeout(() => b.classList.remove('is-pop'), 600) });
+  ringOf(g); paintLines();
+  const n = Object.keys(done).length;
+  starsEl.children[n - 1].classList.add('on'); starsEl.setAttribute('aria-label', n + ' / ' + GROUPS.length);
+  SFX.good(); react('cheer'); burstAt(pEl[ks[Math.floor(ks.length / 2)]]);
+  if(n >= GROUPS.length){
+    say(lang, 'ok_' + g.id, {end(){ if(rid === runId) winTms.push(setTimeout(() => { if(rid === runId) finish() }, 500)) }});
+    winTms.push(setTimeout(() => { if(rid === runId && !won) finish() }, MUTE.on ? 1600 : 7000));
+  }else{
+    say(lang, 'ok_' + g.id, {end(){ if(rid === runId){ locked = false; armHint() } }});
+    winTms.push(setTimeout(() => { if(rid === runId && locked && !won){ locked = false; armHint() } }, MUTE.on ? 1000 : 5500));
+  }
+}
+function hintNow(){
+  let k = null;
+  if(sel.length){ const g = groupOf(sel[0]); k = g.m.find(m => sel.indexOf(m) < 0) }
+  else{ const g = GROUPS.find(g => !done[g.id]); if(g) k = g.m[0] }
+  if(!k) return;
+  const b = pEl[k]; b.classList.remove('is-hint'); void b.offsetWidth; b.classList.add('is-hint'); SFX.tap();
+  setTimeout(() => b.classList.remove('is-hint'), 3500);
+}
+function armHint(){
+  clearTimeout(hintTimer);
+  if(locked || won || briefing) return;
+  hintTimer = setTimeout(() => { hintNow(); armHint() }, 9000);
+}
+
+/* 소년 반응 */
+let reactTm = null;
+function react(kind){
+  boyEl.classList.remove('is-cheer', 'is-huh'); void boyEl.offsetWidth;
+  boyEl.classList.add(kind === 'cheer' ? 'is-cheer' : 'is-huh');
+  clearTimeout(reactTm);
+  reactTm = setTimeout(() => boyEl.classList.remove('is-cheer', 'is-huh'), 1900);
+}
+
+function burstAt(host){
+  const colors = ['#FFD23F','#FFE894','#FFFFFF','#E7B23C','#8ECFCB','#F7C8A0'];
+  const r = host.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+  const cx = r.left - sr.left + r.width / 2, cy = r.top - sr.top + r.height * .35;
+  const u = U(), N = 18;
+  for(let i = 0; i < N; i++){
+    const e = el('i', 'spark-bit' + (i % 3 ? ' star' : ''), stage);
+    const ang = -Math.PI * (0.06 + 0.88 * (i / (N - 1)));
+    const rad = (100 + (i % 4) * 30) * u;
+    e.style.cssText = 'left:' + cx + 'px; top:' + cy + 'px;' +
+      '--s:' + Math.round((9 + (i % 5) * 4) * u) + 'px; --c:' + colors[i % colors.length] + ';' +
+      '--dx:' + (Math.cos(ang) * rad).toFixed(1) + 'px; --dy:' + (Math.sin(ang) * rad).toFixed(1) + 'px;' +
+      '--rot:' + (i * 47 % 360) + 'deg; animation-delay:' + (i * 14) + 'ms';
+    setTimeout(() => e.remove(), 900);
+  }
+}
+
+(function buildSparks(){
+  const box = document.getElementById('winSparks');
+  const COLORS = ['#FFD23F','#FFE894','#FFFFFF','#E7B23C','#8ECFCB','#F7C8A0'];
+  let seed = 20260929;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+  const N = 18;
+  for(let i = 0; i < N; i++){
+    const ang = (i / N) * Math.PI * 2 + rnd() * .18, rad = .40 + rnd() * .16;
+    const e = el('i', 'spark', box);
+    e.style.cssText = '--x:' + (50 + Math.cos(ang) * rad * 116) + '%; --y:' + (50 + Math.sin(ang) * rad * 136) + '%;' +
+      '--s:calc(' + (14 + Math.round(rnd() * 22)) + '*var(--u)); --c:' + COLORS[i % COLORS.length] + ';' +
+      '--d:' + (rnd() * 2.2).toFixed(2) + 's';
+  }
+})();
+(function buildConfetti(){
+  const box = document.getElementById('winConf');
+  const C = ['#FDE751','#7FC7E8','#F28C3A','#8ECFCB','#FFFFFF','#76905F','#FFF6DF'];
+  let s = 424242;
+  const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+  for(let i = 0; i < 34; i++){
+    const ang = rnd() * Math.PI * 2, dist = 180 + rnd() * 250;
+    const e = el('i', 'conf', box);
+    e.style.cssText = '--w:calc(' + (12 + Math.round(rnd() * 12)) + '*var(--u)); --h:calc(' + (16 + Math.round(rnd() * 18)) + '*var(--u));' +
+      '--c:' + C[i % C.length] + '; --r:' + (rnd() < .4 ? '50%' : 'calc(4*var(--u))') + ';' +
+      '--dx:calc(' + (Math.cos(ang) * dist).toFixed(0) + '*var(--u)); --dy:calc(' + (Math.sin(ang) * dist - 60).toFixed(0) + '*var(--u));' +
+      '--rot:' + Math.round(rnd() * 900 - 450) + 'deg; --d:' + (rnd() * .35).toFixed(2) + 's';
+  }
+})();
+
+function finish(){
+  if(won) return;
+  won = true; clearTimeout(hintTimer);
+  SFX.clear();
+  winEl.classList.add('on');
+  const rid = runId, ok = fn => () => { if(rid === runId && won) fn() };
+  winTms.push(setTimeout(ok(() => SFX.fanfare()), 120));
+  winTms.push(setTimeout(ok(() => say(lang, 'win')), 900));
+  winTms.push(setTimeout(ok(() => SFX.bgmStart(0)), 3400));
+}
+function resetGame(){
+  if(resetTm) return;                         /* 다시하기 연타 방지 */
+  runId++; winTms.forEach(clearTimeout); winTms = [];
+  SFX.bgmStop(); stopVoice(); clearTimeout(hintTimer); clearTimeout(briefTm); sayFlag(false);
+  winEl.classList.remove('on');
+  won = false; sel = []; wrongN = 0; locked = true;
+  Object.keys(done).forEach(k => delete done[k]);
+  Object.keys(pEl).forEach(k => pEl[k].classList.remove('is-sel', 'is-done', 'is-hint', 'is-no', 'is-pop'));
+  while(ringsEl.firstChild) ringsEl.removeChild(ringsEl.firstChild);
+  [].forEach.call(starsEl.children, s => s.classList.remove('on')); starsEl.setAttribute('aria-label', '0 / ' + GROUPS.length);
+  paintLines(); paintTalk();
+  /* 완료 화면이 다 사라진 뒤에 브리핑(소년·말풍선)을 시작한다 — 페이드 중에 뒤로 비쳐 보이지 않게 */
+  resetTm = setTimeout(() => { resetTm = null; startBriefing() }, 520);
+}
+
+/* ============================================================
+   5. 음성 — Pixie 녹음본(../audio/voice-q/q_b4_05_{키}_{en|ko}.mp3), 없으면 같은 문장을 TTS 로
+      키: intro · wrong · diff · ok_me · ok_dadU · ok_momA · ok_cL · ok_cR · win
+   ============================================================ */
+let speakTm = null;
+function sayFlag(on){ btnSay.classList.toggle('is-playing', on) }
+const voiceSrc = (l, key) => '../audio/voice-q/q_b4_05_' + key + '_' + l + '.mp3';
+const textOf = (l, key) => T[key] ? T[key][l] : '';
+
+let qAudio = null;
+function stopVoice(){
+  if(qAudio){ qAudio.onended = qAudio.onerror = qAudio.onplaying = null; qAudio.pause(); qAudio = null }
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+}
+function speakTTS(l, text, hooks){
+  if(!('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = (l === 'ko') ? 'ko-KR' : 'en-US';
+    u.rate = (l === 'ko') ? 1 : .95;
+    u.pitch = 1.15;
+    const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.indexOf(l) === 0);
+    if(v) u.voice = v;
+    sayFlag(true);
+    clearTimeout(speakTm);
+    u.onstart = () => { if(hooks.start) hooks.start() };
+    u.onend = () => { sayFlag(false); if(hooks.end) hooks.end() };
+    u.onerror = () => { sayFlag(false); if(hooks.end) hooks.end() };
+    speakTm = setTimeout(() => sayFlag(false), 12000);
+    speechSynthesis.speak(u);
+  }catch(e){ sayFlag(false) }
+}
+/* 녹음본 재생. 파일을 못 읽으면 TTS 로 넘기고,
+   자동재생 차단(NotAllowedError)이면 조용히 멈춘다 — 브리핑의 첫 탭 재시도가 다시 부른다 */
+function playVoiceFile(src, l, text, hooks){
+  const a = new Audio(src);
+  qAudio = a;
+  let fell = false;
+  const fallback = () => {
+    if(fell || qAudio !== a) return;
+    fell = true; qAudio = null;
+    speakTTS(l, text, hooks);
+  };
+  a.onplaying = () => {
+    if(qAudio !== a) return;
+    sayFlag(true);
+    clearTimeout(speakTm);
+    speakTm = setTimeout(() => sayFlag(false), 15000);
+    if(hooks.start) hooks.start();
+  };
+  a.onended = () => {
+    if(qAudio !== a) return;
+    qAudio = null; sayFlag(false);
+    if(hooks.end) hooks.end();
+  };
+  a.onerror = fallback;
+  const p = a.play();
+  if(p && p.catch) p.catch(err => {
+    if(err && err.name === 'NotAllowedError'){ if(qAudio === a) qAudio = null; sayFlag(false); return }
+    fallback();
+  });
+}
+function say(l, key, hooks){
+  l = l || lang;
+  const text = textOf(l, key);
+  if(!text || MUTE.on){ if(hooks && hooks.end) setTimeout(hooks.end, 600); return }
+  hooks = hooks || {};
+  stopVoice();
+  playVoiceFile(voiceSrc(l, key), l, text, hooks);
+}
+
+/* 사운드 버튼 = 음소거 토글 (§4.1 · §11.4) */
+function paintMute(){
+  const L = {en:{off:'Sound off', on:'Sound on'}, ko:{off:'소리 끄기', on:'소리 켜기'}};
+  btnSay.setAttribute('aria-pressed', MUTE.on);
+  btnSay.setAttribute('aria-label', L[lang][MUTE.on ? 'on' : 'off']);
+}
+btnSay.addEventListener('click', () => {
+  if(!MUTE.on){
+    SFX.tap();
+    MUTE.on = true;
+    stopVoice();
+    sayFlag(false);
+    const c = SFX.ctx(); if(c && c.state === 'running') c.suspend();
+  }else{
+    MUTE.on = false;
+    const c = SFX.ctx(); if(c && c.state === 'suspended') c.resume();
+    if(winEl.classList.contains('on')){ SFX.bgmStop(); SFX.bgmStart(0) }
+    SFX.tap();
+  }
+  paintMute();
+});
+
+function applyLang(){
+  const t = I18N[lang], ko = lang === 'ko';
+  document.getElementById('lgEn').className = ko ? 'off' : 'on';
+  document.getElementById('lgKo').className = ko ? 'on'  : 'off';
+  const bl = document.getElementById('btnLang');
+  bl.dataset.next = ko ? 'en' : 'ko';
+  bl.setAttribute('aria-label', ko ? 'English' : '한국어');
+  paintMute(); paintTalk(); paintLabels();
+  boyEl.setAttribute('aria-label', t.again);
+  document.getElementById('btnBack').setAttribute('aria-label', t.back);
+  document.querySelector('#retry span').textContent = t.retry;
+  document.querySelector('#exit span').textContent  = t.exit;
+  document.documentElement.lang = lang;
+}
+
+
+document.getElementById('btnLang').addEventListener('click', e => {
+  SFX.unlock(); SFX.tap();
+  lang = e.currentTarget.dataset.next;
+  applyLang();
+  if(briefing) briefSay(); else if(won) say(lang, 'win'); else say(lang, 'intro');
+});
+document.getElementById('btnBack').addEventListener('click', () => { SFX.tap(); location.href = HOME; });
+document.getElementById('exit').addEventListener('click',   () => { SFX.tap(); location.href = HOME; });
+document.getElementById('retry').addEventListener('click',  () => { SFX.tap(); resetGame(); });
+
+/* ============================================================
+   6. 브리핑 — 시작할 때 소년이 가운데로 나와 방법을 말한다(B-4_03 과 같은 자리·규격)
+   끝나는 조건: 음성이 끝남 / 음성이 시작되지 않으면 7s / 900ms 이후 아무 데나 탭
+   ============================================================ */
+let briefTm = null, skipArmed = false, voiceOn = false, retried = false;
+function briefSay(){
+  voiceOn = false;
+  say(lang, 'intro', {
+    start(){ voiceOn = true; clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 14000) },
+    end(){ if(briefing && voiceOn) setTimeout(endBriefing, 700) }
+  });
+}
+function startBriefing(){
+  briefing = true; skipArmed = false; retried = false; locked = true;
+  document.body.classList.add('is-briefing');
+  setTimeout(() => { skipArmed = true }, 900);
+  clearTimeout(briefTm); briefTm = setTimeout(endBriefing, MUTE.on ? 3500 : 7000);
+  setTimeout(briefSay, 350);
+}
+function endBriefing(){
+  if(!briefing) return;
+  briefing = false; clearTimeout(briefTm); stopVoice(); sayFlag(false);
+  document.body.classList.remove('is-briefing');
+  locked = false; armHint();
+}
+stage.addEventListener('pointerdown', e => {
+  SFX.unlock();
+  if(!briefing) return;
+  if(e.target.closest('.pp-ibtn, .boy, .win')) return;
+  if(!voiceOn && !retried && !qAudio && !('speechSynthesis' in window && speechSynthesis.speaking)){
+    retried = true;
+    clearTimeout(briefTm); briefTm = setTimeout(endBriefing, 7000);
+    briefSay(); return;
+  }
+  if(skipArmed) endBriefing();
+}, true);
+/* 소년 — 누르면 방법을 다시 말해 준다 */
+boyEl.addEventListener('click', () => {
+  SFX.tap();
+  if(briefing){ briefSay(); return }
+  if(won){ say(lang, 'win'); return }
+  say(lang, 'intro');
+});
+
+if('speechSynthesis' in window) speechSynthesis.getVoices();
+applyLang();
+paintLines();
+startBriefing();
+})();
+</script>
+<script>/* MAP-PROGRESS v1 — 완료 화면이 뜨면 맵(B-4_00.submain.html)에 완료 기록 */(function(){var ID='abstraction',K='ck.b4.sub.done';var done=false;function mark(){try{var a=JSON.parse(localStorage.getItem(K)||'[]');if(a.indexOf(ID)<0)a.push(ID);localStorage.setItem(K,JSON.stringify(a));localStorage.setItem('ck.b4.sub.just',ID)}catch(e){}}function chk(){if(done)return;if(document.querySelector('#win.on,#win.is-on,[class*="_exit_"]')){done=true;mark();mo.disconnect()}}var mo=new MutationObserver(chk);mo.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});})();</script>
+<script src="../EXIT_CONFIRM.js"></script>
+<script>
+/* 문제풀이 BGM — 개념별 공용 곡(puzzle-abstraction-dreamy-loop). 첫 입력부터 반복 재생(자동재생 정책), 소리 끄기·완료 화면·탭 숨김 시 일시정지. DESIGN.md §12.8 */
+/* 문제풀이 BGM — 개념별 공용 곡(puzzle-abstraction-dreamy-loop). 첫 입력부터 반복 재생(자동재생 정책), 소리 끄기·완료 화면·탭 숨김 시 일시정지. DESIGN.md §12.8 */
+(() => {
+  const a = new Audio('../audio/bgm/puzzle-abstraction-dreamy-loop.mp3');
+  a.loop = true; a.preload = 'auto'; a.volume = .22;
+  const $ = id => document.getElementById(id);
+  const muted = () => { const b = $('btnSay') || document.querySelector('button[class*="soundButton"]'); return !!b && b.getAttribute('aria-pressed') === 'true' };
+  const done = () => document.body.classList.contains('is-done') || !!document.querySelector('#win.on, [class*="_win_"]');
+  let armed = false;
+  const sync = () => {
+    if(!armed) return;
+    if(muted() || done() || document.hidden) a.pause();
+    else if(a.paused){ const p = a.play(); if(p && p.catch) p.catch(() => {}) }
+  };
+  let raf = 0; const soon = () => { if(!raf) raf = requestAnimationFrame(() => { raf = 0; sync() }) };
+  ['pointerdown','keydown'].forEach(t => window.addEventListener(t, () => { armed = true; sync() }, {passive:true}));
+  document.addEventListener('visibilitychange', sync);
+  new MutationObserver(soon).observe(document.body, {attributes:true, attributeFilter:['class','aria-pressed'], childList:true, subtree:true});
+})();
+</script>
+</body>
+</html>

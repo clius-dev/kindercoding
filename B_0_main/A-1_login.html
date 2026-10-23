@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nori Factory · Log in</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css">
+<link rel="stylesheet" href="../DESIGN.css">
+<link rel="stylesheet" href="A_account.css?v=1">
+<link rel="stylesheet" href="../RESPONSIVE.css?v=3">
+<style>:root,body{--bg-img:url("../_img_png/main/main-stage-bg-login-wide-v1.webp?v=1")}@media (min-aspect-ratio:193/100){:root{--bg-img:url("../_img_png/main/main-stage-bg-login-wide-v1.webp?v=1")}}body::after{display:none}body::before{filter:saturate(.93)}.grid-age{display:grid!important; grid-template-columns:repeat(7,1fr); gap:calc(14 * var(--u)); justify-content:stretch!important}.grid-age .ac-chip{width:100%; min-width:0; padding:0}</style>
+</head>
+<body class="pp-kit">
+<!-- A-1 로그인 · 아이 프로필 설정 — 기획: 밀크T(로그인 · 프로필) + Lingokids(보호자 온보딩: 나이 · 관심 분야). DESIGN.md §6 · §11 · §12
+     흐름: 로그인 → (처음이면) ① 이름·캐릭터·나이 → ② 관심 주제 → 메인. 서버 없음: localStorage 목업 -->
+<main class="stage theme-paper" id="app">
+  <div class="pp-edge-tr"><button class="pp-ibtn pp-ibtn--lang" id="lang" type="button" data-al="lang"><span class="lg"><b class="on">A</b><i class="off">한</i></span></button></div>
+
+  <!-- ① 로그인 -->
+  <section class="pp-sheet ac-sheet" id="pLogin" style="width:calc(1160 * var(--u)); height:calc(1040 * var(--u)); gap:calc(14 * var(--u)); justify-content:center">
+    <h1 class="ac-ttl" id="loginTtl" style="margin-bottom:calc(14 * var(--u))" data-i="loginTtl"></h1>
+    <form id="fLogin" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:calc(14 * var(--u))" novalidate>
+      <input class="ac-field" id="email" type="text" inputmode="email" autocomplete="username" data-ph="email" aria-label="Email or ID">
+      <input class="ac-field" id="pw" type="password" autocomplete="current-password" data-ph="pw" aria-label="Password">
+      <p class="ac-err" id="err" role="alert"></p>
+      <div style="display:flex; justify-content:space-between; align-items:center; width:100%">
+        <label class="ac-switch"><input type="checkbox" id="remember" checked><i></i><span data-i="remember"></span></label>
+        <button class="ac-link" type="button" id="forgot" data-i="forgot"></button>
+      </div>
+      <button class="btn-bar ac-cta" id="go" type="submit"><span data-i="login"></span></button>
+    </form>
+    <div class="ac-or" style="margin:calc(14 * var(--u)) 0 calc(10 * var(--u))"><span data-i="or"></span></div>
+    <div style="display:flex; gap:calc(20 * var(--u))">
+      <button class="ac-btn2" type="button" data-soon="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>Apple</button>
+      <button class="ac-btn2" type="button" data-soon="1"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>Google</button>
+    </div>
+    <div style="display:flex; align-items:center; gap:calc(10 * var(--u)); font-size:calc(28 * var(--u)); font-weight:750">
+      <span id="swTxt" data-i="newHere"></span><button class="ac-link" type="button" id="swMode" data-i="signup"></button>
+    </div>
+    <p class="ac-note" style="text-align:center; margin:0"><a href="#" style="color:inherit; text-decoration:underline" data-i="tos"></a> <span aria-hidden="true">|</span> <a href="#" style="color:inherit; text-decoration:underline" data-i="privacy"></a></p>
+  </section>
+
+  <!-- ② 아이 프로필 설정 1/2 : 이름 · 캐릭터 · 나이 -->
+  <section class="pp-sheet ac-sheet u-hide" id="pSet1" style="width:calc(1160 * var(--u)); height:calc(1040 * var(--u)); gap:calc(28 * var(--u)); justify-content:center">
+    <h1 class="ac-ttl" data-i="set1Ttl"></h1>
+    <p class="ac-sub" data-i="set1Sub" style="margin:0 0 calc(8 * var(--u))"></p>
+    <div style="width:100%"><span class="ac-lbl" data-i="name"></span><input class="ac-field" id="name" type="text" maxlength="12" autocomplete="off" data-ph="namePh" aria-label="Name"></div>
+    <div style="width:100%"><span class="ac-lbl" data-i="avatar"></span><div class="ac-avs" id="avs" style="display:grid; grid-template-columns:repeat(6,1fr); justify-items:center"></div></div>
+    <div style="width:100%"><span class="ac-lbl" data-i="age"></span><div class="ac-chips grid-age" id="ages"></div></div>
+    <p class="ac-err" id="err1" role="alert" style="text-align:center; margin:0"></p>
+    <button class="btn-bar ac-cta" id="next1" type="button"><span data-i="next"></span></button>
+  </section>
+
+  <!-- ③ 아이 프로필 설정 2/2 : 관심 주제 -->
+  <section class="pp-sheet ac-sheet u-hide" id="pSet2" style="width:calc(1160 * var(--u)); height:calc(1040 * var(--u)); gap:calc(28 * var(--u)); justify-content:center">
+    <h1 class="ac-ttl" data-i="set2Ttl"></h1>
+    <p class="ac-sub" data-i="set2Sub" style="margin:0 0 calc(8 * var(--u))"></p>
+    <div class="ac-chips" id="themes" style="display:grid; grid-template-columns:repeat(3,1fr); width:100%; gap:calc(16 * var(--u))"></div>
+    <p class="ac-err" id="err2" role="alert" style="text-align:center; margin:0"></p>
+    <div style="display:flex; gap:calc(24 * var(--u)); align-items:center">
+      <button class="btn-bar ac-cta ac-cta--s ac-cta--exit" id="prev2" type="button" style="--bb-w:230"><span data-i="prev"></span></button>
+      <button class="btn-bar ac-cta ac-cta--s" id="done" type="button" style="--bb-w:420"><span data-i="start"></span></button>
+    </div>
+  </section>
+</main>
+
+<script src="A_account.js?v=1"></script>
+<script>
+(() => {
+  const D = {
+    en:{back:'Back', lang:'Change language', loginTtl:'Ready to play?', signupTtl:'Create your account', email:'Email or ID', pw:'Password', remember:'Keep me logged in', forgot:'Forgot ID / password?',
+        login:'Log in', signup:'Sign up', or:'or', newHere:'New here?', haveAcc:'Already have an account?', loginLink:'Log in', soon:'Coming soon!',
+        tos:'Terms of Use', privacy:'Privacy Policy',
+        errEmail:'Please enter your email or ID.', errPw:'Password must be at least 4 characters.',
+        set1Ttl:'Set up your profile', set1Sub:'Enter a name and choose a character and age.', name:'Name', namePh:'Name or nickname', avatar:'Character', age:'Age', next:'Next', prev:'Back',
+        errName:'Please enter a name.', errAge:'Please choose an age.', set2Ttl:'Choose your interests', set2Sub:'Select the topics you are interested in.', start:'Get started', errTheme:'Pick at least one theme.', yr:n => String(n)},
+    ko:{back:'뒤로', lang:'언어 변경', loginTtl:'오늘도 함께 놀아요!', signupTtl:'계정 만들기', email:'이메일 또는 아이디', pw:'비밀번호', remember:'로그인 유지', forgot:'아이디 · 비밀번호 찾기',
+        login:'로그인', signup:'회원가입', or:'또는', newHere:'처음이신가요?', haveAcc:'이미 계정이 있으신가요?', loginLink:'로그인', soon:'준비 중이에요!',
+        tos:'이용약관', privacy:'개인정보처리방침',
+        errEmail:'이메일 또는 아이디를 입력해 주세요.', errPw:'비밀번호는 4자 이상이어야 합니다.',
+        set1Ttl:'프로필 설정', set1Sub:'이름을 입력하고 캐릭터와 나이를 선택해 주세요.', name:'이름', namePh:'이름 또는 별명', avatar:'캐릭터', age:'나이', next:'다음', prev:'이전',
+        errName:'이름을 입력해 주세요.', errAge:'나이를 선택해 주세요.', set2Ttl:'관심 주제 선택', set2Sub:'관심 있는 주제를 선택해 주세요.', start:'시작하기', errTheme:'주제를 하나 이상 선택해 주세요.', yr:n => n + '살'}
+  };
+  const $ = id => document.getElementById(id);
+  const S = AC.S;
+  let mode = 'login';
+  const set = {name:'', avatar:'boy', age:'', themes:[]};
+
+  /* 칩 렌더 */
+  const avs = $('avs');
+  AC.AVATARS.forEach((a, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'ac-avb'; b.dataset.v = a.id; b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'); b.setAttribute('aria-label', a.id); b.innerHTML = '<img src="' + a.src + '" alt="">'; avs.appendChild(b) });
+  AC.chipGroup(avs, {onChange:v => { set.avatar = v[0] || 'boy' }});
+  const ages = $('ages');
+  for(let n = 3; n <= 9; n++){ const b = document.createElement('button'); b.type = 'button'; b.className = 'ac-chip'; b.dataset.v = n; b.setAttribute('aria-pressed', 'false'); ages.appendChild(b) }
+  AC.chipGroup(ages, {onChange:v => { set.age = v[0] || ''; $('err1').textContent = '' }});
+  const themes = $('themes');
+  for(let i = 0; i < 12; i++){ const b = document.createElement('button'); b.type = 'button'; b.className = 'ac-chip'; b.dataset.v = i; b.setAttribute('aria-pressed', 'false'); themes.appendChild(b) }
+  AC.chipGroup(themes, {multi:true, onChange:() => { $('err2').textContent = '' }});
+
+  function t(){ return D[AC.lang] }
+  function paintChips(){ const d = t();
+    ages.querySelectorAll('.ac-chip').forEach(c => c.textContent = d.yr(c.dataset.v));
+    themes.querySelectorAll('.ac-chip').forEach(c => c.textContent = AC.THEMES[AC.lang][+c.dataset.v]) }
+  function apply(){ AC.applyI18n(D); paintChips();
+    $('loginTtl').textContent = mode === 'login' ? t().loginTtl : t().signupTtl;
+    $('go').firstElementChild.textContent = mode === 'login' ? t().login : t().signup;
+    $('swTxt').textContent = mode === 'login' ? t().newHere : t().haveAcc;
+    $('swMode').textContent = mode === 'login' ? t().signup : t().loginLink;
+    document.title = 'Nori Factory · ' + (AC.lang === 'ko' ? '로그인' : 'Log in') }
+  AC.bindLang(apply); apply();
+
+  function show(id){ ['pLogin', 'pSet1', 'pSet2'].forEach(x => $(x).classList.toggle('u-hide', x !== id)) }
+
+  /* 로그인 */
+  $('swMode').addEventListener('click', () => { mode = mode === 'login' ? 'signup' : 'login'; $('err').textContent = ''; apply() });
+  $('forgot').addEventListener('click', () => AC.toast(t().soon));
+  document.querySelectorAll('[data-soon]').forEach(b => b.addEventListener('click', () => AC.toast(t().soon)));
+  const bad = (el, msg) => { el.classList.remove('is-bad'); void el.offsetWidth; el.classList.add('is-bad'); $('err').textContent = msg; el.focus() };
+  $('fLogin').addEventListener('submit', e => { e.preventDefault();
+    const em = $('email').value.trim(), pw = $('pw').value; $('email').classList.remove('is-bad'); $('pw').classList.remove('is-bad'); $('err').textContent = '';
+    if(!em) return bad($('email'), t().errEmail);
+    if(pw.length < 4) return bad($('pw'), t().errPw);
+    let u = AC.user();                                   /* 목업: 비밀번호는 저장·검증하지 않는다 */
+    if(!u || u.email !== em) u = {email:em, name:'', age:'', avatar:'boy', interests:[], done:false};
+    u.remember = $('remember').checked; AC.saveUser(u);
+    if(u.done){ AC.signIn(); return AC.go('main.html') }
+    show('pSet1'); $('name').focus() });
+
+  /* 프로필 설정 */
+  $('name').addEventListener('input', () => { $('err1').textContent = '' });
+  $('next1').addEventListener('click', () => {
+    const nm = $('name').value.trim();
+    if(!nm){ $('err1').textContent = t().errName; $('name').classList.add('is-bad'); return }
+    if(!set.age){ $('err1').textContent = t().errAge; return }
+    set.name = nm; show('pSet2') });
+  $('prev2').addEventListener('click', () => show('pSet1'));
+  $('done').addEventListener('click', () => {
+    const v = AC.chipValues(themes); if(!v.length){ $('err2').textContent = t().errTheme; return }
+    const u = AC.user() || {}; Object.assign(u, {name:set.name, age:+set.age, avatar:set.avatar, interests:v.map(Number), done:true}); AC.saveUser(u);
+    AC.touchAttend(); AC.signIn(); AC.go('main.html') });
+
+  /* 이미 로그인 유지 중이면 로그인 화면을 건너뛴다 (?stay 로 열면 항상 보임 — 로그아웃 직후) */
+  const u0 = AC.user();
+  if(u0 && u0.remember && u0.done && !/[?&]stay/.test(location.search)) AC.go('main.html');
+})();
+</script>
+</body>
+</html>

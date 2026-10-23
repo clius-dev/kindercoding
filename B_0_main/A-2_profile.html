@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nori Factory · My profile</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css">
+<link rel="stylesheet" href="../DESIGN.css">
+<link rel="stylesheet" href="A_account.css?v=1">
+<link rel="stylesheet" href="../RESPONSIVE.css?v=3">
+</head>
+<body class="pp-kit">
+<!-- A-2 내 정보 — 메인 우상단 내 정보 버튼으로 열린다. 기획: 밀크T 내 정보 시트(아바타 · 이름 · 바로가기) 를 종이 시트로.
+     수치는 이 기기의 기록: 출석(이 화면 진입일) · 완료 스테이지(ck.b1/b2/b3.sub.done) · 고른 주제 수. DESIGN.md §11.9 · §11.10 · §12 -->
+<main class="stage theme-paper" id="app">
+  <div class="pp-edge-tr"><button class="pp-ibtn pp-ibtn--lang" id="lang" type="button" data-al="lang"><span class="lg"><b class="on">A</b><i class="off">한</i></span></button></div>
+
+  <section class="pp-sheet ac-sheet" style="width:calc(1440 * var(--u)); height:calc(860 * var(--u)); padding:calc(60 * var(--u)) calc(80 * var(--u)); flex-direction:row; align-items:stretch; gap:calc(64 * var(--u))" aria-labelledby="hi">
+    <button class="pp-round" id="close" type="button" data-al="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+
+    <!-- 왼쪽: 아바타 · 이름 -->
+    <div style="flex:0 0 calc(400 * var(--u)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:calc(18 * var(--u))">
+      <div style="position:relative">
+      <div style="width:calc(320 * var(--u)); height:calc(320 * var(--u)); border-radius:50%; background:#fff; border:calc(6 * var(--u)) solid var(--ac-line); display:grid; place-items:center; overflow:hidden">
+        <img id="av" src="../_img_svg/avatar/avatar_boy.svg" alt="" style="display:block; width:100%; height:100%; object-fit:cover; min-width:0; min-height:0; transform:scale(1.1)">
+      </div>
+        <button class="pp-ibtn ac-edit" id="edit" type="button" data-al="edit"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(45 12 12)" fill="#fff"><path d="M9.05 3.1V1.4Q9.05-.6 11.05-.6h1.9q2 0 2 2V3.1z"/><rect x="9.05" y="4.2" width="5.9" height="14.2"/><path d="M9.05 19.5h5.9l-2.1 4.5q-.85 1.2-1.7 0z"/></g></svg></button>
+      </div>
+      <h1 class="ac-ttl" id="hi" style="font-size:calc(56 * var(--u))"></h1>
+      <span class="ac-chip is-on" id="ageChip" style="display:inline-flex; align-items:center; justify-content:center; line-height:1; height:calc(64 * var(--u)); font-size:calc(30 * var(--u)); pointer-events:none"></span>
+    </div>
+
+    <!-- 오른쪽: 기록 · 바로가기 -->
+    <div style="flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:calc(26 * var(--u)); padding-right:calc(70 * var(--u))">
+      <span class="ac-lbl" style="margin:0 0 calc(-14 * var(--u))" data-i="glance"></span>
+      <div class="ac-stats">
+        <div class="ac-stat"><b id="sDays">0</b><span data-i="days"></span></div>
+        <div class="ac-stat"><b id="sStages">0</b><span data-i="stages"></span></div>
+        <div class="ac-stat"><b id="sThemes">0</b><span data-i="themes"></span></div>
+      </div>
+      <span class="ac-lbl" style="margin:0 0 calc(-14 * var(--u))" data-i="week"></span>
+      <div class="ac-week" id="week" aria-hidden="true"></div>
+      <div style="display:flex; gap:calc(20 * var(--u)); margin-top:calc(14 * var(--u)); justify-content:center">
+        <button class="btn-bar ac-cta ac-cta--s" id="parent" type="button" style="--bb-w:361"><span data-i="parent"></span></button>
+        <button class="btn-bar ac-cta ac-cta--s ac-cta--exit" id="logout" type="button" style="--bb-w:361"><span data-i="logout"></span></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="A_account.js?v=1"></script>
+<script>
+(() => {
+  const D = {
+    en:{lang:'Change language', close:'Close', edit:'Edit profile', glance:'Learning at a glance', days:'Days played', stages:'Stages completed', themes:'Themes picked', week:'This week',
+        parent:'Parent zone', logout:'Log out', hi:n => 'Hi, ' + n + '!', age:n => n + ' years old', dow:['S','M','T','W','T','F','S'], guest:'friend'},
+    ko:{lang:'언어 변경', close:'닫기', edit:'내 정보 고치기', glance:'나의 학습 기록', days:'놀이한 날', stages:'완료 스테이지', themes:'고른 주제', week:'이번 주',
+        parent:'부모 관리', logout:'로그아웃', hi:n => n + '님, 안녕하세요!', age:n => n + '살', dow:['일','월','화','수','목','금','토'], guest:'회원'}
+  };
+  const $ = id => document.getElementById(id);
+  const u = AC.user();
+  if(!u || !u.done) { AC.go('A-1_login.html?stay'); return }        /* 로그인 전이면 로그인으로 */
+  AC.touchAttend();
+  function paint(){ const d = D[AC.lang];
+    AC.applyI18n(D);
+    $('hi').textContent = d.hi(u.name || d.guest);
+    $('ageChip').textContent = u.age ? d.age(u.age) : '';
+    $('ageChip').style.display = u.age ? 'inline-flex' : 'none';
+    $('av').src = AC.avatarSrc(u.avatar);
+    $('sDays').textContent = AC.attendDays();
+    $('sStages').textContent = AC.stagesTotal();
+    $('sThemes').textContent = (u.interests || []).length;
+    $('week').innerHTML = AC.week().map(w => '<div><i class="' + (w.on ? 'is-on' : '') + '"></i><span>' + d.dow[w.dow] + '</span></div>').join('');
+    document.title = 'Nori Factory · ' + (AC.lang === 'ko' ? '내 정보' : 'My profile') }
+  AC.bindLang(paint); paint();
+  $('close').addEventListener('click', () => AC.go('main.html'));
+  $('edit').addEventListener('click', () => AC.go('A-3_parent.html?tab=info'));
+  $('parent').addEventListener('click', () => AC.go('A-3_parent.html'));
+  $('logout').addEventListener('click', () => { u.remember = false; AC.saveUser(u); AC.signOut(); AC.go('A-1_login.html?stay') });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') AC.go('main.html') });
+})();
+</script>
+</body>
+</html>
