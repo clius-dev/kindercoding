@@ -12,8 +12,8 @@
 (function(){
   if(window.__exitConfirm) return; window.__exitConfirm=true;
   var BASE=(document.currentScript&&document.currentScript.src)?new URL('.',document.currentScript.src).href:'../';
-  var CAT=BASE+'_img_svg/B-2/img_maincat.svg';
-  var TX_SHEET=BASE+'_img_png/paper/tx-paper-sheet.webp', TX_BTN=BASE+'_img_png/paper/tx-btn-grain.webp';
+  var CAT=BASE+'img_svg/B-2/img_maincat.svg';
+  var TX_SHEET=BASE+'img_png/paper/tx-paper-sheet.webp', TX_BTN=BASE+'img_png/paper/tx-btn-grain.webp';
   var SEL='#btnBack,#back,button[aria-label="Back"],button[aria-label="뒤로"],button[aria-label="뒤로 가기"]';
   var TXT={
     ko:{title:'활동이 아직 남아 있어요.',stop:'그만할래요',go:'계속할래요'},

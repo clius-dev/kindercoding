@@ -31,7 +31,6 @@ body.pp-kit .stage{position:relative; left:auto; top:auto; width:100%; height:au
 /* 배경 — 다른 테마(B-3_01)의 하늘 이미지를 가져온다. 1586×992, 구름이 네 모서리에만 있어 컬럼 영역을 가리지 않는다. 고정 + cover */
 body.pp-kit .stage::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:url("../B-3_동식물과자연/assets/B-3_01-sky-bg-v1.png") center/cover no-repeat}
 .pp-edge-tl,.pp-edge-tr,.pp-edge-tc{z-index:12}
-.pp-ibtn{filter:var(--pp-lift-s)}
 .pp-ibtn--lang{color:#6C4689}
 .pp-ibtn--back svg{fill:currentColor}
 .pp-edge-tc{height:calc(120 * var(--u)); display:flex; align-items:center; pointer-events:none}
@@ -70,6 +69,10 @@ html[lang=en] .act__nm{font-size:calc(22 * var(--u)); letter-spacing:-.01em}   /
 .col.is-soon .act{cursor:default}
 .col.is-soon .act:hover,.col.is-soon .act:active{background:none; transform:none}
 
+/* 잠긴 활동 — 서브메인의 순차 해금과 같은 규칙(앞 스테이지를 끝내야 열림). 열린 테마 안에서 아직 못 여는 줄만 흐리게 + 자물쇠 */
+.act.is-locked{cursor:default; filter:grayscale(.6); opacity:.62}
+.act.is-locked:hover,.act.is-locked:active{background:none; transform:none}
+
 /* 부모 영역 */
 .parent{width:100%; margin-top:calc(36 * var(--u)); display:flex; align-items:center; gap:calc(36 * var(--u)); padding:calc(36 * var(--u)) calc(48 * var(--u)); border-radius:calc(44 * var(--u)); background:var(--pp-rim); border:calc(5 * var(--u)) solid #9c89cb; filter:var(--pp-lift-m); text-align:left; transition:transform .15s}
 @media (hover:hover){.parent:hover{transform:translateY(calc(-3 * var(--u)))}}
@@ -95,7 +98,7 @@ html[lang=en] .act__nm{font-size:calc(22 * var(--u)); letter-spacing:-.01em}   /
 </main>
 <script>
 /* ---------- 데이터 ---------- */
-const IMG='../_img_svg/';
+const IMG='../img_svg/';
 const ACTS=[ /* 6개 활동 이름(B-1·B-2·B-3 공통) */
   {id:'algorithms',   ko:'알고리즘', en:'Algorithms'},
   {id:'sequencing',   ko:'순서',     en:'Sequencing'},
@@ -109,33 +112,37 @@ const SHAPES='<svg class="shape" viewBox="1 2 100 100" aria-hidden="true"><circl
 const LOCK='<svg class="lock" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7.5a5 5 0 0 1 10 0V10h.5A2.5 2.5 0 0 1 20 12.5v7A2.5 2.5 0 0 1 17.5 22h-11A2.5 2.5 0 0 1 4 19.5v-7A2.5 2.5 0 0 1 6.5 10Zm2.6 0h4.8V7.5a2.4 2.4 0 0 0-4.8 0Z"/></svg>';
 const ICONS={
   B1:[{icon:IMG+'B_1/img_버스와아이들.svg'},{icon:IMG+'B_1/seq_3.svg',crop:1},{svg:SHAPES},{icon:IMG+'B_1/bran_1.svg'},{icon:IMG+'B_1/abs_art_color.svg'},{icon:IMG+'B_1/pat_puzzle.svg'}],
-  B2:[{icon:IMG+'B-2/img_딸기바구니cat.svg'},{icon:'../_img_png/B-2_00-node-hen.png'},{svg:SHAPES},{icon:IMG+'B-2/img_umbrella.svg'},{icon:IMG+'B-2/img_꽃1.svg'},{icon:IMG+'B-2/img_무당벌레.svg'}],
+  B2:[{icon:IMG+'B-2/img_딸기바구니cat.svg'},{icon:'../img_png/B-2_00-node-hen.png'},{svg:SHAPES},{icon:IMG+'B-2/img_umbrella.svg'},{icon:IMG+'B-2/img_꽃1.svg'},{icon:IMG+'B-2/img_무당벌레.svg'}],
+  B4:['img_드라이브가족','img_서브_순서','img_집','img_서브_분기','img_서브_추상화','img_어항'].map(n=>({icon:IMG+'B-4/'+n+'.svg'})),
+  B5:[{icon:'../B-5_우리동네/assets/B-5_00-icon-algo.webp'},{icon:IMG+'B-5/img_심부름1.svg'},{icon:'../B-5_우리동네/assets/B-5_00-icon-shop.svg'},{icon:'../B-5_우리동네/assets/B-5_00-icon-branch.svg'},{icon:'../B-5_우리동네/assets/B-5_00-icon-island.webp'},{icon:IMG+'B-5/img_patten1.svg'}],
   B3:[{icon:IMG+'B-3/img_토끼당근.svg'},{icon:IMG+'B-3/img_개구리연잎.svg'},{icon:IMG+'B-3/img_칠교완성.svg'},{icon:IMG+'B-3/img_뱀개미.svg'},{icon:IMG+'B-3/img_곰꽃.svg'},{icon:IMG+'B-3/img_개고양이.svg'}]
 };
 const FILES={ /* 실제 파일 경로 (main.html 기준 상대경로) */
   B1:['B-1_01.algorithms','B-1_02.sequencing','B-1_03.decomposition','B-1_04.branching','B-1_05.abstraction','B-1_06.pattern'].map(f=>'../B-1_어린이집과친구/'+f+'.html'),
   B2:['B-2_01.algorithms_v2','B-2_02.sequencing_v4','B-2_03.decomposition_v2','B-2_04.branching_v2','B-2_05.abstraction_v2','B-2_06.pattern_v2'].map(f=>'../B-2_봄/'+f+'.html'),
+  B4:['B-4_01.algorithms','B-4_02.sequencing','B-4_03.decomposition','B-4_04.branching','B-4_05.abstraction','B-4_06.pattern'].map(f=>'../B-4_나와가족/'+f+'.html'),
+  B5:['B-5_01.algorithms','B-5_02.sequencing','B-5_03.decomposition','B-5_04.branching','B-5_05.abstraction','B-5_06.pattern'].map(f=>'../B-5_우리동네/'+f+'.html'),
   B3:['B-3_01.algorithms','B-3_02.sequencing','B-3_03.decomposition','B-3_04.branching','B-3_05.abstraction_v2','B-3_06.pattern'].map(f=>'../B-3_동식물과자연/'+f+'.html')
 };
 const OPEN=[ /* main.html 카드 c1·c2·c3 와 같은 색·아이콘 */
-  {key:'B1',paper:'#ef7a6d',icon:IMG+'../_img_png/titleimg_B-1.png',          en:'School & Friends', ko:'어린이집과 친구', sub:'../B-1_어린이집과친구/B-1_00.submain.html'},
-  {key:'B2',paper:'#64b8b4',icon:IMG+'../_img_png/titleimg_B-2.png',   en:'Spring',           ko:'봄',             sub:'../B-2_봄/B-2_00.submain.html'},
-  {key:'B3',paper:'#f3bd4e',icon:IMG+'../_img_png/titleimg_B-3.png', en:'Plants & Animals', ko:'동식물과 자연',   sub:'../B-3_동식물과자연/B-3_00.submain.html'}
+  {key:'B1',paper:'#ef7a6d',icon:IMG+'../img_png/titleimg_B-1.png',          en:'School & Friends', ko:'어린이집과 친구', sub:'../B-1_어린이집과친구/B-1_00.submain.html'},
+  {key:'B2',paper:'#64b8b4',icon:IMG+'../img_png/titleimg_B-2.png',   en:'Spring',           ko:'봄',             sub:'../B-2_봄/B-2_00.submain.html'},
+  {key:'B3',paper:'#f3bd4e',icon:IMG+'../img_png/titleimg_B-3.png', en:'Plants & Animals', ko:'동식물과 자연',   sub:'../B-3_동식물과자연/B-3_00.submain.html'},
+  {key:'B4',paper:'#9c89cb',icon:IMG+'../img_png/titleimg_B-4.png',          en:'Me & My Family',  ko:'나와 가족',       sub:'../B-4_나와가족/B-4_00.submain.html'},
+  {key:'B5',paper:'#e69a57',icon:IMG+'../img_png/titleimg_B-5.png',          en:'My Town',         ko:'우리 동네',       sub:'../B-5_우리동네/B-5_00.submain.html'}
 ];
 const SOONS=[ /* main.html 카드 c4~c12 */
-  {paper:'#9c89cb',icon:IMG+'../_img_png/titleimg_B-4.png',          en:'Me & My Family',  ko:'나와 가족'},
-  {paper:'#e69a57',icon:IMG+'../_img_png/titleimg_B-5.png',          en:'My Town',         ko:'우리 동네'},
-  {paper:'#86b65f',icon:IMG+'../_img_png/titleimg_B-6.png',    en:'Health & Nature', ko:'건강과 자연'},
-  {paper:'#69aadb',icon:IMG+'../_img_png/titleimg_B-7.png',           en:'Summer',          ko:'여름'},
-  {paper:'#d67b93',icon:IMG+'../_img_png/titleimg_B-8.png',  en:'Transportation',  ko:'교통기관'},
-  {paper:'#d69545',icon:IMG+'../_img_png/titleimg_B-9.png',    en:'Autumn & Fruits', ko:'가을과 열매'},
-  {paper:'#55b497',icon:IMG+'../_img_png/titleimg_B-10.png',    en:'Environment',     ko:'환경과 생활'},
-  {paper:'#8eaac7',icon:IMG+'../_img_png/titleimg_B-11.png',       en:'Winter & Play',   ko:'겨울과 놀이'},
-  {paper:'#b58b67',icon:IMG+'../_img_png/titleimg_B-12.png',           en:'Tools We Use',    ko:'생활과 도구'}
+  {paper:'#86b65f',icon:IMG+'../img_png/titleimg_B-6.png',    en:'Health & Nature', ko:'건강과 자연'},
+  {paper:'#69aadb',icon:IMG+'../img_png/titleimg_B-7.png',           en:'Summer',          ko:'여름'},
+  {paper:'#d67b93',icon:IMG+'../img_png/titleimg_B-8.png',  en:'Transportation',  ko:'교통기관'},
+  {paper:'#d69545',icon:IMG+'../img_png/titleimg_B-9.png',    en:'Autumn & Fruits', ko:'가을과 열매'},
+  {paper:'#55b497',icon:IMG+'../img_png/titleimg_B-10.png',    en:'Environment',     ko:'환경과 생활'},
+  {paper:'#8eaac7',icon:IMG+'../img_png/titleimg_B-11.png',       en:'Winter & Play',   ko:'겨울과 놀이'},
+  {paper:'#b58b67',icon:IMG+'../img_png/titleimg_B-12.png',           en:'Tools We Use',    ko:'생활과 도구'}
 ];
 /* 진도 — 각 활동 파일의 MAP-PROGRESS 스크립트가 완료 화면에서 localStorage 'ck.b{1,2,3}.sub.done'(활동 id 배열)에 기록한다.
    서브메인(B-n_00.submain.html)이 읽는 값과 같은 것을 그대로 읽는다. 쿼리 ?demo 를 붙이면 예전 더미(Spring 앞 3개)를 보여 준다. */
-const DONE_KEY={B1:'ck.b1.sub.done',B2:'ck.b2.sub.done',B3:'ck.b3.sub.done'};
+const DONE_KEY={B1:'ck.b1.sub.done',B2:'ck.b2.sub.done',B3:'ck.b3.sub.done',B4:'ck.b4.sub.done',B5:'ck.b5.sub.done'};
 const DEMO=new URLSearchParams(location.search).has('demo');
 function doneFlags(key){
   if(DEMO)return key==='B2'?[1,1,1,0,0,0]:[0,0,0,0,0,0];
@@ -163,10 +170,13 @@ function icoHtml(o){
   if(o.svg)return o.svg;
   return o.crop?`<span class="crop"><img src="${o.icon}" alt=""></span>`:`<img src="${o.icon}" alt="">`;
 }
+function leadCount(done){let p=0;while(p<done.length&&done[p])p++;return p}   /* 앞에서부터 연속으로 끝낸 개수 = 서브메인 progress() */
 function actRows(L,done,files,name,key){
-  return ACTS.map((a,i)=>`<button class="act${done&&done[i]?' done':''}" type="button"${files?` data-href="${files[i]}" data-t="${name}"`:' data-soon="1"'}>
-    <span class="act__ic">${icoHtml(key?ICONS[key][i]:null)}</span>
-    <span class="act__nm">${L?a.ko:a.en}${L?`<small>${a.en}</small>`:''}</span>${done&&done[i]?`<span class="act__done">${L?'완료':'Done'}</span>`:''}</button>`).join('');
+  const p=done?leadCount(done):0;
+  return ACTS.map((a,i)=>{const lock=!!files&&i>p;   /* 서브메인 노드가 잠겨 있으면(i > p) 이곳도 잠금, 해금되면 자동으로 열림 */
+    return `<button class="act${done&&done[i]?' done':''}${lock?' is-locked':''}" type="button"${lock?' data-locked="1" aria-disabled="true"':files?` data-href="${files[i]}" data-t="${name}"`:' data-soon="1"'}>
+    <span class="act__ic">${icoHtml(key&&!lock?ICONS[key][i]:null)}</span>
+    <span class="act__nm">${L?a.ko:a.en}${L?`<small>${a.en}</small>`:''}</span>${done&&done[i]?`<span class="act__done">${L?'완료':'Done'}</span>`:''}</button>`}).join('');
 }
 function render(){
   const L=lang==='ko',t=I18N[lang];
@@ -174,30 +184,35 @@ function render(){
   $('ttl').textContent=t.ttl;
   $('lang').querySelector('.lg').innerHTML=L?'<b class="off">A</b><i class="on">한</i>':'<b class="on">A</b><i class="off">한</i>';
   $('lang').setAttribute('aria-label',t.lang);
+  const num=o=>+(o.icon.match(/titleimg_B-(\d+)\.png/)||[0,99])[1];   /* 테마 번호순으로 한 줄에 섞어 배치 (열린 것·준비 중 상관없이) */
   const open=OPEN.map(th=>{
     const done=doneFlags(th.key),n=done.filter(Boolean).length,name=L?th.ko:th.en;
     return `<article class="col" style="--paper:${th.paper}">
       <div class="col__head" data-href="${th.sub}" data-t="${name}" role="button" tabindex="0"><span class="ico"><img src="${th.icon}" alt=""${th.s?` style="--s:${th.s}"`:''}></span><strong>${name}</strong></div>
-      <div class="acts">${actRows(L,done,FILES[th.key],name,th.key)}</div></article>`}).join('');
+      <div class="acts">${actRows(L,done,FILES[th.key],name,th.key)}</div></article>`});
   const soon=SOONS.map(s=>{const name=L?s.ko:s.en;
     return `<article class="col is-soon" style="--paper:${s.paper}" data-soon="1" aria-disabled="true">
       <div class="col__head"><span class="ico"><img src="${s.icon}" alt=""${s.s?` style="--s:${s.s}"`:''}></span><strong>${name}</strong></div>
-      <div class="acts">${actRows(L,null,null,name)}</div></article>`}).join('');
+      <div class="acts">${actRows(L,null,null,name)}</div></article>`});
+  const cards=[...OPEN.map((o,i)=>[num(o),open[i]]),...SOONS.map((o,i)=>[num(o),soon[i]])].sort((a,b)=>a[0]-b[0]).map(x=>x[1]).join('');
   const parent=`<button class="parent" id="parent" type="button">
       <span class="parent__ic"><svg viewBox="0 0 24 24"><path d="M7 10V8a5 5 0 0 1 10 0v2h1.2c.9 0 1.8.9 1.8 1.8v8.4c0 .9-.9 1.8-1.8 1.8H5.8C4.9 22 4 21.1 4 20.2v-8.4C4 10.9 4.9 10 5.8 10zm2 0h6V8a3 3 0 0 0-6 0z"/></svg></span>
       <span class="parent__tx"><strong>${t.parent}</strong><p>${t.parentDesc}</p><span class="chips">${t.chips.map(c=>`<span>${c}</span>`).join('')}</span></span>
       <svg class="parent__go" viewBox="0 0 24 24"><path d="M9 4.5 16.5 12 9 19.5"/></svg></button>`;
-  $('page').innerHTML=`<section class="grid">${open}${soon}</section>
+  $('page').innerHTML=`<section class="grid">${cards}</section>
     <div style="height:calc(36 * var(--u))"></div>${parent}`;
 }
 $('page').addEventListener('click',e=>{
   if(e.target.closest('#parent')){go('A-3_parent.html',I18N[lang].parent);return}   /* 부모 확인(수식)은 A-3 안에서 */
-  if(e.target.closest('[data-soon]'))return;   /* 준비 중은 반응 없음 */
+  if(e.target.closest('[data-soon],[data-locked]'))return;   /* 준비 중 · 잠긴 활동은 반응 없음 */
   const h=e.target.closest('[data-href]');if(h)go(h.dataset.href,h.dataset.t);
 });
 $('lang').addEventListener('click',()=>{lang=lang==='en'?'ko':'en';try{localStorage.setItem('noriLang',lang)}catch(e){}render()});
 $('back').addEventListener('click',()=>{location.href='main.html'});
 render();
+/* 서브메인에서 스테이지를 끝내고 돌아오거나(뒤로가기 캐시 포함) 다른 탭에서 기록이 바뀌면 잠금 상태를 다시 계산 */
+addEventListener('pageshow',e=>{if(e.persisted)render()});
+addEventListener('storage',e=>{if(e.key&&/^ck\.b\d+\.sub\.done$/.test(e.key))render()});
 </script>
 </body>
 </html>

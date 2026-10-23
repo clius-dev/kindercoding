@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>/* 입구 검사: 로그인 안 했으면 로그인 화면으로 (로그인 유지 켜짐이거나 이번 실행에서 로그인한 경우만 통과) */
+(function(){try{var u=JSON.parse(localStorage.getItem('noriUser')||'null');var ok=u&&u.done&&(u.remember||sessionStorage.getItem('noriAuth')==='1');if(!ok)location.replace('A-1_login.html?stay')}catch(e){location.replace('A-1_login.html?stay')}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nori Factory · Forest Story Theater</title>
+<link rel="stylesheet" href="../fonts/Paperlogy.css">
+<link rel="stylesheet" href="../DESIGN.css">
+<style>
+/* ============================================================
+   MAIN — 노리팩토리 메인 메뉴 (DESIGN.md §11 종이 콜라주 · §12 시작 체크리스트)
+   · 아트보드 1920×1200 (§9.1). 가로가 길거나 세로가 긴 화면은 아트보드 높이만 바꾼다(--u 재정의, 아래 미디어 쿼리).
+   · 크롬(로고 · 사운드 · 도움말)은 .pp-edge-tl / .pp-edge-tr (§11.2 · §9.1.4)
+   · 색은 --pp-* 토큰만, 들뜸은 --pp-lift-* 만 (§11.1 · §11.13)
+   ============================================================ */
+:root{--design-w:1920; --design-h:1200}
+/* 배율은 B-3_04 와 같은 DESIGN.css 기본(--u = 가로·세로 중 작은 쪽, §9.1)을 그대로 쓴다 */
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0; width:100%; height:100%; overflow:hidden; background:#8cc4dc}
+/* ---------- 배경 — 화면 전체를 덮는 한 장(cover). 비율 구간마다 가장 가까운 비율의 이미지를 쓴다 ----------
+   --bg-a : 이미지 가로/세로 비율, --bg-cy : 커튼 중심의 세로 위치(이미지 높이 대비 · 실측).
+   UI(아트보드 1920×1200)는 다른 화면과 같은 배율(--u)로 두고, 카드 영역 중심을 배경 커튼 중심에 맞춘다. */
+:root{--bg-img:url("../_img_png/main/main-stage-bg-tall-v6-day.webp?v=20261015-2"); --bg-a:1.6875; --bg-cy:.508; --bg-cw:.558; --bg-ch:.51; --u0:var(--u)}
+@media (min-aspect-ratio:193/100){:root{--bg-img:url("../_img_png/main/main-stage-bg-wide-v4-day.webp?v=20261015-2"); --bg-a:2.3333; --bg-cy:.473; --bg-cw:.603; --bg-ch:.83}}
+
+body{position:relative; isolation:isolate}
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:#8cc4dc var(--bg-img) center/cover no-repeat; filter:saturate(.93)}
+button{font:inherit; color:inherit}
+button:focus-visible{outline:calc(4 * var(--u)) solid var(--pp-hl); outline-offset:calc(4 * var(--u))}
+.pp-ibtn:focus-visible{outline:none}
+
+
+/* 아트보드는 뷰포트 정중앙에 고정 — grid 센터링은 아트보드가 뷰포트보다 클 때 오른쪽·아래로만 넘쳐 중심이 밀린다.
+   transform 중앙정렬은 안의 fixed 요소(크롬·토스트·캐릭터)를 깨므로 좌표로 계산한다 */
+/* 카테고리 영역(제목판·카드·화살표)은 배경 커튼에 못 박는다 — 해상도·비율이 바뀌어도 커튼 안의 같은 자리·같은 비율.
+   --ub = 커튼이 화면에서 차지하는 크기에 비례한 단위(1920×1080 에서 .9px). 가로·세로 중 더 빡빡한 쪽에 맞춰 나무 밖으로 나가지 않게 한다.
+   크롬(버튼 · 시계)은 .pp-edge-* 가 --uc 로 따로 스케일하므로 영향 없음 */
+body.pp-kit .stage{--bgH:max(100dvh, 100dvw / var(--bg-a));
+  --ycen:calc((100dvh - var(--bgH)) / 2 + var(--bg-cy) * var(--bgH));
+  --ub:max(.1px, min(calc(var(--bgH) * var(--bg-a) * var(--bg-cw) / 1154), calc(var(--bgH) * var(--bg-ch) / 733), calc((var(--ycen) - 160 * var(--uc)) / 382)));   /* 세 번째 항: 제목판이 상단 시계·버튼 줄(160uc)을 침범하지 않게 */
+  --u:var(--ub); position:absolute; left:calc(50% - var(--design-w) / 2 * var(--u));
+  top:calc((100dvh - max(100dvh, 100dvw / var(--bg-a))) / 2 + var(--bg-cy) * max(100dvh, 100dvw / var(--bg-a)) - 550 * var(--u));   /* 카드 영역 중심(아트보드 y=550u)을 배경 커튼 중심에 */
+  z-index:1; width:calc(1920 * var(--u)); height:calc(1200 * var(--u)); overflow:visible; color:var(--pp-cream); user-select:none; background:none}
+
+/* ---------- 상단 크롬 (§11.2 · §11.4) ---------- */
+.pp-edge-tl,.pp-edge-tr{z-index:12}
+.pp-edge-tl{height:calc(120 * var(--u)); display:flex; align-items:center}
+.pp-edge-tl{gap:calc(14 * var(--u))}
+.brand{display:flex; align-items:center; gap:calc(14 * var(--u)); filter:var(--pp-lift-s)}
+.brand__mark{display:grid; place-items:center; width:calc(120 * var(--u)); height:calc(120 * var(--u));
+  background:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat; color:#6C4689; font-size:calc(66 * var(--u)); line-height:1}
+.brand__text{font-weight:800; font-size:calc(36 * var(--u)); letter-spacing:-.04em; color:var(--pp-cream);
+  text-shadow:0 calc(3 * var(--u)) calc(2 * var(--u)) rgba(7,29,36,.62)}
+.pp-ibtn{filter:var(--pp-lift-s)}
+/* 크기·위치는 B-3_04 와 동일 — 상단 원판 120u, .pp-edge-tl/tr (28u 여백, 버튼 간격 20u). 도움말이 B-3_04 언어 자리, 사운드가 맨 오른쪽 */
+.pp-ibtn svg{fill:currentColor}
+
+/* ---------- 메인 메뉴 자리 버튼 (언어 · 프로필 · 기록 · 부모) — 동작은 추후 연결 ---------- */
+.pp-ibtn--lang{color:#6C4689}
+.pp-ibtn--lang .lg{pointer-events:none}
+.pp-edge-b{--u:var(--uc); position:fixed; z-index:12; bottom:max(calc(28 * var(--uc)), env(safe-area-inset-bottom,0px)); display:flex; align-items:center; gap:calc(20 * var(--uc))}
+.pp-edge-bl2{left:max(calc(240 * var(--uc)), env(safe-area-inset-left,0px))}
+.pp-edge-br2{right:max(calc(28 * var(--uc)), env(safe-area-inset-right,0px))}
+/* 내 정보 — 옐로우 종이 원판 + 고양이 얼굴 (친구 고양이 이미지를 머리만 잘라 사용) */
+.pp-ibtn--profile{background:none}
+.pp-ibtn--profile::before{content:""; position:absolute; inset:0; border-radius:50%;
+  background:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat, #FFCB2E; background-blend-mode:multiply;
+  -webkit-mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat; mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat}
+.pp-ibtn--profile .cat{position:relative; z-index:1; display:block; width:60%; aspect-ratio:400/338; overflow:hidden; transform:translateX(1.5%)}
+.pp-ibtn--profile .cat img{display:block; width:100%; height:auto}
+.pp-ibtn--parent svg{width:54%; height:54%; fill:currentColor; stroke:none}
+.pp-ibtn--menu svg{width:41%; height:41%; fill:none; stroke:currentColor; stroke-width:4.8; stroke-linecap:round}   /* 뒤로 셰브론(41%, 선 ≈4.8/24)과 같은 굵기·높이 */
+.pp-ibtn--menu{flex:none}
+.pp-edge-tc{z-index:12; height:calc(122 * var(--u)); display:flex; align-items:center}
+.clock{box-sizing:border-box; width:calc(540 * var(--u)); height:calc(122 * var(--u)); display:flex; align-items:center; justify-content:center; gap:calc(18 * var(--u)); padding:calc(18 * var(--u)) calc(62 * var(--u)); background:transparent url("../_img_png/main/main-clock-sign-reference-v5-noline.png?v=20261012-1") center/contain no-repeat; color:#4A2D25; filter:drop-shadow(0 calc(3 * var(--u)) calc(2 * var(--u)) rgba(45,24,18,.24)); white-space:nowrap; pointer-events:none}
+.clock__date{font-size:calc(28 * var(--u)); font-weight:750}
+.clock__time{font-size:calc(42 * var(--u)); font-weight:850; letter-spacing:-.03em}
+.pp-ibtn--profile svg,.pp-ibtn--record svg{width:46%; height:46%; fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
+.pp-ibtn--profile svg .f,.pp-ibtn--record svg .f,.pp-ibtn--parent svg .f{fill:currentColor; stroke:none}
+.pp-ibtn--record{background:none}
+.pp-ibtn--record::before{content:""; position:absolute; inset:0; border-radius:50%;
+  background:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat, #7048A8; background-blend-mode:multiply;
+  -webkit-mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat; mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat}
+.pp-ibtn--record svg{position:relative; z-index:1; width:56%; height:56%}
+.pp-ibtn--record svg .w{fill:#fff; stroke:none}
+.pp-ibtn--record svg .y{fill:#FFD84A; stroke:none}
+
+
+/* ---------- 종이 카드 12장 (한 페이지 4장) ---------- */
+.menu{position:absolute; z-index:6; left:calc(430 * var(--u)); top:calc(254 * var(--u)); width:calc(1060 * var(--u)); height:calc(596 * var(--u));
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:calc(24 * var(--u)) calc(28 * var(--u))}
+.card{--paper:#e56a61; position:relative; isolation:isolate; min-width:0; min-height:0; border:0; cursor:pointer;
+  padding:calc(12 * var(--u)) calc(10 * var(--u)) calc(12 * var(--u)); display:flex; flex-direction:column; align-items:center; justify-content:center;
+  color:var(--pp-ink); background:none;
+  filter:var(--pp-lift-m); transition:transform .18s cubic-bezier(.2,.8,.2,1), filter .18s}
+/* 종이 면은 ::before — mask 요소에 직접 그림자를 걸면 잘리므로 그림자는 바깥(.card)에 둔다 (§11.3) */
+.card::before{content:""; position:absolute; inset:0; z-index:-1;
+  background-color:var(--paper); background-image:url("../_img_png/main/main-card-paper-v1.png?v=20261012-1");
+  background-position:center; background-size:100% 100%; background-repeat:no-repeat; background-blend-mode:multiply;
+  -webkit-mask:url("../_img_png/main/main-card-paper-v1.png?v=20261012-1") center/100% 100% no-repeat;
+          mask:url("../_img_png/main/main-card-paper-v1.png?v=20261012-1") center/100% 100% no-repeat}
+.card:nth-child(4n+1){transform:rotate(-.7deg)}.card:nth-child(4n+2){transform:rotate(.5deg)}
+.card:nth-child(4n+3){transform:rotate(-.35deg)}.card:nth-child(4n){transform:rotate(.8deg)}
+@media (hover:hover){.card:hover{transform:translateY(calc(-5 * var(--u))) rotate(0) scale(1.025); filter:var(--pp-lift-l) brightness(1.04)}}
+.card:active{transform:translateY(calc(3 * var(--u))) scale(.98); filter:var(--pp-lift-s)}
+.card[hidden]{display:none!important}
+.card__icon{position:relative; flex:0 0 46%; height:46%; width:46%; overflow:hidden; font-size:0}
+.card__icon img{position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:contain; pointer-events:none}
+/* 1~12번 카드는 PNG(titleimg_B-n). 높이는 46% 그대로, 폭은 이미지 비율로 */
+.c1 .card__icon{width:auto; max-width:92%; flex-basis:56%; height:56%; aspect-ratio:1021/671}.c2 .card__icon{width:auto; max-width:86%; aspect-ratio:960/652}.c3 .card__icon{width:auto; max-width:86%; aspect-ratio:603/269}.c4 .card__icon{width:auto; max-width:86%; aspect-ratio:694/466}.c5 .card__icon{width:auto; max-width:86%; aspect-ratio:678/350}.c6 .card__icon{width:auto; max-width:86%; aspect-ratio:476/257}.c7 .card__icon{width:auto; max-width:86%; aspect-ratio:343/319}.c8 .card__icon{width:auto; max-width:86%; aspect-ratio:571/352}.c9 .card__icon{width:auto; max-width:92%; flex-basis:56%; height:56%; aspect-ratio:702/577}.c10 .card__icon{width:auto; max-width:86%; aspect-ratio:1494/524}.c11 .card__icon{width:auto; max-width:92%; flex-basis:56%; height:56%; aspect-ratio:865/675}.c12 .card__icon{width:auto; max-width:86%; aspect-ratio:871/499}   /* 가로로 긴 PNG: 높이를 다른 카드 아이콘 박스(46%)에 맞추고 폭은 비율로 */
+.card__ko{position:relative; z-index:2; margin:calc(6 * var(--u)) 0 0; font-size:calc(44 * var(--u)); font-weight:800; line-height:1.1; letter-spacing:-.02em; text-align:center; white-space:nowrap}
+.card__en{position:relative; z-index:2; margin-top:calc(3 * var(--u)); font-size:calc(28 * var(--u)); font-weight:700; line-height:1.2; letter-spacing:.06em; text-transform:uppercase; color:var(--pp-ink); opacity:.7}
+.card__tag{position:absolute; z-index:2; right:calc(38 * var(--u)); top:calc(30 * var(--u)); padding:calc(3 * var(--u)) calc(12 * var(--u));
+  border-radius:calc(14 * var(--u)); font-size:calc(24 * var(--u)); font-weight:800; line-height:1.2; letter-spacing:.02em;
+  color:#fff; background:rgba(34,18,46,.58)}
+.card.is-live .card__tag{display:none}   /* 활성 카드는 배지 없음 */
+.c1{--paper:#ef7a6d}.c2{--paper:#64b8b4}.c3{--paper:#f3bd4e}.c4{--paper:#9c89cb}.c5{--paper:#e69a57}.c6{--paper:#86b65f}
+.c7{--paper:#69aadb}.c8{--paper:#d67b93}.c9{--paper:#d69545}.c10{--paper:#55b497}.c11{--paper:#8eaac7}.c12{--paper:#b58b67}
+
+/* ---------- 페이지 넘김 — 상단 크롬과 같은 종이 원판 (터치 88u 이상) ---------- */
+.pager{position:absolute; z-index:15; left:calc(243 * var(--u)); top:calc(498 * var(--u)); width:calc(1434 * var(--u));
+  display:flex; align-items:center; justify-content:space-between; pointer-events:none}
+.pager .pp-ibtn{width:calc(104 * var(--u)); height:calc(104 * var(--u)); pointer-events:auto;
+  background:rgba(34,18,46,.58); border:calc(3 * var(--u)) solid rgba(255,244,225,.55); color:#fff4e1; filter:none;
+  box-shadow:0 calc(4 * var(--u)) calc(14 * var(--u)) rgba(0,0,0,.35)}   /* 어두운 반투명 원 + 크림색 아이콘 — 빨간 천막 위에서 잘 보이게 */
+.pager .pp-ibtn svg{width:56%; height:56%; fill:currentColor; stroke:none}
+.pager .pp-ibtn:disabled{opacity:.3; cursor:default}
+.pager__next svg{transform:scaleX(-1)}
+@media (hover:hover){.pager .pp-ibtn:disabled:hover{transform:none}}
+.pager__label{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%)}
+
+/* ---------- 안내 팝업 — 찢은 종이 시트 (§11.9 · §11.10 · §8.1) ---------- */
+.dialog{position:fixed; z-index:50; inset:0; display:grid; place-items:center; background:var(--pp-scrim); opacity:0; transition:opacity .22s}
+.dialog.is-on{opacity:1}
+.dialog .pp-sheet{width:calc(1200 * var(--u)); height:calc(700 * var(--u)); padding:calc(54 * var(--u)) calc(60 * var(--u));
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:calc(18 * var(--u)); text-align:center;
+  transform:scale(.86); transition:transform .3s cubic-bezier(.2,.9,.3,1.25)}
+.dialog.is-on .pp-sheet{transform:none}
+.dialog__art{display:block; width:calc(190 * var(--u)); height:calc(190 * var(--u)); object-fit:contain}
+.dialog__star{display:block; width:calc(170 * var(--u)); height:calc(170 * var(--u)); color:var(--pp-gold)}
+.dialog h2{margin:0; font-size:calc(64 * var(--u)); font-weight:800; line-height:1.15; letter-spacing:-.04em; color:var(--pp-ink); text-wrap:balance}
+.dialog p{margin:0; font-size:calc(36 * var(--u)); font-weight:700; line-height:1.45; color:var(--pp-ink); word-break:keep-all; text-wrap:balance}
+
+/* ---------- 토스트 (§8 · .toast--light) ---------- */
+.toast{--u:var(--u0); position:fixed; z-index:60; left:50%; bottom:calc(30 * var(--u)); transform:translate(-50%,calc(20 * var(--u)));
+  padding:calc(24 * var(--u)) calc(48 * var(--u)); border-radius:calc(34 * var(--u)); color:var(--pp-ink); background:#fff;
+  font-size:calc(46 * var(--u)); font-weight:800; line-height:1.25; white-space:nowrap; opacity:0; transition:.2s; pointer-events:none;
+  filter:var(--pp-lift-m)}
+.toast.is-on{opacity:1; transform:translate(-50%,0)}
+
+</style>
+<link rel="stylesheet" href="../RESPONSIVE.css?v=3">
+<link rel="stylesheet" href="../MOBILE.css?v=2"><script src="../MOBILE.js?v=2"></script>
+</head>
+<body class="pp-kit">
+<main class="stage theme-paper" id="app">
+  <div class="pp-edge-tl"><button class="pp-ibtn pp-ibtn--menu" id="allmenu" type="button" aria-label="All menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 4.5h16.8M3.6 12h16.8M3.6 19.5h16.8"/></svg></button></div>
+  <div class="pp-edge-tc"><div class="clock" id="clock" aria-live="off"><span class="clock__date"></span><b class="clock__time"></b></div></div>
+  <div class="pp-edge-tr">
+    <button class="pp-ibtn pp-ibtn--lang" id="lang" type="button" aria-label="Change language"><span class="lg"><b class="on">A</b><i class="off">한</i></span></button>
+    <button class="pp-ibtn pp-ibtn--profile" id="profile" type="button" aria-label="My profile"><span class="cat" aria-hidden="true"><img src="../_img_svg/B-2/img_maincat.svg" alt=""></span></button>
+  </div>
+
+  <section class="menu" aria-label="Choose a theme">
+    <button class="card c1 is-live" data-title="School &amp; Friends" data-href="../B-1_어린이집과친구/B-1_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-1.png" alt=""></span><strong class="card__ko">School &amp; Friends</strong><span class="card__tag">Soon</span></button>
+    <button class="card c2 is-live" data-title="Spring" data-href="../B-2_봄/B-2_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-2.png" alt=""></span><strong class="card__ko">Spring</strong><span class="card__tag">Start</span></button>
+    <button class="card c3 is-live" data-title="Plants &amp; Animals" data-href="../B-3_동식물과자연/B-3_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-3.png" alt=""></span><strong class="card__ko">Plants &amp; Animals</strong><span class="card__tag">Soon</span></button>
+    <button class="card c4" data-title="Me &amp; My Family" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-4.png" alt=""></span><strong class="card__ko">Me &amp; My Family</strong><span class="card__tag">Soon</span></button>
+    <button class="card c5" data-title="My Town" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-5.png" alt=""></span><strong class="card__ko">My Town</strong><span class="card__tag">Soon</span></button>
+    <button class="card c6" data-title="Health &amp; Nature" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-6.png" alt=""></span><strong class="card__ko">Health &amp; Nature</strong><span class="card__tag">Soon</span></button>
+    <button class="card c7" data-title="Summer" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-7.png" alt=""></span><strong class="card__ko">Summer</strong><span class="card__tag">Soon</span></button>
+    <button class="card c8" data-title="Transportation" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-8.png" alt=""></span><strong class="card__ko">Transportation</strong><span class="card__tag">Soon</span></button>
+    <button class="card c9" data-title="Autumn &amp; Fruits" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-9.png" alt=""></span><strong class="card__ko">Autumn &amp; Fruits</strong><span class="card__tag">Soon</span></button>
+    <button class="card c10" data-title="Environment" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-10.png" alt=""></span><strong class="card__ko">Environment</strong><span class="card__tag">Soon</span></button>
+    <button class="card c11" data-title="Winter &amp; Play" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-11.png" alt=""></span><strong class="card__ko">Winter &amp; Play</strong><span class="card__tag">Soon</span></button>
+    <button class="card c12" data-title="Tools We Use" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-12.png" alt=""></span><strong class="card__ko">Tools We Use</strong><span class="card__tag">Soon</span></button>
+  </section>
+
+  <nav class="pager" aria-label="Category pages">
+    <button class="pp-ibtn pager__prev" id="pagePrev" type="button" aria-label="Previous categories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1 2.9a2.4 2.4 0 0 0-3.4 0L4.6 11a1.4 1.4 0 0 0 0 2l8.1 8.1a2.4 2.4 0 1 0 3.4-3.4L10.1 12l6-6a2.4 2.4 0 0 0 0-3.1Z"/></svg></button>
+    <span class="pager__label" id="pageLabel" aria-live="polite"></span>
+    <button class="pp-ibtn pager__next" id="pageNext" type="button" aria-label="Next categories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1 2.9a2.4 2.4 0 0 0-3.4 0L4.6 11a1.4 1.4 0 0 0 0 2l8.1 8.1a2.4 2.4 0 1 0 3.4-3.4L10.1 12l6-6a2.4 2.4 0 0 0 0-3.1Z"/></svg></button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+<script>
+
+const toast=document.getElementById('toast');
+const cards=[...document.querySelectorAll('.menu .card')];
+const pagePrev=document.getElementById('pagePrev');
+const pageNext=document.getElementById('pageNext');
+const pageLabel=document.getElementById('pageLabel');
+const PAGE_SIZE=4;
+const PAGE_COUNT=Math.ceil(cards.length/PAGE_SIZE);
+const CLOSE_SVG='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>';
+const STAR_SVG='<svg class="dialog__star" viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" stroke="currentColor" stroke-width="5" stroke-linejoin="round" d="M24 6.4l5.2 11 12 1.6-8.8 8.3 2.2 11.9L24 33.4l-10.6 5.8 2.2-11.9-8.8-8.3 12-1.6z"/></svg>';
+/* ---------- 언어 (기본 English · A/한 토글 §4.2) ---------- */
+const I18N={
+  en:{title:'Nori Factory · Forest Story Theater',brand:'Nori Factory',menu:'All menu',lang:'한국어',parent:'Parents',profile:'My profile',record:'Learning record',
+    themes:'Choose a theme',pages:'Category pages',prev:'Previous categories',next:'Next categories',close:'Close',soon:'Soon',start:'Start',
+    pageLbl:n=>`Category page ${n} of ${PAGE_COUNT}`,toast:n=>`Page ${n}`,wait:'We are preparing a new story.<br>Please wait a little!',soonMsg:'Coming soon!<br>Please wait a little.',
+    ttl:{menu:'All Menu',profile:'My Profile',record:'Learning Record',parent:'Parents'},
+    days:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    date:(d,m,w)=>`${w}, ${m} ${d}`,time:(h,mi)=>`${h%12||12}:${mi} ${h<12?'AM':'PM'}`,
+    cards:['School & Friends','Spring','Plants & Animals','Me & My Family','My Town','Health & Nature','Summer','Transportation','Autumn & Fruits','Environment','Winter & Play','Tools We Use']},
+  ko:{title:'노리팩토리 · 숲속 이야기 극장',brand:'노리팩토리',menu:'전체 메뉴',lang:'English',parent:'부모 메뉴',profile:'내 정보',record:'학습 기록',
+    themes:'생활주제 선택',pages:'카테고리 페이지',prev:'이전 카테고리',next:'다음 카테고리',close:'닫기',soon:'준비 중',start:'시작',
+    pageLbl:n=>`카테고리 ${n}페이지, ${PAGE_COUNT}페이지 중`,toast:n=>`${n}번째 주제 모음`,wait:'새로운 이야기를 준비하고 있어요.<br>조금만 기다려 주세요!',soonMsg:'준비 중이에요.<br>조금만 기다려 주세요!',
+    ttl:{menu:'전체 메뉴',profile:'내 정보',record:'학습 기록',parent:'부모님 메뉴'},
+    days:['일','월','화','수','목','금','토'],months:[],
+    date:(d,m,w)=>`${m}월 ${d}일 ${w}요일`,time:(h,mi)=>`${h<12?'오전':'오후'} ${h%12||12}:${mi}`,
+    cards:['어린이집과 친구','봄','동식물과 자연','나와 가족','우리 동네','건강과 자연','여름','교통기관','가을과 열매','환경과 생활','겨울과 놀이','생활과 도구']}
+};
+let lang='en';
+try{if(localStorage.getItem('noriLang')==='ko')lang='ko'}catch(e){}
+const T=()=>I18N[lang];
+let currentPage=0;
+let toastTimer;
+function showToast(message){toast.textContent=message;toast.classList.add('is-on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('is-on'),1100)}  /* §8 토스트 1.1s */
+function renderPage(){
+  cards.forEach((card,index)=>card.hidden=Math.floor(index/PAGE_SIZE)!==currentPage);
+  pagePrev.disabled=currentPage===0;pageNext.disabled=currentPage===PAGE_COUNT-1;
+  pageLabel.textContent=T().pageLbl(currentPage+1);
+}
+pagePrev.addEventListener('click',()=>{if(currentPage>0){currentPage--;renderPage()}});
+pageNext.addEventListener('click',()=>{if(currentPage<PAGE_COUNT-1){currentPage++;renderPage()}});
+function closeDialog(dialog){dialog.classList.remove('is-on');setTimeout(()=>dialog.remove(),230)}
+function openDialog(title,artHtml,message=T().wait){
+  const dialog=document.createElement('div');dialog.className='dialog';dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');dialog.setAttribute('aria-labelledby','dialogTitle');
+  dialog.innerHTML=`<div class="pp-sheet">${artHtml}<h2 id="dialogTitle">${title}</h2><p>${message}</p><button class="pp-round" type="button" aria-label="${T().close}">${CLOSE_SVG}</button></div>`;
+  document.body.appendChild(dialog);requestAnimationFrame(()=>dialog.classList.add('is-on'));
+  dialog.querySelector('.pp-round').addEventListener('click',()=>closeDialog(dialog));
+  dialog.addEventListener('click',e=>{if(e.target===dialog)closeDialog(dialog)});   /* 닫는 길은 두 개 — 닫기 버튼 · 배경 탭 (§8.1) */
+  dialog.querySelector('.pp-round').focus();
+}
+function loadingUrl(href,title){
+  const loader=new URL('../loading.html',location.href),target=new URL(href,location.href);
+  loader.searchParams.set('to',target.href);loader.searchParams.set('title',title||'');loader.searchParams.set('lang',lang);
+  return loader.href;
+}
+document.querySelector('.menu').addEventListener('click',e=>{const card=e.target.closest('.card');if(!card)return;const href=card.dataset.href;if(href){card.style.transform='scale(1.08)';setTimeout(()=>location.href=loadingUrl(href,card.dataset.title),330)}else{const src=card.querySelector('img').getAttribute('src');openDialog(card.dataset.title,`<img class="dialog__art" src="${src}" alt="">`)}});
+const SOON=(id,key)=>document.getElementById(id).addEventListener('click',()=>openDialog(T().ttl[key],STAR_SVG,T().soonMsg));
+document.getElementById('allmenu').addEventListener('click',()=>{location.href='A-4_allmenu.html'});   /* 전체 메뉴 → A-4 */
+document.getElementById('profile').addEventListener('click',()=>{location.href='A-2_profile.html'});
+function tick(){const d=new Date(),t=T(),c=document.getElementById('clock');
+  c.querySelector('.clock__date').textContent=t.date(d.getDate(),lang==='ko'?d.getMonth()+1:t.months[d.getMonth()],t.days[d.getDay()]);
+  c.querySelector('.clock__time').textContent=t.time(d.getHours(),String(d.getMinutes()).padStart(2,'0'))}
+function applyLang(){
+  const t=T(),$=id=>document.getElementById(id),aria=(el,v)=>el.setAttribute('aria-label',v);
+  document.documentElement.lang=lang;document.title=t.title;
+  
+  aria($('allmenu'),t.menu);aria($('profile'),t.profile);aria($('lang'),t.lang);
+  aria(document.querySelector('.menu'),t.themes);aria(document.querySelector('.pager'),t.pages);aria(pagePrev,t.prev);aria(pageNext,t.next);
+  cards.forEach((card,i)=>{card.querySelector('.card__ko').textContent=t.cards[i];card.dataset.title=t.cards[i];
+    card.querySelector('.card__tag').textContent=card.classList.contains('is-live')?t.start:t.soon});
+  const lg=$('lang');lg.querySelector('b').className=lang==='en'?'on':'off';lg.querySelector('i').className=lang==='ko'?'on':'off';   /* 활성 언어가 크게 */
+  pageLabel.textContent=t.pageLbl(currentPage+1);tick();
+}
+$lang=document.getElementById('lang');
+$lang.addEventListener('click',()=>{lang=lang==='en'?'ko':'en';try{localStorage.setItem('noriLang',lang)}catch(e){}applyLang()});   /* 팝업 없이 즉시 전환 */
+renderPage();applyLang();setInterval(tick,10000);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const d=document.querySelector('.dialog');if(d)closeDialog(d)}});
+</script>
+<script>
+/* 메인 BGM — 놀이방 곡(main-playroom-loop). 진입 즉시 재생 시도(막히면 첫 입력부터), 탭 숨김 시 일시정지. 카드 이동 시엔 페이지 전환과 함께 종료. DESIGN.md §12.8 */
+(() => {
+  const a = new Audio('../audio/bgm/main-playroom-loop.mp3');
+  a.loop = true; a.preload = 'auto'; a.volume = .19;
+  const off = () => { try{ return JSON.parse(localStorage.getItem('noriBgm')) === 'off' }catch(e){ return false } };
+  const sync = () => {
+    if(document.hidden || off()) a.pause();
+    else if(a.paused){ const p = a.play(); if(p && p.catch) p.catch(() => {}) }
+  };
+  ['pointerdown','keydown'].forEach(t => window.addEventListener(t, sync, {passive:true}));
+  document.addEventListener('visibilitychange', sync);
+  addEventListener('pageshow', sync); sync();
+})();
+</script>
+</body>
+</html>

@@ -138,7 +138,7 @@ html,body{background:#78c8f5}
 .guide__rim,.guide__face{position:absolute}
 .guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
   -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
-.guide__face{inset:0; background:var(--pp-cream) url("../_img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
+.guide__face{inset:0; background:var(--pp-cream) url("../img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
   -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
 .gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
   font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
@@ -208,7 +208,7 @@ html,body{background:#78c8f5}
   color:#20344B; filter:drop-shadow(0 calc(4*var(--u)) calc(6*var(--u)) rgba(91,59,18,.18));
   pointer-events:none; isolation:isolate}
 .mission-banner::before{content:""; position:absolute; inset:0; z-index:-1;
-  background-color:#E7B23C; background-image:url("../_img_png/paper/tx-paper-grain.webp");
+  background-color:#E7B23C; background-image:url("../img_png/paper/tx-paper-grain.webp");
   background-position:center; background-size:calc(430*var(--u)) auto; background-blend-mode:overlay;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 112' preserveAspectRatio='none'%3E%3Cpath d='M72 3C210 5 318-1 490 4C658 0 798 5 930 2C975 1 1000 24 999 56C1001 87 975 110 936 108C790 111 650 105 500 110C337 114 202 107 65 111C23 112 0 89 3 56C5 25 31 2 72 3Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 112' preserveAspectRatio='none'%3E%3Cpath d='M72 3C210 5 318-1 490 4C658 0 798 5 930 2C975 1 1000 24 999 56C1001 87 975 110 936 108C790 111 650 105 500 110C337 114 202 107 65 111C23 112 0 89 3 56C5 25 31 2 72 3Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
@@ -222,7 +222,7 @@ html,body{background:#78c8f5}
   transform:translateX(-50%) scale(.88); transform-origin:50% 0}
 .panel{position:absolute; z-index:1; top:0; height:calc(880*var(--u));
   border-radius:calc(34*var(--u));
-  background:rgba(255,255,255,.88) url("../_img_png/paper/tx-paper-sheet.webp") center/100% auto;
+  background:rgba(255,255,255,.88) url("../img_png/paper/tx-paper-sheet.webp") center/100% auto;
   box-shadow:0 calc(7*var(--u)) calc(13*var(--u)) rgba(86,49,25,.19);
   isolation:isolate}
 .panel::before{content:''; position:absolute; inset:0; z-index:0; border-radius:inherit; pointer-events:none;
@@ -240,7 +240,7 @@ html,body{background:#78c8f5}
 /* 그림 + 종이 질감 — 그림 모양(mask)에만 tx-felt 를 overlay */
 .art{position:absolute; inset:0; display:block; pointer-events:none; isolation:isolate;
   background:var(--svg) center/100% 100% no-repeat; filter:var(--pp-lift-s)}
-.art::after{content:''; position:absolute; inset:0; background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) auto;
+.art::after{content:''; position:absolute; inset:0; background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) auto;
   mix-blend-mode:overlay; opacity:.7;
   -webkit-mask:var(--svg) center/100% 100% no-repeat; mask:var(--svg) center/100% 100% no-repeat}
 .panel--tree .at:not(.car) .art{
@@ -252,14 +252,14 @@ html,body{background:#78c8f5}
 .map-source::before{content:""; position:absolute; inset:0; z-index:3; padding:calc(8*var(--u)); pointer-events:none;
   border-radius:inherit;
   background-color:var(--b4-num);
-  background-image:url("../_img_png/paper/tx-felt.webp");
+  background-image:url("../img_png/paper/tx-felt.webp");
   background-position:center; background-size:calc(90*var(--u)) auto; background-repeat:repeat;
   background-blend-mode:soft-light;
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor; mask-composite:exclude;
   opacity:.96}
 .map-source::after{content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
-  background-image:url("../_img_png/paper/tx-paper-grain.webp");
+  background-image:url("../img_png/paper/tx-paper-grain.webp");
   background-position:center;
   background-size:calc(150*var(--u)) auto;
   mix-blend-mode:soft-light; opacity:.28}
@@ -298,7 +298,7 @@ html,body{background:#78c8f5}
   transition:left .72s cubic-bezier(.45,.05,.3,1), top .72s cubic-bezier(.45,.05,.3,1), scale .3s;
   animation:carIdle 2.4s ease-in-out infinite}
 .car .art{filter:drop-shadow(0 calc(3*var(--u)) calc(3*var(--u)) rgba(46,28,10,.25)) saturate(1.08) contrast(1.025) brightness(1.015)}
-.car .art::after{background-image:url("../_img_png/paper/tx-paper-grain.webp"); background-size:calc(120*var(--u)) auto;
+.car .art::after{background-image:url("../img_png/paper/tx-paper-grain.webp"); background-size:calc(120*var(--u)) auto;
   mix-blend-mode:soft-light; opacity:.34}
 .car.is-drive{animation:none; scale:.9}
 @keyframes carIdle{0%,100%{translate:0 0}50%{translate:0 calc(-5*var(--u))}}
@@ -404,7 +404,7 @@ html,body{background:#78c8f5}
   <div class="play-layout">
     <!-- 왼쪽: 지도 -->
     <section class="panel panel--map" aria-hidden="true">
-      <div class="map-source"><img src="../_img_svg/B-4/img_알고리즘지도.svg" alt=""></div>
+      <div class="map-source"><img src="../img_svg/B-4/img_알고리즘지도.svg" alt=""></div>
     </section>
 
     <!-- 오른쪽: 길 트리 -->
@@ -423,7 +423,7 @@ html,body{background:#78c8f5}
     <div class="pill at" id="pillB" style="--x:387;--y:828"></div>
     <div class="pill at" id="pillC" style="--x:613;--y:828"></div>
     <div class="pill at" id="pillD" style="--x:840;--y:828"></div>
-      <div class="car at" id="car" style="--w:210;--h:176.4;left:calc(500*var(--u));top:calc(75*var(--u))"><i class="art" style="--svg:url(../_img_svg/B-4/img_드라이브가족.svg)"></i></div>
+      <div class="car at" id="car" style="--w:210;--h:176.4;left:calc(500*var(--u));top:calc(75*var(--u))"><i class="art" style="--svg:url(../img_svg/B-4/img_드라이브가족.svg)"></i></div>
     </section>
   </div>
 
@@ -717,7 +717,7 @@ function chime(kind){
    데이터 — 트리 좌표는 패널(1000×880u) 기준
    길(간선) 8개 · 선택 가능한 도착 경로 A~D
    ============================================================ */
-const BOY = '../_img_png/B-2_02-boy-v5.webp';
+const BOY = '../img_png/B-2_02-boy-v5.webp';
 const HAS_MP3 = true;                       /* 음성 mp3(../audio/voice-q/q_b4_01_*) 가 생기면 true */
 const NODE = {car:[500,75], p1:[160,300], m1:[840,300], mb:[387,465], pc:[613,465], gA:[160,725], gB:[387,725], gC:[613,725], gD:[840,725]};
 const W = {e1:1, e2:3, e3:3, e4:3, e5:2, e6:3, e7:3, e8:2};
@@ -1180,7 +1180,7 @@ $('retry').addEventListener('click', () => { resetGame() });
 
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 { const bi = new Image(); bi.alt = ''; bi.src = BOY; bi.draggable = false; boyEl.appendChild(bi) }
-{ const wi = new Image(); wi.alt = ''; wi.src = '../_img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
+{ const wi = new Image(); wi.alt = ''; wi.src = '../img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
 startGame();
 })();
 

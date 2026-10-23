@@ -27,9 +27,9 @@
   /* 종이 결 경로 — url() 은 '쓰는 쪽' 스타일시트 기준으로 풀린다.
      DESIGN.css 규칙(원판 버튼 등)은 DESIGN.css 기본값(--pp-tx-*)을 그대로 쓰고,
      이 화면 <style> 안의 규칙은 B-1_어린이집과친구/ 기준 경로의 아래 로컬 토큰을 쓴다 */
-  --sm-grain:url("../_img_png/paper/tx-paper-grain.webp");
-  --sm-felt:url("../_img_png/paper/tx-felt.webp");
-  --sm-star:url("../_img_png/paper/star-on-flat.svg");
+  --sm-grain:url("../img_png/paper/tx-paper-grain.webp");
+  --sm-felt:url("../img_png/paper/tx-felt.webp");
+  --sm-star:url("../img_png/paper/star-on-flat.svg");
 }
 .stage.theme-paper{--pp-edge:calc(28 * var(--u))}
 *{box-sizing:border-box}
@@ -209,12 +209,12 @@ const SHAPES = `<svg viewBox="1 2 100 100" aria-hidden="true">
   <path d="M72 58l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2Z" fill="#3DA468"/></svg>`;
 /* up: 위로 솟은 빈터 — 이름표를 위에 둔다 (아래 길과 겹침 방지) */
 const NODES = [
-  {id:'algorithms',    x:188,  y:690, up:false, href:'B-1_01.algorithms.html',    icon:'../_img_svg/B_1/img_버스와아이들.svg', ko:'알고리즘', en:'ALGORITHMS'},
-  {id:'sequencing',    x:497,  y:537, up:true,  gdx:175, crop:true, href:'B-1_02.sequencing.html',    icon:'../_img_svg/B_1/seq_3.svg',           ko:'순서',     en:'SEQUENCING'},
+  {id:'algorithms',    x:188,  y:690, up:false, href:'B-1_01.algorithms.html',    icon:'../img_svg/B_1/img_버스와아이들.svg', ko:'알고리즘', en:'ALGORITHMS'},
+  {id:'sequencing',    x:497,  y:537, up:true,  gdx:175, crop:true, href:'B-1_02.sequencing.html',    icon:'../img_svg/B_1/seq_3.svg',           ko:'순서',     en:'SEQUENCING'},
   {id:'decomposition', x:817,  y:707, up:false, href:'B-1_03.decomposition.html', svg:SHAPES,                                ko:'분해',     en:'DECOMPOSITION'},
-  {id:'branching',     x:1130, y:549, up:true,  href:'B-1_04.branching.html',     icon:'../_img_svg/B_1/bran_1.svg',          ko:'분기',     en:'BRANCHING'},
-  {id:'abstraction',   x:1443, y:728, up:false, href:'B-1_05.abstraction.html',   icon:'../_img_svg/B_1/abs_art_color.svg',         ko:'추상화',   en:'ABSTRACTION'},
-  {id:'pattern',       x:1756, y:606, up:true,  href:'B-1_06.pattern.html',       icon:'../_img_svg/B_1/pat_puzzle.svg',         ko:'패턴 인식', en:'PATTERN\nRECOGNITION'}
+  {id:'branching',     x:1130, y:549, up:true,  href:'B-1_04.branching.html',     icon:'../img_svg/B_1/bran_1.svg',          ko:'분기',     en:'BRANCHING'},
+  {id:'abstraction',   x:1443, y:728, up:false, href:'B-1_05.abstraction.html',   icon:'../img_svg/B_1/abs_art_color.svg',         ko:'추상화',   en:'ABSTRACTION'},
+  {id:'pattern',       x:1756, y:606, up:true,  href:'B-1_06.pattern.html',       icon:'../img_svg/B_1/pat_puzzle.svg',         ko:'패턴 인식', en:'PATTERN\nRECOGNITION'}
 ];
 const BOY_DX = -150, BOY_DY = 96, BOY_MIN_X = 62;   /* 노드 기준 소년 발 위치 (첫 노드는 화면 밖으로 안 나가게) */
 const GO_DY_DOWN = -112, GO_DY_UP = -172;           /* START 말풍선 꼬리 끝 (이름표가 위에 있는 노드는 더 높게) */

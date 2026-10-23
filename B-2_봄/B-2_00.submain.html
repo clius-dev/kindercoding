@@ -6,12 +6,12 @@
 <title>Step B-2 · 봄 서브메인</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
 <link rel="stylesheet" href="../DESIGN.css" type="text/css">
-<link rel="preload" href="../_img_png/B-2_00-submain-bg-spring-wide-v8.webp" as="image">
+<link rel="preload" href="../img_png/B-2_00-submain-bg-spring-wide-v8.webp" as="image">
 <style>
 /* ============================================================
    B-2_00 SUBMAIN — 봄 로드맵 (종이 콜라주 테마 DESIGN.md §11 · 시작 체크리스트 §12.2)
    · 한 화면에 스테이지 6개(B-2_01 ~ 06)가 지그재그 길 위에 선다. 페이지 넘김 없음.
-   · 배경: ../_img_png/B-2_00-submain-bg-spring-wide-v8.webp (2796×1200 와이드 마스터 · v3 에서 우상단 파랑새 제거 — 와이드에서 사운드 버튼에 가려져서)
+   · 배경: ../img_png/B-2_00-submain-bg-spring-wide-v8.webp (2796×1200 와이드 마스터 · v3 에서 우상단 파랑새 제거 — 와이드에서 사운드 버튼에 가려져서)
      아트보드(1920×1200u) 중앙에 정렬 → --bgw:2796 --bgh:1200 --bgx:-438 --bgy:0 (DESIGN.md §9.1.4)
      빈터 6개는 아트보드 안쪽(좌우 여백 약 89u)에 모여 있어 16:10 에서도 잘리지 않는다.
    · 빈터 좌표(아트보드 u, 배경 실측): NODES
@@ -27,9 +27,9 @@
   /* 종이 결 경로 — url() 은 '쓰는 쪽' 스타일시트 기준으로 풀린다.
      DESIGN.css 규칙(원판 버튼 등)은 DESIGN.css 기본값(--pp-tx-*)을 그대로 쓰고,
      이 화면 <style> 안의 규칙은 B-2_봄/ 기준 경로의 아래 로컬 토큰을 쓴다 */
-  --sm-grain:url("../_img_png/paper/tx-paper-grain.webp");
-  --sm-felt:url("../_img_png/paper/tx-felt.webp");
-  --sm-star:url("../_img_png/paper/star-on-flat.svg");
+  --sm-grain:url("../img_png/paper/tx-paper-grain.webp");
+  --sm-felt:url("../img_png/paper/tx-felt.webp");
+  --sm-star:url("../img_png/paper/star-on-flat.svg");
 }
 .stage.theme-paper{--pp-edge:calc(28 * var(--u))}
 *{box-sizing:border-box}
@@ -163,10 +163,10 @@ button{font:inherit; color:inherit}
 <link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
 </head>
 <body class="pp-kit">
-<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../_img_png/B-2_00-submain-bg-spring-wide-v8.webp">
+<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../img_png/B-2_00-submain-bg-spring-wide-v8.webp">
 
 <main class="stage theme-paper" id="stage">
-  <img class="stage__bg" alt="" src="../_img_png/B-2_00-submain-bg-spring-wide-v8.webp" style="--bgw:2796;--bgh:1200;--bgx:-438;--bgy:0">
+  <img class="stage__bg" alt="" src="../img_png/B-2_00-submain-bg-spring-wide-v8.webp" style="--bgw:2796;--bgh:1200;--bgx:-438;--bgy:0">
 
   <!-- 상단 크롬 §11.2 · §11.4 -->
   <div class="pp-edge-tl">
@@ -190,14 +190,14 @@ button{font:inherit; color:inherit}
 
   <div id="nodes"></div>
   <div class="go" id="go"><span class="go__b" id="goText">START</span></div>
-  <div class="boy" id="boy"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></div>
+  <div class="boy" id="boy"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></div>
 
 </main>
 <div class="rotate-gate">화면을 가로로 돌려 주세요</div>
 
 <script>
 /* ---- 스테이지 · 빈터 좌표 (아트보드 1920×1200u, 배경 실측) ---- */
-const SVG = '../_img_svg/B-2/';
+const SVG = '../img_svg/B-2/';
 const SHAPES = `<svg viewBox="1 2 100 100" aria-hidden="true">
   <circle cx="30" cy="34" r="20" fill="#E2543D"/>
   <path d="M70 12 92 52H48Z" fill="#E7B23C"/>
@@ -206,7 +206,7 @@ const SHAPES = `<svg viewBox="1 2 100 100" aria-hidden="true">
 /* up: 위로 솟은 빈터 — 이름표를 위에 둔다 (아래 길과 겹침 방지) */
 const NODES = [
   {id:'algorithms',    x:184,  y:665, up:false, href:'B-2_01.algorithms_v2.html',    icon:SVG+'img_딸기바구니cat.svg', ko:'알고리즘', en:'ALGORITHMS'},
-  {id:'sequencing',    x:491,  y:514, up:true,  href:'B-2_02.sequencing_v4.html',    icon:'../_img_png/B-2_00-node-hen.png',         ko:'순서',     en:'SEQUENCING'},
+  {id:'sequencing',    x:491,  y:514, up:true,  href:'B-2_02.sequencing_v4.html',    icon:'../img_png/B-2_00-node-hen.png',         ko:'순서',     en:'SEQUENCING'},
   {id:'decomposition', x:809,  y:684, up:false, href:'B-2_03.decomposition_v2.html', svg:SHAPES,                      ko:'분해',     en:'DECOMPOSITION'},
   {id:'branching',     x:1122, y:525, up:true,  href:'B-2_04.branching_v2.html',     icon:SVG+'img_umbrella.svg',      ko:'분기',     en:'BRANCHING'},
   {id:'abstraction',   x:1434, y:704, up:false, href:'B-2_05.abstraction_v2.html',   icon:SVG+'img_꽃1.svg',           ko:'추상화',   en:'ABSTRACTION'},

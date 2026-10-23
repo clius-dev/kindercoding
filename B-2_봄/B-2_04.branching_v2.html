@@ -6,7 +6,7 @@
 <title>Step B-2 · BRANCHING — Weather &amp; Actions (Paper)</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
 <link rel="stylesheet" href="../DESIGN.css" type="text/css">
-<link rel="preload" href="../_img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" as="image">
+<link rel="preload" href="../img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" as="image">
 <style>
 /* ============================================================
    B-2_04 BRANCHING v2 — 종이 콜라주 테마 (DESIGN.md §11)
@@ -79,7 +79,7 @@ img{user-select:none; -webkit-user-drag:none}
 
 /* ---------- 카드 — 틸 펠트 판 안에 아이콘 + 글자 라벨 ----------
    한 줄 = 틸 펠트 판 440×140u. 아이콘은 가운데(포트) 쪽, 라벨은 바깥쪽 — 왼쪽 열 [라벨 | 아이콘] ●, 오른쪽 열 ● [아이콘 | 라벨].
-   판은 card-felt-teal 과 같은 재질의 가로형 카드 이미지(../_img_png/paper/card-felt-teal-wide-a/b.webp)를 그대로 쓴다. 판 전체가 터치 영역 */
+   판은 card-felt-teal 과 같은 재질의 가로형 카드 이미지(../img_png/paper/card-felt-teal-wide-a/b.webp)를 그대로 쓴다. 판 전체가 터치 영역 */
 .tile{position:absolute; z-index:6; padding:0 calc(26 * var(--u)); border:0; background:none; cursor:pointer;
   width:calc(440 * var(--u)); height:calc(140 * var(--u)); margin-top:calc(-70 * var(--u));
   display:flex; align-items:center; gap:calc(18 * var(--u)); font-family:var(--ff);
@@ -283,10 +283,10 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 <link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
 </head>
 <body class="is-briefing">
-<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../_img_png/B-2_03-06-stage-bg-spring-wide-v1.webp">
+<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../img_png/B-2_03-06-stage-bg-spring-wide-v1.webp">
 
 <main class="stage theme-paper" id="stage">
-  <img class="stage__bg" id="bg" alt="" src="../_img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" style="--bgw:2766;--bgh:1210;--bgx:-445;--bgy:-7;--fx:140;--fy:36" onerror="this.onerror=null;this.removeAttribute('style');this.classList.add('is-orig');this.src='../_img_png/B-2_04-stage-bg-sparrow-bear-v1.png'">
+  <img class="stage__bg" id="bg" alt="" src="../img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" style="--bgw:2766;--bgh:1210;--bgx:-445;--bgy:-7;--fx:140;--fy:36" onerror="this.onerror=null;this.removeAttribute('style');this.classList.add('is-orig');this.src='../img_png/B-2_04-stage-bg-sparrow-bear-v1.png'">
 
   <!-- 상단 크롬 §11.2 · §11.4 -->
   <div class="pp-edge-tl">
@@ -327,7 +327,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 
   <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 플레이 방법(가이드 팝업)을 연다 -->
   <div class="boy-slot" id="boySlot">
-    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></button>
   </div>
 
   <!-- 가이드 팝업 §8.5 · §11.9 -->
@@ -352,7 +352,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
     <div class="win__stack">
       <div class="win__rays"></div>
       <div class="win__glow"></div>
-      <img class="win__art" id="winArt" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <img class="win__art" id="winArt" alt="" src="../img_png/complete-duo-paper-v4.png">
       <div class="win__sparks" id="winSparks"></div>
       <div class="win__confetti" id="winConf"></div>
       <div class="win__actions">
@@ -599,7 +599,7 @@ function makeTile(side, id, row){
   b.style.left = 'calc(' + ROW_LEFT[side] + ' * var(--u))';
   b.style.top  = 'calc(' + ROW_Y[row] + ' * var(--u))';
   /* 카드 이미지 2종을 번갈아 — 점 무늬 자리가 서로 다르다 */
-  b.style.setProperty('--card', 'url("../_img_png/paper/card-felt-teal-wide-' + ((row + (side === 'l' ? 0 : 1)) % 2 ? 'b' : 'a') + '.webp")');
+  b.style.setProperty('--card', 'url("../img_png/paper/card-felt-teal-wide-' + ((row + (side === 'l' ? 0 : 1)) % 2 ? 'b' : 'a') + '.webp")');
   el('span', 'tile__paper', b);
   paperObj(el('span', 'tile__art', b), side === 'l' ? it.art : it.act);
   el('span', 'tile__label', b);

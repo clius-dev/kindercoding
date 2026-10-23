@@ -11,7 +11,7 @@
 /* ============================================================
    B-4_03 DECOMPOSITION — 우리 가족 찾기 (나와 가족)
    배경: 파란 하늘 · 구름 · 잔디 (assets/B-4_03-bg-v13.webp, 2688×1200 와이드 마스터)
-   배경: Higgsfield 하늘·잔디·길 (assets/B-4_03-bg-v13.webp, B-4_02 와 같은 펠트 질감, 덤불줄·집 없음). 집·사람 13명: _img_svg/B-4 의 SVG 를 그대로 쓰고 종이 질감(tx-felt)을 CSS mask+overlay 로 얹음. 이름은 텍스트(Paperlogy)
+   배경: Higgsfield 하늘·잔디·길 (assets/B-4_03-bg-v13.webp, B-4_02 와 같은 펠트 질감, 덤불줄·집 없음). 집·사람 13명: img_svg/B-4 의 SVG 를 그대로 쓰고 종이 질감(tx-felt)을 CSS mask+overlay 로 얹음. 이름은 텍스트(Paperlogy)
    안내 캐릭터: 종이 소년(B-2_02-boy-v5) — 브리핑 후 왼쪽 아래로 이동, 누르면 플레이 방법(가이드)
    집 크기 = B-4_02·04·06 의 플레이 영역(크림 판 x 209~1704 · y 158~1043u)과 같은 1495×885u, 해상도 정중앙
    플레이: 질문이 하나씩 나오고(B-3_03 처럼) 해당 사람을 톡 누른다. 타이핑 없음. 5문제 순서 고정
@@ -52,12 +52,12 @@ img{user-select:none; -webkit-user-drag:none}
 /* SVG 그림 + 종이 질감: 그림 모양(mask)에만 tx-felt 를 overlay 로 얹는다 */
 .art{position:absolute; inset:0; display:block; pointer-events:none; isolation:isolate;
   background:var(--svg) var(--bp,0 0)/var(--bs,100% 100%) no-repeat}
-.art::after{content:''; position:absolute; inset:0; background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96 * var(--u)) auto;
+.art::after{content:''; position:absolute; inset:0; background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96 * var(--u)) auto;
   mix-blend-mode:overlay; opacity:.95;
   -webkit-mask:var(--svg) var(--bp,0 0)/var(--bs,100% 100%) no-repeat; mask:var(--svg) var(--bp,0 0)/var(--bs,100% 100%) no-repeat}
 /* 집은 면이 넓어 타일 반복(점 무늬 줄)이 보인다 — 서로 안 맞는 크기 두 겹으로 반복을 깨고 세기는 낮춘다 */
 .art--house::after{background-size:calc(151 * var(--u)) auto; opacity:.55}
-.art--house::before{content:''; position:absolute; inset:0; z-index:1; background:url("../_img_png/paper/tx-felt.webp") calc(41 * var(--u)) calc(67 * var(--u))/calc(109 * var(--u)) auto;
+.art--house::before{content:''; position:absolute; inset:0; z-index:1; background:url("../img_png/paper/tx-felt.webp") calc(41 * var(--u)) calc(67 * var(--u))/calc(109 * var(--u)) auto;
   mix-blend-mode:overlay; opacity:.5;
   -webkit-mask:var(--svg) var(--bp,0 0)/var(--bs,100% 100%) no-repeat; mask:var(--svg) var(--bp,0 0)/var(--bs,100% 100%) no-repeat}
 /* 이름판 글자 — DESIGN.css 폰트(--ff, Paperlogy) */
@@ -144,7 +144,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 .guide__rim,.guide__face{position:absolute}
 .guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
   -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
-.guide__face{inset:0; background:var(--pp-cream) url("../_img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
+.guide__face{inset:0; background:var(--pp-cream) url("../img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
   -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
 .gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
   font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
@@ -167,7 +167,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 .rv__chip{position:relative; isolation:isolate; display:grid; place-items:center; min-width:calc(190*var(--u)); height:calc(64*var(--u)); padding:0 calc(34*var(--u));
   color:var(--pp-gold-ink); font-weight:800; font-size:calc(34*var(--u)); letter-spacing:.02em}
 .rv__chip::before{content:''; position:absolute; inset:0; z-index:-1;
-  background-color:var(--pp-gold); background-image:url("../_img_png/paper/tx-paper-grain.webp");
+  background-color:var(--pp-gold); background-image:url("../img_png/paper/tx-paper-grain.webp");
   background-size:calc(460 * var(--u)) calc(160 * var(--u)); background-blend-mode:overlay;
   -webkit-mask:var(--pp-mask-tag) center/100% 100% no-repeat; mask:var(--pp-mask-tag) center/100% 100% no-repeat}
 .rv__clue{margin:calc(4*var(--u)) 0 calc(20*var(--u)); font-size:calc(36*var(--u)); font-weight:700; line-height:1.3; white-space:nowrap; color:var(--pp-ink); letter-spacing:-.02em; word-break:keep-all; text-wrap:balance}
@@ -272,20 +272,20 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 
   <!-- 집 — 워크시트 그림 그대로. 사람(창문)마다 투명 터치 버튼 -->
   <div class="house" id="house">
-    <span class="art art--house" style="--svg:url('../_img_svg/B-4/img_패밀리집.svg')"></span>
-    <button class="who" data-k="emily" aria-label="Emily" style="left:4.953%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람1.svg');"><span class="art"></span><span class="nm">Emily</span></button>
-    <button class="who" data-k="laura" aria-label="Laura" style="left:18.347%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람2.svg'); --bs:167.2% 131.7%; --bp:49.95% 0%;"><span class="art"></span><span class="nm">Laura</span></button>
-    <button class="who" data-k="jordan" aria-label="Jordan" style="left:31.740%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람3.svg');"><span class="art"></span><span class="nm">Jordan</span></button>
-    <button class="who" data-k="punk" aria-label="Punk" style="left:45.133%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람4.svg');"><span class="art"></span><span class="nm">Punk</span></button>
-    <button class="who" data-k="ping" aria-label="Ping" style="left:58.527%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람5.svg');"><span class="art"></span><span class="nm">Ping</span></button>
-    <button class="who" data-k="ren" aria-label="Ren" style="left:71.920%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람6.svg');"><span class="art"></span><span class="nm">Ren</span></button>
-    <button class="who" data-k="mueller" aria-label="Mueller" style="left:85.313%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람7.svg');"><span class="art"></span><span class="nm">Mueller</span></button>
-    <button class="who" data-k="david" aria-label="David" style="left:4.953%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람8.svg');"><span class="art"></span><span class="nm">David</span></button>
-    <button class="who" data-k="woody" aria-label="Woody" style="left:18.347%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람9.svg');"><span class="art"></span><span class="nm">Woody</span></button>
-    <button class="who" data-k="amy" aria-label="Amy" style="left:31.740%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람10.svg');"><span class="art"></span><span class="nm">Amy</span></button>
-    <button class="who" data-k="jasmine" aria-label="Jasmine" style="left:58.527%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람11.svg');"><span class="art"></span><span class="nm">Jasmine</span></button>
-    <button class="who" data-k="benjamin" aria-label="Benjamin" style="left:71.920%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람12.svg');"><span class="art"></span><span class="nm">Benjamin</span></button>
-    <button class="who" data-k="barbara" aria-label="Barbara" style="left:85.313%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../_img_svg/B-4/img_가족사람13.svg');"><span class="art"></span><span class="nm">Barbara</span></button>
+    <span class="art art--house" style="--svg:url('../img_svg/B-4/img_패밀리집.svg')"></span>
+    <button class="who" data-k="emily" aria-label="Emily" style="left:4.953%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람1.svg');"><span class="art"></span><span class="nm">Emily</span></button>
+    <button class="who" data-k="laura" aria-label="Laura" style="left:18.347%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람2.svg'); --bs:167.2% 131.7%; --bp:49.95% 0%;"><span class="art"></span><span class="nm">Laura</span></button>
+    <button class="who" data-k="jordan" aria-label="Jordan" style="left:31.740%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람3.svg');"><span class="art"></span><span class="nm">Jordan</span></button>
+    <button class="who" data-k="punk" aria-label="Punk" style="left:45.133%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람4.svg');"><span class="art"></span><span class="nm">Punk</span></button>
+    <button class="who" data-k="ping" aria-label="Ping" style="left:58.527%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람5.svg');"><span class="art"></span><span class="nm">Ping</span></button>
+    <button class="who" data-k="ren" aria-label="Ren" style="left:71.920%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람6.svg');"><span class="art"></span><span class="nm">Ren</span></button>
+    <button class="who" data-k="mueller" aria-label="Mueller" style="left:85.313%;top:25.756%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람7.svg');"><span class="art"></span><span class="nm">Mueller</span></button>
+    <button class="who" data-k="david" aria-label="David" style="left:4.953%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람8.svg');"><span class="art"></span><span class="nm">David</span></button>
+    <button class="who" data-k="woody" aria-label="Woody" style="left:18.347%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람9.svg');"><span class="art"></span><span class="nm">Woody</span></button>
+    <button class="who" data-k="amy" aria-label="Amy" style="left:31.740%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람10.svg');"><span class="art"></span><span class="nm">Amy</span></button>
+    <button class="who" data-k="jasmine" aria-label="Jasmine" style="left:58.527%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람11.svg');"><span class="art"></span><span class="nm">Jasmine</span></button>
+    <button class="who" data-k="benjamin" aria-label="Benjamin" style="left:71.920%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람12.svg');"><span class="art"></span><span class="nm">Benjamin</span></button>
+    <button class="who" data-k="barbara" aria-label="Barbara" style="left:85.313%;top:62.356%;width:9.707%;height:26.759%; --svg:url('../img_svg/B-4/img_가족사람13.svg');"><span class="art"></span><span class="nm">Barbara</span></button>
   </div>
 
   <!-- 브리핑 딤 + 종이 말풍선 §11.8 -->
@@ -298,7 +298,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 
   <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 플레이 방법(가이드 팝업)을 연다 -->
   <div class="boy-slot" id="boySlot">
-    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></button>
   </div>
 
   <!-- 정답 팝업 §8.5 — 그 사람 + 단서 문장 + 이름 -->
@@ -325,7 +325,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
     <div class="win__stack">
       <div class="win__rays"></div>
       <div class="win__glow"></div>
-      <img class="win__art" id="winArt" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <img class="win__art" id="winArt" alt="" src="../img_png/complete-duo-paper-v4.png">
       <div class="win__sparks" id="winSparks"></div>
       <div class="win__confetti" id="winConf"></div>
       <div class="win__actions">

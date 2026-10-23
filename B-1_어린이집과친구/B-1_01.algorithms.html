@@ -217,7 +217,7 @@ body{background-image:linear-gradient(180deg,#6F9C67 0%,#47785A 58%,#315943 100%
   color:var(--pp-gold-ink); font-weight:800; font-size:calc(31*var(--u)); letter-spacing:.02em}
 /* B-2_04 v2 의 IF 칩과 같은 크기 · 골드 종이 조각 */
 .destination__tag::before{content:''; position:absolute; inset:0; z-index:-1;
-  background-color:var(--pp-gold); background-image:url("../_img_png/paper/tx-paper-grain.webp");
+  background-color:var(--pp-gold); background-image:url("../img_png/paper/tx-paper-grain.webp");
   background-size:calc(460*var(--u)) calc(160*var(--u)); background-blend-mode:overlay;
   -webkit-mask:var(--pp-mask-tag) center/100% 100% no-repeat; mask:var(--pp-mask-tag) center/100% 100% no-repeat}
 .field,.field__deco{display:none}
@@ -228,7 +228,7 @@ body{background-image:linear-gradient(180deg,#6F9C67 0%,#47785A 58%,#315943 100%
 .cmd__row{gap:calc(18*var(--u))}
 .rail{position:relative; flex:none; padding:calc(20*var(--u)) calc(66*var(--u)); filter:drop-shadow(0 calc(4*var(--u)) calc(5*var(--u)) rgba(46,28,10,.34))}
 .rail__wood{position:absolute; inset:0; pointer-events:none; border-style:solid; border-width:0 calc(58*var(--u));
-  border-image-source:url("../_img_png/paper/counter-plank-hf.webp"); border-image-slice:0 150 fill; border-image-repeat:stretch}
+  border-image-source:url("../img_png/paper/counter-plank-hf.webp"); border-image-slice:0 150 fill; border-image-repeat:stretch}
 .track{grid-template-columns:repeat(7, calc(84*var(--u))); gap:calc(14*var(--u))}
 .slot{background:#5C2A1B; box-shadow:inset 0 calc(6*var(--u)) 0 rgba(22,6,2,.5)}
 .bz-palette{margin-top:0}
@@ -251,7 +251,7 @@ body.is-briefing .boy-slot{transform:translateX(calc(-761*var(--u))) scale(1.18)
 .guide__rim,.guide__face{position:absolute}
 .guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
   -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
-.guide__face{inset:0; background:var(--pp-cream) url("../_img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
+.guide__face{inset:0; background:var(--pp-cream) url("../img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
   -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
 .gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
   font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
@@ -704,7 +704,7 @@ const guideOpen = () => guideEl.classList.contains('on');
 const stage = $('stage'), boyEl = $('boy'), winEl = $('win'), btnSay = $('btnSay'), fx = $('fx'),
       trackEl = $('track'), palEl = $('palette'), busEl = $('bus'), cmdEl = $('cmd'), playEl = $('play'), clearEl = $('clear');
 /* 종이 질감을 입힌 최신 버스·아이들 SVG를 사용한다. */
-busEl.querySelector('img').src = '../_img_svg/B_1/img_버스와아이들.svg';
+busEl.querySelector('img').src = '../img_svg/B_1/img_버스와아이들.svg';
 const timers = new Set();
 const later = (fn, ms) => { const t = setTimeout(() => { timers.delete(t); fn() }, ms); timers.add(t); return t };
 const clearLater = () => { timers.forEach(clearTimeout); timers.clear() };
@@ -1077,7 +1077,7 @@ $('retry').addEventListener('click', () => { resetGame() });
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 { const bi = new Image(); bi.alt = ''; bi.src = 'assets/B-1_03-boy-fine-paper.png'; bi.className = 'b1-boy__image'; bi.draggable = false; boyEl.appendChild(bi);
   const seams = new Image(); seams.alt = ''; seams.src = 'assets/B-1_03-boy-flat-seams-overlay.png'; seams.className = 'b1-boy__image b1-boy__seams'; seams.draggable = false; boyEl.appendChild(seams) }
-{ const wi = new Image(); wi.alt = ''; wi.src = '../_img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
+{ const wi = new Image(); wi.alt = ''; wi.src = '../img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
 startGame();
 })();
 </script>

@@ -12,7 +12,7 @@
    B-1_02 SEQUENCING — 아침 준비 순서 (Textured Cut-Paper Storybook Theater)
    DESIGN.md §11(종이 콜라주) · §8.3 완료 · §8.4 브리핑 · §8.5/11.9 가이드 · §9.1.4 반응형
    배경: B-2 봄 숲 배경과 한 세트로 보이는 고해상도 나무집 칠판(B-1_02-sequencing-bg-v20-lighter-wall, 2796×1200) — 소품 간소화 · 화분 제거 · 밝은 갈색 벽면
-   카드 그림: _img_svg/B_1/seq_1~8.svg 를 종이 오브젝트(펠트 결 overlay, B-2_05 v2 방식)로 사용
+   카드 그림: img_svg/B_1/seq_1~8.svg 를 종이 오브젝트(펠트 결 overlay, B-2_05 v2 방식)로 사용
    캐릭터: 워크시트의 해
    공통 토큰·버튼은 DESIGN.css(.theme-paper · .pp-*), 반응형은 RESPONSIVE.css
    ============================================================ */
@@ -65,13 +65,13 @@ img{user-select:none; -webkit-user-drag:none}
 .slot.is-filled .slot__cell{opacity:1; transform:none}
 .slot.is-landing .slot__cell{animation:landSquash .42s var(--e-out)}
 @keyframes landSquash{0%{transform:scale(.98,.86)}45%{transform:scale(.95,1)}100%{transform:none}}
-.slot__cell.pp-cell{background:#ebdcc0 url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat; background-blend-mode:soft-light}
+.slot__cell.pp-cell{background:#ebdcc0 url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat; background-blend-mode:soft-light}
 .slot__cell .obj{position:absolute; left:50%; top:50%; width:76%; height:72%; transform:translate(-50%,-50%)}
 /* 번호 배지 — 골드 종이 원판 + 들뜸 그림자(§11.6) */
 .badge{position:absolute; z-index:8; left:calc(-16*var(--u)); top:calc(-16*var(--u));
   width:calc(58*var(--u)); height:calc(58*var(--u)); border-radius:50%; pointer-events:none;
   display:grid; place-items:center; font-size:calc(28*var(--u)); font-weight:900; line-height:1; color:var(--pp-gold-ink);
-  background:var(--pp-gold) url("../_img_png/paper/tx-paper-grain.webp") center/calc(460*var(--u)) calc(160*var(--u));   /* 인라인 <style> 안이라 문서 기준 상대경로 */
+  background:var(--pp-gold) url("../img_png/paper/tx-paper-grain.webp") center/calc(460*var(--u)) calc(160*var(--u));   /* 인라인 <style> 안이라 문서 기준 상대경로 */
   background-blend-mode:overlay; padding-top:calc(2*var(--u))}
 
 /* 종이 오브젝트 (B-2_05 v2 방식) — 그림 + 같은 모양으로 오린 펠트 결(overlay).
@@ -81,7 +81,7 @@ img{user-select:none; -webkit-user-drag:none}
 .obj > img,.pp-card .obj > img{position:absolute; inset:0; width:100%; height:100%; max-width:none; max-height:none;
   display:block; object-fit:contain; pointer-events:none}
 .obj__tx{position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.95;
-  background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat;
+  background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat;
   -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat}
 /* 놓인 카드를 누르면 뜨는 그림+문장 팝업 */
 .slot.is-filled{cursor:pointer}
@@ -176,7 +176,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 .garrow{width:calc(44*var(--u)); fill:var(--pp-teal)}
 .gtrack > span{position:relative; width:calc(170*var(--u)); height:calc(140*var(--u)); border-radius:calc(20*var(--u));
   background:rgba(31,41,55,.12); display:grid; place-items:center}
-.gtrack > span.filled{background:#ebdcc0 url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat; background-blend-mode:soft-light}
+.gtrack > span.filled{background:#ebdcc0 url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat; background-blend-mode:soft-light}
 .gtrack > span.filled{box-shadow:inset 0 0 0 calc(3*var(--u)) #c4a674}
 .gtrack > span.filled .obj{width:62%; height:82%}
 .gtrack > span.lit{background:radial-gradient(ellipse at 50% 45%,#FFEBB0 0%,#FFD97A 100%);

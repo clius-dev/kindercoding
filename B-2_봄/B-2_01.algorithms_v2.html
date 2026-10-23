@@ -221,7 +221,7 @@ img,svg{display:block;max-width:100%}
 .bz-wood{
   position:absolute;inset:0;pointer-events:none;
   border-style:solid;border-width:0 calc(58 * var(--u));
-  border-image-source:url("../_img_png/paper/counter-plank-hf.webp");
+  border-image-source:url("../img_png/paper/counter-plank-hf.webp");
   border-image-slice:0 150 fill;border-image-repeat:stretch;
 }
 .bz-track{
@@ -494,7 +494,7 @@ body.is-briefing .bz-talk{opacity:1;visibility:visible;transform:none;transition
 <link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
 </head>
 <body class="is-briefing">
-<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../_img_png/B-2_01-stage-bg-berry-wide-v7-spring-soft.webp">
+<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../img_png/B-2_01-stage-bg-berry-wide-v7-spring-soft.webp">
 <!-- 방향 화살표 원본 (img_svg/B-2/direction-arrow.svg). 카드마다 <use> 로 불러 쓴다 -->
 <svg width="0" height="0" aria-hidden="true" style="position:absolute">
   <symbol id="bz-arrow" viewBox="0 0 184.02 143.87">
@@ -505,8 +505,8 @@ body.is-briefing .bz-talk{opacity:1;visibility:visible;transform:none;transition
 <main class="app" id="app">
   <section class="bz-stage stage theme-paper" id="stage" style="--bz-step:.6s" aria-label="B-2 Strawberry Path stage">
     <!-- 배경 §11.12 — B-2_02 기준 색감·질감을 맞춘 봄 종이 콜라주 숲속 딸기밭(Higgsfield v6, submain 질감·색). 3 x 3 흙 고랑을 v4 와 같은 칸 좌표로 정렬(최대 오차 6u). -->
-    <img class="stage__bg" id="bg" alt="" src="../_img_png/B-2_01-stage-bg-berry-wide-v7-spring-soft.webp" style="--bgw:3209;--bgh:1433;--bgx:-645;--bgy:-212"
-         onerror="this.onerror=null;this.src='../_img_png/B-2_01-stage-bg-berry-wide-v7-spring-soft.webp'">
+    <img class="stage__bg" id="bg" alt="" src="../img_png/B-2_01-stage-bg-berry-wide-v7-spring-soft.webp" style="--bgw:3209;--bgh:1433;--bgx:-645;--bgy:-212"
+         onerror="this.onerror=null;this.src='../img_png/B-2_01-stage-bg-berry-wide-v7-spring-soft.webp'">
 
     <div class="bz-inner">
       <p class="bz-bubble" id="bubble" role="status" aria-live="polite">
@@ -578,7 +578,7 @@ body.is-briefing .bz-talk{opacity:1;visibility:visible;transform:none;transition
 
       <!-- 소년 — 브리핑 때 가운데로 나와 설명, 끝나면 좌하단에 서 있고 누르면 플레이 방법(가이드 팝업)을 연다 [stated] -->
       <div class="bz-boy-slot" id="boySlot">
-        <button class="bz-boy" id="boy" type="button" aria-label="How to play"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+        <button class="bz-boy" id="boy" type="button" aria-label="How to play"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></button>
       </div>
 
       <!-- 가이드 팝업 §8.5 · §11.9 -->
@@ -1137,7 +1137,7 @@ function sayVoiceOnly(line){
 }
 
 /* ============================================================
-   배경 — v2 는 종이 콜라주 배경 이미지 1장(../_img_png/B-2_01-stage-bg-berry-v2.webp)을 쓴다.
+   배경 — v2 는 종이 콜라주 배경 이미지 1장(../img_png/B-2_01-stage-bg-berry-v2.webp)을 쓴다.
    원본의 코드로 그린 하늘·풀숲(StageBackdrop)은 걷어냈다. DESIGN.md §11.12
    ============================================================ */
 const berryArt = () =>
@@ -1262,7 +1262,7 @@ function cheerCatSvg(weaveId){
    소년 원본보다 화면이 작게 보여 명암 비를 1.7배 키워 담았다. 값은 배율/2 로 담겨 있어 feComposite arithmetic(k1=2)로 곱하면 원래 명암 비가 된다.
    흰 테두리·그림자 추가 없음 — 면 안의 섬유 결만.
    ============================================================ */
-const FELT_CARD_TX = '../_img_png/paper/card-felt-teal.webp';
+const FELT_CARD_TX = '../img_png/paper/card-felt-teal.webp';
 function paperFilter(id){
   return '<filter id="' + id + '" x="-8%" y="-8%" width="116%" height="116%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">'
     + '<feImage href="' + FELT_CARD_TX + '" x="-.12" y="-.12" width="1.24" height="1.24" preserveAspectRatio="none" result="feltColor"/>'

@@ -11,12 +11,12 @@
 
   /* 서브메인 버스 그림의 4명(주황머리·단발머리·상투머리 · 보라 고양이) — 팔을 뺀 얼굴+몸통만, 얼굴이 원 중앙에 오도록 자른 SVG */
   A.AVATARS = [
-    {id:'boy', src:'../_img_svg/avatar/avatar_boy.svg'},
-    {id:'girl', src:'../_img_svg/avatar/avatar_girl.svg'},
-    {id:'kid', src:'../_img_svg/avatar/avatar_kid.svg'},
-    {id:'monster', src:'../_img_svg/avatar/avatar_monster.svg'},
-    {id:'curly', src:'../_img_svg/avatar/avatar_curly.png'},
-    {id:'bun', src:'../_img_svg/avatar/avatar_bun.png'}
+    {id:'boy', src:'../img_svg/avatar/avatar_boy.svg'},
+    {id:'girl', src:'../img_svg/avatar/avatar_girl.svg'},
+    {id:'kid', src:'../img_svg/avatar/avatar_kid.svg'},
+    {id:'monster', src:'../img_svg/avatar/avatar_monster.svg'},
+    {id:'curly', src:'../img_svg/avatar/avatar_curly.png'},
+    {id:'bun', src:'../img_svg/avatar/avatar_bun.png'}
   ];
   A.avatarSrc = id => (A.AVATARS.find(a => a.id === id) || A.AVATARS[0]).src;
   A.THEMES = {

@@ -11,8 +11,8 @@ html,body{margin:0; width:100%; height:100%; overflow:hidden; background:#8cc4dc
 body{font-family:'Paperlogy',system-ui,sans-serif; position:relative; isolation:isolate; color:var(--pp-ink)}
 button,input{font:inherit; color:inherit}
 button{cursor:pointer}
-:root{--bg-img:url("../_img_png/main/main-stage-bg-tall-v6-day.webp?v=20261015-2")}
-@media (min-aspect-ratio:193/100){:root{--bg-img:url("../_img_png/main/main-stage-bg-wide-v4-day.webp?v=20261015-2")}}
+:root{--bg-img:url("../img_png/main/main-stage-bg-tall-v6-day.webp?v=20261015-2")}
+@media (min-aspect-ratio:193/100){:root{--bg-img:url("../img_png/main/main-stage-bg-wide-v4-day.webp?v=20261015-2")}}
 body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:#8cc4dc var(--bg-img) center/cover no-repeat}
 body::after{content:""; position:fixed; inset:0; z-index:1; pointer-events:none; background:var(--pp-scrim)}
 

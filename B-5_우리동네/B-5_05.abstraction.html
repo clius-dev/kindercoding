@@ -37,7 +37,7 @@ img{user-select:none; -webkit-user-drag:none}
   overflow:hidden; isolation:isolate; background:transparent}
 .stage__bg{position:absolute; left:0; top:0; width:calc(1920*var(--u));
   height:calc(1200*var(--u)); max-width:none; display:none; z-index:0}
-.stage__fill{background:#43C7E8 url('../_img_png/B-5_05-ocean-bg-v6-island-ripples.png') center/100% 100% no-repeat!important}
+.stage__fill{background:#43C7E8 url('../img_png/B-5_05-ocean-bg-v6-island-ripples.png') center/100% 100% no-repeat!important}
 
 /* ---------- 상단 크롬 — 원본에서 오려낸 종이 버튼 ---------- */
 .ibtn-img{position:absolute; z-index:20; padding:0; border:0; background:none;
@@ -544,8 +544,8 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none;
 
   <!-- 문제판 — 우리 동네 섬 지도 (사진 타일 12곳) -->
   <div class="island" id="island">
-    <img class="island__img" alt="" draggable="false" src="../_img_png/B-5_05-island-paper-v2.png">
-    <img class="island__cards" alt="" draggable="false" src="../_img_png/B-5_05-place-cards-overlay-green.png">
+    <img class="island__img" alt="" draggable="false" src="../img_png/B-5_05-island-paper-v2.png">
+    <img class="island__cards" alt="" draggable="false" src="../img_png/B-5_05-place-cards-overlay-green.png">
   </div>
 
   <!-- 트레이 기호 카드 12장 -->
@@ -562,7 +562,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none;
 
   <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 가이드 -->
   <div class="boy-slot" id="boySlot">
-  <button class="boy" id="boy" aria-label="Show me how again"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+  <button class="boy" id="boy" aria-label="Show me how again"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></button>
   </div>
 
   <!-- 가이드 팝업 -->
@@ -762,7 +762,7 @@ const SFX = (() => {
    2. 데이터 — 첨부 워크시트(Step B-5 'Abstraction') 그대로
       지도 위 사진 타일 12곳 ↔ 오른쪽 CUT 기호 카드 12장. 같은 장소의 기호만 붙는다.
    ============================================================ */
-const IMG_DIR = '../_img_png/';
+const IMG_DIR = '../img_png/';
 const iconSrc = c => IMG_DIR + 'B-5_05-icon-' + c + '.png';
 /* 섬 지도 이미지(1763×1123) 안 타일 좌상단 좌표(px) — 타일은 211×211 */
 const ISL = {w:1763, h:1123, tile:211};
@@ -820,8 +820,8 @@ const I18N = {
    3. 화면 만들기
    ============================================================ */
 const stage = document.getElementById('stage');
-const BOY_ASSET = '../_img_png/B-2_02-boy-v5.webp';
-const WIN_BOY_ASSET = '../_img_png/B-2_02-boy-driving-yellow-car-side-simple-v2.png';
+const BOY_ASSET = '../img_png/B-2_02-boy-v5.webp';
+const WIN_BOY_ASSET = '../img_png/B-2_02-boy-driving-yellow-car-side-simple-v2.png';
 document.querySelector('#boy img').src = BOY_ASSET;
 document.querySelector('.win__art').src = WIN_BOY_ASSET;
 const islandEl = document.getElementById('island');

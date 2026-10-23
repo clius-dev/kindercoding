@@ -6,7 +6,7 @@
 <title>Step B-3 · DECOMPOSITION — 탱그램 동물 만들기</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
 <link rel="stylesheet" href="../DESIGN.css" type="text/css">
-<link rel="preload" href="../_img_png/B-2_03-stage-bg-spring-wide-v5.webp" as="image">
+<link rel="preload" href="../img_png/B-2_03-stage-bg-spring-wide-v5.webp" as="image">
 <style>
 /* ============================================================
    B-3_03 DECOMPOSITION — 탱그램 조각으로 동물 만들기 (B-3_02 틀 기반 · DESIGN.md 종이 콜라주 테마)
@@ -437,10 +437,10 @@ body.is-won #nameTag,body.is-won .spark-bit{opacity:0}
 .panel--tray{left:calc(997*var(--u)); top:calc(var(--pt)*var(--u)); width:calc(650*var(--u)); height:calc(650*var(--u));
   background:#FCF9EE; border:calc(6*var(--u)) dashed #0C8998; box-sizing:border-box; filter:var(--lift-m);
   transition:filter .3s, background-color .4s}
-.panel--tray.is-ask{background:#2F8E97 url(../_img_png/paper/card-felt-teal.webp) center/100% 100% no-repeat; border-color:transparent}
+.panel--tray.is-ask{background:#2F8E97 url(../img_png/paper/card-felt-teal.webp) center/100% 100% no-repeat; border-color:transparent}
 /* 남은 조각 판 — 원본 B-2_03 의 카운터 나무판 */
 .plank{position:absolute; z-index:12; left:calc(1360*var(--u)); top:calc(var(--pt)*var(--u)); width:calc(270*var(--u)); height:calc(84*var(--u));
-  transform:translate(-50%,-52%); background:url(../_img_png/paper/counter-plank-hf.webp) center/100% 100% no-repeat; filter:var(--lift-s);
+  transform:translate(-50%,-52%); background:url(../img_png/paper/counter-plank-hf.webp) center/100% 100% no-repeat; filter:var(--lift-s);
   display:grid; place-items:center; transition:opacity .3s var(--e-out)}
 .plank span{font-size:calc(46*var(--u)); font-weight:800; color:#FFD23F; letter-spacing:.04em; text-shadow:0 calc(3*var(--u)) 0 rgba(46,28,10,.55); padding-top:calc(4*var(--u))}
 .plank.off{opacity:0}
@@ -525,7 +525,7 @@ const Ug="_overlay_1xtdr_1",Hg="_card_1xtdr_5",Wg="_glyphSlot_1xtdr_9",Vg="_glyp
 ._overlay_6uuv0_7{position:fixed;inset:0}
 #pop{display:none}
 #pop.on{display:grid}
-:root{--paper-felt:url(../_img_png/paper/tx-felt.webp)}
+:root{--paper-felt:url(../img_png/paper/tx-felt.webp)}
 ._glyphSlot_1xtdr_9 svg.anim{display:block;width:calc(150 * var(--u));height:calc(150 * var(--u));overflow:visible}
 #pop h2,#pop h3{margin:0}
 body.is-won #pop{display:none !important}
@@ -545,7 +545,7 @@ body.is-won #pop{display:none !important}
 <div class="stage__fill" aria-hidden="true" style="position:fixed;inset:0;background:#3d6e50;z-index:-1;pointer-events:none"></div>
 
 <main class="stage" id="stage">
-    <img class="stage__bg" id="bg" alt="" src="../_img_png/B-2_03-stage-bg-spring-wide-v5.webp" style="--bgw:2766;--bgh:1210;--bgx:-445;--bgy:-7">
+    <img class="stage__bg" id="bg" alt="" src="../img_png/B-2_03-stage-bg-spring-wide-v5.webp" style="--bgw:2766;--bgh:1210;--bgx:-445;--bgy:-7">
 
 
   <!-- 상단 크롬 — 뷰포트 가장자리 고정 (RESPONSIVE.css .pp-edge-*, 28u + safe-area) -->
@@ -570,7 +570,7 @@ body.is-won #pop{display:none !important}
   <div class="plank" id="plank" aria-hidden="true"><span id="cnt">0 / 7</span></div>
   <div class="badge" id="badge" aria-hidden="true"><img alt=""></div>
   <div class="hang" id="hang" aria-hidden="true"><span class="talk__tag"><span id="chipTxt">Build the animal!</span></span></div>
-  <div class="hand" id="hand"><img alt="" src="../_img_png/hint-hand.svg"></div>
+  <div class="hand" id="hand"><img alt="" src="../img_png/hint-hand.svg"></div>
   <!-- 게임판 — 조각·그림자는 JS 가 #play 안에 만든다 (크림 판 안쪽) -->
   <div id="play" class="play"></div>
   <div class="nameTag" id="nameTag" aria-live="polite"></div>

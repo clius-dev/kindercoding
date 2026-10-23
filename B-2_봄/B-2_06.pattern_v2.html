@@ -6,7 +6,7 @@
 <title>Step B-2 · PATTERN RECOGNITION (Paper)</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
 <link rel="stylesheet" href="../DESIGN.css" type="text/css">
-<link rel="preload" href="../_img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" as="image">
+<link rel="preload" href="../img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" as="image">
 <style>
 /* ============================================================
    B-2_06 PATTERN RECOGNITION v2 — 종이 콜라주 테마 (DESIGN.md §11)
@@ -14,7 +14,7 @@
    문제 데이터(LAYOUT) · 판정 · 입력 규칙 · 효과음은 원본 B-2_06.pattern.html(DESIGN.md §9.7) 그대로.
    아이콘 8종(새 · 클로버 · 무당벌레 · 해바라기 · 새집 · 노란꽃 · 나비 · 튤립)은 원본 SVG 그대로,
    면에 --pp-tx-felt 결만 overlay 로 입힌다 (B-2_05 v2 꽃과 같은 질감).
-   배경은 B-2_04 v2 의 빈 판 배경(../_img_png/B-2_06-stage-bg-forest-v1.webp) 재사용.
+   배경은 B-2_04 v2 의 빈 판 배경(../img_png/B-2_06-stage-bg-forest-v1.webp) 재사용.
    좌표는 전부 아트보드 1920×1200u.
    ============================================================ */
 :root{
@@ -66,7 +66,7 @@ img{user-select:none; -webkit-user-drag:none}
   width:calc(520 * var(--u)); height:calc(166 * var(--u)); margin-left:calc(-260 * var(--u));
   display:flex; align-items:center; justify-content:center; gap:calc(12 * var(--u)); isolation:isolate}
 .rule::before{content:''; position:absolute; inset:0; z-index:-1; filter:var(--pp-lift-s);
-  background:url("../_img_png/paper/card-felt-teal-wide-a.webp") center/100% 100% no-repeat}
+  background:url("../img_png/paper/card-felt-teal-wide-a.webp") center/100% 100% no-repeat}
 .rule .ic{width:calc(100 * var(--u)); height:calc(100 * var(--u))}
 
 /* ---------- 문제판 — 배경의 크림 판 위에 8열 × 5행 ----------
@@ -251,10 +251,10 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 <link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
 </head>
 <body class="is-briefing">
-<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../_img_png/B-2_03-06-stage-bg-spring-wide-v1.webp">
+<img class="stage__fill" alt="" aria-hidden="true" style="position:fixed;left:-6%;top:-6%;width:112%;height:112%;max-width:none;object-fit:cover;filter:blur(28px);z-index:-1;pointer-events:none" src="../img_png/B-2_03-06-stage-bg-spring-wide-v1.webp">
 
 <main class="stage theme-paper" id="stage">
-  <img class="stage__bg" id="bg" alt="" src="../_img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" style="--bgw:2766;--bgh:1210;--bgx:-445;--bgy:-7;--fx:140;--fy:36" onerror="this.onerror=null;this.removeAttribute('style');this.classList.add('is-orig');this.src='../_img_png/B-2_06-stage-bg-forest-v1.webp'">
+  <img class="stage__bg" id="bg" alt="" src="../img_png/B-2_03-06-stage-bg-spring-wide-v1.webp" style="--bgw:2766;--bgh:1210;--bgx:-445;--bgy:-7;--fx:140;--fy:36" onerror="this.onerror=null;this.removeAttribute('style');this.classList.add('is-orig');this.src='../img_png/B-2_06-stage-bg-forest-v1.webp'">
 
   <!-- 상단 크롬 §11.2 · §11.4 -->
   <div class="pp-edge-tl">
@@ -305,7 +305,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 
   <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 플레이 방법(가이드 팝업)을 연다 -->
   <div class="boy-slot" id="boySlot">
-    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></button>
   </div>
 
   <!-- 가이드 팝업 §8.5 · §11.9 -->
@@ -343,7 +343,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
     <div class="win__stack">
       <div class="win__rays"></div>
       <div class="win__glow"></div>
-      <img class="win__art" id="winArt" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <img class="win__art" id="winArt" alt="" src="../img_png/complete-duo-paper-v4.png">
       <div class="win__sparks" id="winSparks"></div>
       <div class="win__confetti" id="winConf"></div>
       <div class="win__actions">

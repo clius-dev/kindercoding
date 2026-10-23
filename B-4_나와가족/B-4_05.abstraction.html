@@ -40,7 +40,7 @@
 .p .ph{position:absolute; inset:0; border-radius:50%; background:var(--img) center/100% 100% no-repeat; isolation:isolate; pointer-events:none}
 .p::before{content:''; position:absolute; inset:calc(-9*var(--u)); border-radius:50%; background:#FFF3E0; z-index:-1}
 .p .ph::after{content:''; position:absolute; inset:0; border-radius:50%;
-  background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) auto; mix-blend-mode:overlay; opacity:.28;
+  background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) auto; mix-blend-mode:overlay; opacity:.28;
   -webkit-mask:var(--img) center/100% 100% no-repeat; mask:var(--img) center/100% 100% no-repeat}
 .p .nm{position:absolute; left:50%; bottom:calc(-30*var(--u)); transform:translateX(-50%); isolation:isolate; overflow:hidden;
   display:grid; place-items:center; width:calc(188*var(--u)); height:calc(60*var(--u)); padding:0 calc(10*var(--u)); border-radius:999px;
@@ -48,7 +48,7 @@
   letter-spacing:.01em; line-height:1; white-space:nowrap; pointer-events:none; z-index:3}
 /* 종이 질감 — 살짝 */
 .p .nm::before{content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:url("../_img_png/paper/tx-paper-grain.webp") 0 0/calc(460*var(--u)) calc(160*var(--u));
+  background:url("../img_png/paper/tx-paper-grain.webp") 0 0/calc(460*var(--u)) calc(160*var(--u));
   mix-blend-mode:overlay; opacity:.55}
 .p::after{content:''; position:absolute; inset:calc(-15*var(--u)); border-radius:50%; pointer-events:none;
   border:calc(8*var(--u)) solid #FFD23F; opacity:0;
@@ -209,7 +209,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 
 /* 진행 별 판 — main.html 시계와 같은 종이 간판(394×78u) */
 .pp-stars{margin-top:calc(21*var(--u)); /* 좌우 버튼(120u) 세로 중심에 맞춤 */ width:calc(394*var(--u)); height:calc(78*var(--u)); box-sizing:border-box; padding:calc(8*var(--u)) calc(38*var(--u)) calc(11*var(--u)); gap:calc(9*var(--u));
-  background:transparent url("../_img_png/main/main-clock-sign-reference-v5-noline.png?v=20261012-1") center/contain no-repeat;
+  background:transparent url("../img_png/main/main-clock-sign-reference-v5-noline.png?v=20261012-1") center/contain no-repeat;
   filter:drop-shadow(0 calc(2*var(--u)) calc(1.5*var(--u)) rgba(45,24,18,.24))}
 .pp-stars .pp-star{width:calc(54*var(--u)); height:calc(54*var(--u))}
 .pp-stars .pp-star{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23D9C7A6'/><stop offset='1' stop-color='%23C7B28D'/></linearGradient><filter id='i' x='-20%' y='-20%' width='140%' height='140%'><feOffset dx='0' dy='3.5'/><feGaussianBlur stdDeviation='2.2' result='b'/><feComposite in='SourceAlpha' in2='b' operator='out' result='o'/><feFlood flood-color='%237A5C34' flood-opacity='.55'/><feComposite in2='o' operator='in' result='s'/><feComposite in='s' in2='SourceGraphic' operator='over'/></filter></defs><g filter='url(%23i)' opacity='0.9'><polygon points='50.0,15.0 60.6,38.4 86.1,41.3 67.1,58.6 72.3,83.7 50.0,71.0 27.7,83.7 32.9,58.6 13.9,41.3 39.4,38.4' fill='url(%23g)' stroke='url(%23g)' stroke-width='9' stroke-linejoin='round'/></g></svg>")}
@@ -270,7 +270,7 @@ body.is-briefing .boy-slot{transform:translateX(calc(817.6*var(--u))) scale(1.18
 
   <!-- 소년 — 브리핑 때 가운데로 나와 설명, 이후 누르면 플레이 방법(가이드 팝업)을 연다 -->
   <div class="boy-slot" id="boySlot">
-    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></button>
+    <button class="boy" id="boy" aria-label="How to play"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></button>
   </div>
 
   <!-- 완료 화면 §8.3 -->
@@ -279,7 +279,7 @@ body.is-briefing .boy-slot{transform:translateX(calc(817.6*var(--u))) scale(1.18
     <div class="win__stack">
       <div class="win__rays"></div>
       <div class="win__glow"></div>
-      <img class="win__art" id="winArt" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <img class="win__art" id="winArt" alt="" src="../img_png/complete-duo-paper-v4.png">
       <div class="win__sparks" id="winSparks"></div>
       <div class="win__confetti" id="winConf"></div>
       <div class="win__actions">

@@ -17,7 +17,7 @@
    좌표는 전부 아트보드 1920×1200u. 칠판 안쪽 ≈ x 219~1701 · y 189~1042u
    ============================================================ */
 :root{
-  --platetx:url("../_img_png/paper/tx-felt-teal.webp");
+  --platetx:url("../img_png/paper/tx-felt-teal.webp");
   --br-line:#FFF1C9;           /* 칠판 위라 크림색 선 */
   --br-port:#E7B23C;           /* = --pp-gold */
   --br-port-on:#5CC48A;
@@ -68,11 +68,11 @@ img{user-select:none; -webkit-user-drag:none}
 /* ---------- 포트 — 흰 종이 테두리 + 골드 종이 점 ---------- */
 .port{position:absolute; z-index:8; width:calc(36 * var(--u)); height:calc(36 * var(--u));
   margin:calc(-18 * var(--u)) 0 0 calc(-18 * var(--u)); border-radius:50%; pointer-events:none;
-  background:var(--br-ring) url("../_img_png/paper/tx-felt.webp") center/calc(96 * var(--u)) repeat;
+  background:var(--br-ring) url("../img_png/paper/tx-felt.webp") center/calc(96 * var(--u)) repeat;
   background-blend-mode:hard-light;
   transition:transform var(--t-fast) var(--e-pop)}
 .port::after{content:''; position:absolute; inset:calc(5 * var(--u)); border-radius:50%;
-  background:var(--br-port) url("../_img_png/paper/tx-felt.webp") center/calc(96 * var(--u)) repeat;
+  background:var(--br-port) url("../img_png/paper/tx-felt.webp") center/calc(96 * var(--u)) repeat;
   background-blend-mode:overlay; transition:background-color var(--t-fast)}
 .port.is-on{transform:scale(1.12)}
 .port.is-on::after{background-color:var(--br-port-on)}
@@ -106,7 +106,7 @@ img{user-select:none; -webkit-user-drag:none}
 .obj > img{position:absolute; inset:0; width:100%; height:100%; max-width:none; max-height:none; display:block;
   object-fit:contain; pointer-events:none}
 .obj__tx{position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.95;
-  background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96 * var(--u)) repeat;
+  background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96 * var(--u)) repeat;
   -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat}
 /* 고른 카드 · 힌트 — 글자판 · 그림 둘레로 번지는 빛 */
 .card.is-hint{animation:hintBob 1.2s ease-in-out 3}
@@ -124,7 +124,7 @@ img{user-select:none; -webkit-user-drag:none}
   margin-left:calc(-95 * var(--u)); display:grid; place-items:center; pointer-events:none;
   color:var(--pp-gold-ink); font-weight:800; font-size:calc(31 * var(--u)); letter-spacing:.02em; isolation:isolate}
 .col-title::before{content:''; position:absolute; inset:0; z-index:-1;
-  background-color:var(--pp-gold); background-image:url("../_img_png/paper/tx-paper-grain.webp");
+  background-color:var(--pp-gold); background-image:url("../img_png/paper/tx-paper-grain.webp");
   background-size:calc(460 * var(--u)) calc(160 * var(--u)); background-blend-mode:overlay;
   -webkit-mask:var(--pp-mask-tag) center/100% 100% no-repeat; mask:var(--pp-mask-tag) center/100% 100% no-repeat}
 
@@ -187,7 +187,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 .guide__rim,.guide__face{position:absolute}
 .guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
   -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
-.guide__face{inset:0; background:var(--pp-cream) url("../_img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
+.guide__face{inset:0; background:var(--pp-cream) url("../img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
   -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
 .gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
   font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
@@ -225,7 +225,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
 .pchip{flex:none; display:grid; place-items:center; width:calc(124*var(--u)); height:calc(56*var(--u)); isolation:isolate;
   color:var(--pp-gold-ink); font-weight:800; font-size:calc(28*var(--u)); letter-spacing:.02em; position:relative}
 .pchip::before{content:''; position:absolute; inset:0; z-index:-1;
-  background-color:var(--pp-gold); background-image:url("../_img_png/paper/tx-paper-grain.webp");
+  background-color:var(--pp-gold); background-image:url("../img_png/paper/tx-paper-grain.webp");
   background-size:calc(460 * var(--u)) calc(160 * var(--u)); background-blend-mode:overlay;
   -webkit-mask:var(--pp-mask-tag) center/100% 100% no-repeat; mask:var(--pp-mask-tag) center/100% 100% no-repeat}
 .pair__row b{font-size:calc(46*var(--u)); font-weight:800; color:var(--pp-ink); line-height:1.15; letter-spacing:-.025em}
@@ -383,7 +383,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none; transition
     <div class="win__stack">
       <div class="win__rays"></div>
       <div class="win__glow"></div>
-      <img class="win__art" id="winArt" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <img class="win__art" id="winArt" alt="" src="../img_png/complete-duo-paper-v4.png">
       <div class="win__sparks" id="winSparks"></div>
       <div class="win__confetti" id="winConf"></div>
       <div class="win__actions">

@@ -73,7 +73,7 @@ img{user-select:none; -webkit-user-drag:none}
 .obj{position:relative; display:block; isolation:isolate; filter:var(--pp-lift-s); width:calc(var(--w)*var(--u)); height:calc(var(--h)*var(--u))}
 .obj > img{position:absolute; inset:0; width:100%; height:100%; max-width:none; max-height:none; display:block; object-fit:contain; pointer-events:none}
 .obj__tx{position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.95;
-  background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat;
+  background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat;
   -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat}
 .cell.is-over{background:rgba(242,182,50,.22)}
 .cell.is-over::after{content:""; position:absolute; inset:calc(4*var(--u)); border:calc(3.5*var(--u)) dashed var(--nb-teal); border-radius:calc(10*var(--u)); pointer-events:none}
@@ -1081,7 +1081,7 @@ if('speechSynthesis' in window){
 }
 { const bi = new Image(); bi.alt = ''; bi.src = 'assets/B-1_03-boy-fine-paper.png'; bi.className = 'b1-boy__image'; bi.draggable = false; boyEl.appendChild(bi);
   const seams = new Image(); seams.alt = ''; seams.src = 'assets/B-1_03-boy-flat-seams-overlay.png'; seams.className = 'b1-boy__image b1-boy__seams'; seams.draggable = false; boyEl.appendChild(seams) }
-{ const wi = new Image(); wi.alt = ''; wi.src = '../_img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
+{ const wi = new Image(); wi.alt = ''; wi.src = '../img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
 startGame();
 })();
 </script>

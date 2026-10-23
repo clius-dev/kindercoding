@@ -75,7 +75,7 @@ img{user-select:none; -webkit-user-drag:none}
 .obj{position:relative; display:block; isolation:isolate; filter:var(--pp-lift-s)}
 .obj > img{position:absolute; inset:0; width:100%; height:100%; max-width:none; max-height:none; display:block; object-fit:contain; pointer-events:none}
 .obj__tx{position:absolute; inset:0; pointer-events:none; mix-blend-mode:overlay; opacity:.95;
-  background:url("../_img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat;
+  background:url("../img_png/paper/tx-felt.webp") 0 0/calc(96*var(--u)) repeat;
   -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat}
 .pic.is-hl::after, .pic.is-ok::after{content:""; position:absolute; inset:calc(3*var(--u)); border-radius:calc(12*var(--u)); pointer-events:none;
   background:rgba(242,182,50,.55)}
@@ -100,7 +100,7 @@ img{user-select:none; -webkit-user-drag:none}
 .tile.is-cut::before{content:none}
 .pp-edge-tc{display:none}
 /* 트레이 카드 — DESIGN.md §11.7: 빈 틸 펠트 판 + 오브젝트 그림 */
-.tile.is-cut{background:url("../_img_png/paper/card-felt-teal.webp") center/100% 100% no-repeat}
+.tile.is-cut{background:url("../img_png/paper/card-felt-teal.webp") center/100% 100% no-repeat}
 .tile.is-cut .tile__lb{color:#fff}
 .tile.is-cut .tile__ic{filter:url(#wline)}
 .cell .tile{background:none}
@@ -1032,7 +1032,7 @@ $('retry').addEventListener('click', () => { SFX.tap(); resetGame() });
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 { const bi = new Image(); bi.alt = ''; bi.src = 'assets/B-1_03-boy-fine-paper.png'; bi.className = 'b1-boy__image'; bi.draggable = false; boyEl.appendChild(bi);
   const seams = new Image(); seams.alt = ''; seams.src = 'assets/B-1_03-boy-flat-seams-overlay.png'; seams.className = 'b1-boy__image b1-boy__seams'; seams.draggable = false; boyEl.appendChild(seams) }
-{ const wi = new Image(); wi.alt = ''; wi.src = '../_img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
+{ const wi = new Image(); wi.alt = ''; wi.src = '../img_png/complete-duo-paper-v4.png'; wi.draggable = false; $('winArt').appendChild(wi) }
 startGame();
 })();
 </script>

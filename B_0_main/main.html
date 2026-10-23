@@ -22,8 +22,8 @@ html,body{margin:0; width:100%; height:100%; overflow:hidden; background:#8cc4dc
 /* ---------- 배경 — 화면 전체를 덮는 한 장(cover). 비율 구간마다 가장 가까운 비율의 이미지를 쓴다 ----------
    --bg-a : 이미지 가로/세로 비율, --bg-cy : 커튼 중심의 세로 위치(이미지 높이 대비 · 실측).
    UI(아트보드 1920×1200)는 다른 화면과 같은 배율(--u)로 두고, 카드 영역 중심을 배경 커튼 중심에 맞춘다. */
-:root{--bg-img:url("../_img_png/main/main-stage-bg-tall-v6-day.webp?v=20261015-2"); --bg-a:1.6875; --bg-cy:.508; --bg-cw:.558; --bg-ch:.51; --u0:var(--u)}
-@media (min-aspect-ratio:193/100){:root{--bg-img:url("../_img_png/main/main-stage-bg-wide-v4-day.webp?v=20261015-2"); --bg-a:2.3333; --bg-cy:.473; --bg-cw:.603; --bg-ch:.83}}
+:root{--bg-img:url("../img_png/main/main-stage-bg-tall-v6-day.webp?v=20261015-2"); --bg-a:1.6875; --bg-cy:.508; --bg-cw:.558; --bg-ch:.51; --u0:var(--u)}
+@media (min-aspect-ratio:193/100){:root{--bg-img:url("../img_png/main/main-stage-bg-wide-v4-day.webp?v=20261015-2"); --bg-a:2.3333; --bg-cy:.473; --bg-cw:.603; --bg-ch:.83}}
 
 body{position:relative; isolation:isolate}
 body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:#8cc4dc var(--bg-img) center/cover no-repeat; filter:saturate(.93)}
@@ -50,10 +50,9 @@ body.pp-kit .stage{--bgH:max(100dvh, 100dvw / var(--bg-a));
 .pp-edge-tl{gap:calc(14 * var(--u))}
 .brand{display:flex; align-items:center; gap:calc(14 * var(--u)); filter:var(--pp-lift-s)}
 .brand__mark{display:grid; place-items:center; width:calc(120 * var(--u)); height:calc(120 * var(--u));
-  background:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat; color:#6C4689; font-size:calc(66 * var(--u)); line-height:1}
+  background:url("../img_png/paper/disc.webp") center/100% 100% no-repeat; color:#6C4689; font-size:calc(66 * var(--u)); line-height:1}
 .brand__text{font-weight:800; font-size:calc(36 * var(--u)); letter-spacing:-.04em; color:var(--pp-cream);
   text-shadow:0 calc(3 * var(--u)) calc(2 * var(--u)) rgba(7,29,36,.62)}
-.pp-ibtn{filter:var(--pp-lift-s)}
 /* 크기·위치는 B-3_04 와 동일 — 상단 원판 120u, .pp-edge-tl/tr (28u 여백, 버튼 간격 20u). 도움말이 B-3_04 언어 자리, 사운드가 맨 오른쪽 */
 .pp-ibtn svg{fill:currentColor}
 
@@ -66,23 +65,23 @@ body.pp-kit .stage{--bgH:max(100dvh, 100dvw / var(--bg-a));
 /* 내 정보 — 옐로우 종이 원판 + 고양이 얼굴 (친구 고양이 이미지를 머리만 잘라 사용) */
 .pp-ibtn--profile{background:none}
 .pp-ibtn--profile::before{content:""; position:absolute; inset:0; border-radius:50%;
-  background:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat, #FFCB2E; background-blend-mode:multiply;
-  -webkit-mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat; mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat}
+  background:url("../img_png/paper/disc.webp") center/100% 100% no-repeat, #FFCB2E; background-blend-mode:multiply;
+  -webkit-mask:url("../img_png/paper/disc.webp") center/100% 100% no-repeat; mask:url("../img_png/paper/disc.webp") center/100% 100% no-repeat}
 .pp-ibtn--profile .cat{position:relative; z-index:1; display:block; width:60%; aspect-ratio:400/338; overflow:hidden; transform:translateX(1.5%)}
 .pp-ibtn--profile .cat img{display:block; width:100%; height:auto}
 .pp-ibtn--parent svg{width:54%; height:54%; fill:currentColor; stroke:none}
 .pp-ibtn--menu svg{width:41%; height:41%; fill:none; stroke:currentColor; stroke-width:4.8; stroke-linecap:round}   /* 뒤로 셰브론(41%, 선 ≈4.8/24)과 같은 굵기·높이 */
 .pp-ibtn--menu{flex:none}
 .pp-edge-tc{z-index:12; height:calc(122 * var(--u)); display:flex; align-items:center}
-.clock{box-sizing:border-box; width:calc(540 * var(--u)); height:calc(122 * var(--u)); display:flex; align-items:center; justify-content:center; gap:calc(18 * var(--u)); padding:calc(18 * var(--u)) calc(62 * var(--u)); background:transparent url("../_img_png/main/main-clock-sign-reference-v5-noline.png?v=20261012-1") center/contain no-repeat; color:#4A2D25; filter:drop-shadow(0 calc(3 * var(--u)) calc(2 * var(--u)) rgba(45,24,18,.24)); white-space:nowrap; pointer-events:none}
+.clock{box-sizing:border-box; width:calc(540 * var(--u)); height:calc(122 * var(--u)); display:flex; align-items:center; justify-content:center; gap:calc(18 * var(--u)); padding:calc(18 * var(--u)) calc(62 * var(--u)); background:transparent url("../img_png/main/main-clock-sign-reference-v5-noline.png?v=20261012-1") center/contain no-repeat; color:#4A2D25; filter:drop-shadow(0 calc(3 * var(--u)) calc(2 * var(--u)) rgba(45,24,18,.24)); white-space:nowrap; pointer-events:none}
 .clock__date{font-size:calc(28 * var(--u)); font-weight:750}
 .clock__time{font-size:calc(42 * var(--u)); font-weight:850; letter-spacing:-.03em}
 .pp-ibtn--profile svg,.pp-ibtn--record svg{width:46%; height:46%; fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round}
 .pp-ibtn--profile svg .f,.pp-ibtn--record svg .f,.pp-ibtn--parent svg .f{fill:currentColor; stroke:none}
 .pp-ibtn--record{background:none}
 .pp-ibtn--record::before{content:""; position:absolute; inset:0; border-radius:50%;
-  background:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat, #7048A8; background-blend-mode:multiply;
-  -webkit-mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat; mask:url("../_img_png/paper/disc.webp") center/100% 100% no-repeat}
+  background:url("../img_png/paper/disc.webp") center/100% 100% no-repeat, #7048A8; background-blend-mode:multiply;
+  -webkit-mask:url("../img_png/paper/disc.webp") center/100% 100% no-repeat; mask:url("../img_png/paper/disc.webp") center/100% 100% no-repeat}
 .pp-ibtn--record svg{position:relative; z-index:1; width:56%; height:56%}
 .pp-ibtn--record svg .w{fill:#fff; stroke:none}
 .pp-ibtn--record svg .y{fill:#FFD84A; stroke:none}
@@ -97,10 +96,10 @@ body.pp-kit .stage{--bgH:max(100dvh, 100dvw / var(--bg-a));
   filter:var(--pp-lift-m); transition:transform .18s cubic-bezier(.2,.8,.2,1), filter .18s}
 /* 종이 면은 ::before — mask 요소에 직접 그림자를 걸면 잘리므로 그림자는 바깥(.card)에 둔다 (§11.3) */
 .card::before{content:""; position:absolute; inset:0; z-index:-1;
-  background-color:var(--paper); background-image:url("../_img_png/main/main-card-paper-v1.png?v=20261012-1");
+  background-color:var(--paper); background-image:url("../img_png/main/main-card-paper-v1.png?v=20261012-1");
   background-position:center; background-size:100% 100%; background-repeat:no-repeat; background-blend-mode:multiply;
-  -webkit-mask:url("../_img_png/main/main-card-paper-v1.png?v=20261012-1") center/100% 100% no-repeat;
-          mask:url("../_img_png/main/main-card-paper-v1.png?v=20261012-1") center/100% 100% no-repeat}
+  -webkit-mask:url("../img_png/main/main-card-paper-v1.png?v=20261012-1") center/100% 100% no-repeat;
+          mask:url("../img_png/main/main-card-paper-v1.png?v=20261012-1") center/100% 100% no-repeat}
 .card:nth-child(4n+1){transform:rotate(-.7deg)}.card:nth-child(4n+2){transform:rotate(.5deg)}
 .card:nth-child(4n+3){transform:rotate(-.35deg)}.card:nth-child(4n){transform:rotate(.8deg)}
 @media (hover:hover){.card:hover{transform:translateY(calc(-5 * var(--u))) rotate(0) scale(1.025); filter:var(--pp-lift-l) brightness(1.04)}}
@@ -159,22 +158,22 @@ body.pp-kit .stage{--bgH:max(100dvh, 100dvw / var(--bg-a));
   <div class="pp-edge-tc"><div class="clock" id="clock" aria-live="off"><span class="clock__date"></span><b class="clock__time"></b></div></div>
   <div class="pp-edge-tr">
     <button class="pp-ibtn pp-ibtn--lang" id="lang" type="button" aria-label="Change language"><span class="lg"><b class="on">A</b><i class="off">한</i></span></button>
-    <button class="pp-ibtn pp-ibtn--profile" id="profile" type="button" aria-label="My profile"><span class="cat" aria-hidden="true"><img src="../_img_svg/B-2/img_maincat.svg" alt=""></span></button>
+    <button class="pp-ibtn pp-ibtn--profile" id="profile" type="button" aria-label="My profile"><span class="cat" aria-hidden="true"><img src="../img_svg/B-2/img_maincat.svg" alt=""></span></button>
   </div>
 
   <section class="menu" aria-label="Choose a theme">
-    <button class="card c1 is-live" data-title="School &amp; Friends" data-href="../B-1_어린이집과친구/B-1_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-1.png" alt=""></span><strong class="card__ko">School &amp; Friends</strong><span class="card__tag">Soon</span></button>
-    <button class="card c2 is-live" data-title="Spring" data-href="../B-2_봄/B-2_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-2.png" alt=""></span><strong class="card__ko">Spring</strong><span class="card__tag">Start</span></button>
-    <button class="card c3 is-live" data-title="Plants &amp; Animals" data-href="../B-3_동식물과자연/B-3_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-3.png" alt=""></span><strong class="card__ko">Plants &amp; Animals</strong><span class="card__tag">Soon</span></button>
-    <button class="card c4 is-live" data-title="Me &amp; My Family" data-href="../B-4_나와가족/B-4_00.submain.html" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-4.png" alt=""></span><strong class="card__ko">Me &amp; My Family</strong><span class="card__tag">Soon</span></button>
-    <button class="card c5" data-title="My Town" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-5.png" alt=""></span><strong class="card__ko">My Town</strong><span class="card__tag">Soon</span></button>
-    <button class="card c6" data-title="Health &amp; Nature" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-6.png" alt=""></span><strong class="card__ko">Health &amp; Nature</strong><span class="card__tag">Soon</span></button>
-    <button class="card c7" data-title="Summer" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-7.png" alt=""></span><strong class="card__ko">Summer</strong><span class="card__tag">Soon</span></button>
-    <button class="card c8" data-title="Transportation" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-8.png" alt=""></span><strong class="card__ko">Transportation</strong><span class="card__tag">Soon</span></button>
-    <button class="card c9" data-title="Autumn &amp; Fruits" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-9.png" alt=""></span><strong class="card__ko">Autumn &amp; Fruits</strong><span class="card__tag">Soon</span></button>
-    <button class="card c10" data-title="Environment" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-10.png" alt=""></span><strong class="card__ko">Environment</strong><span class="card__tag">Soon</span></button>
-    <button class="card c11" data-title="Winter &amp; Play" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-11.png" alt=""></span><strong class="card__ko">Winter &amp; Play</strong><span class="card__tag">Soon</span></button>
-    <button class="card c12" data-title="Tools We Use" type="button"><span class="card__icon"><img src="../_img_png/titleimg_B-12.png" alt=""></span><strong class="card__ko">Tools We Use</strong><span class="card__tag">Soon</span></button>
+    <button class="card c1 is-live" data-title="School &amp; Friends" data-href="../B-1_어린이집과친구/B-1_00.submain.html" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-1.png" alt=""></span><strong class="card__ko">School &amp; Friends</strong><span class="card__tag">Soon</span></button>
+    <button class="card c2 is-live" data-title="Spring" data-href="../B-2_봄/B-2_00.submain.html" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-2.png" alt=""></span><strong class="card__ko">Spring</strong><span class="card__tag">Start</span></button>
+    <button class="card c3 is-live" data-title="Plants &amp; Animals" data-href="../B-3_동식물과자연/B-3_00.submain.html" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-3.png" alt=""></span><strong class="card__ko">Plants &amp; Animals</strong><span class="card__tag">Soon</span></button>
+    <button class="card c4 is-live" data-title="Me &amp; My Family" data-href="../B-4_나와가족/B-4_00.submain.html" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-4.png" alt=""></span><strong class="card__ko">Me &amp; My Family</strong><span class="card__tag">Soon</span></button>
+    <button class="card c5 is-live" data-title="My Town" data-href="../B-5_우리동네/B-5_00.submain.html" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-5.png" alt=""></span><strong class="card__ko">My Town</strong><span class="card__tag">Soon</span></button>
+    <button class="card c6" data-title="Health &amp; Nature" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-6.png" alt=""></span><strong class="card__ko">Health &amp; Nature</strong><span class="card__tag">Soon</span></button>
+    <button class="card c7" data-title="Summer" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-7.png" alt=""></span><strong class="card__ko">Summer</strong><span class="card__tag">Soon</span></button>
+    <button class="card c8" data-title="Transportation" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-8.png" alt=""></span><strong class="card__ko">Transportation</strong><span class="card__tag">Soon</span></button>
+    <button class="card c9" data-title="Autumn &amp; Fruits" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-9.png" alt=""></span><strong class="card__ko">Autumn &amp; Fruits</strong><span class="card__tag">Soon</span></button>
+    <button class="card c10" data-title="Environment" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-10.png" alt=""></span><strong class="card__ko">Environment</strong><span class="card__tag">Soon</span></button>
+    <button class="card c11" data-title="Winter &amp; Play" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-11.png" alt=""></span><strong class="card__ko">Winter &amp; Play</strong><span class="card__tag">Soon</span></button>
+    <button class="card c12" data-title="Tools We Use" type="button"><span class="card__icon"><img src="../img_png/titleimg_B-12.png" alt=""></span><strong class="card__ko">Tools We Use</strong><span class="card__tag">Soon</span></button>
   </section>
 
   <nav class="pager" aria-label="Category pages">
@@ -227,6 +226,11 @@ function renderPage(){
 pagePrev.addEventListener('click',()=>{if(currentPage>0){currentPage--;renderPage()}});
 pageNext.addEventListener('click',()=>{if(currentPage<PAGE_COUNT-1){currentPage++;renderPage()}});
 function closeDialog(dialog){dialog.classList.remove('is-on');setTimeout(()=>dialog.remove(),230)}
+/* 준비 중 팝업 이미지 크기 — 여름(B-7, 190×177u)의 높이(177u)를 기준으로 모든 PNG 높이를 맞춘다.
+   값 = titleimg_B-n.png 원본 가로·세로(px). h=177u, w=h×비율. 가로는 440u 를 넘지 않게 제한(넘으면 가로 기준으로 줄임) */
+const ART_PX={6:[476,257],7:[343,319],8:[571,352],9:[702,577],10:[1494,524],11:[865,675],12:[871,499]};
+const ART_H=177;
+function artSize(n){const d=ART_PX[n];if(!d)return null;const r=d[0]/d[1];let h=ART_H,w=h*r;if(w>440){w=440;h=w/r}return [Math.round(w),Math.round(h)]}
 function openDialog(title,artHtml,message=T().wait){
   const dialog=document.createElement('div');dialog.className='dialog';dialog.setAttribute('role','dialog');dialog.setAttribute('aria-modal','true');dialog.setAttribute('aria-labelledby','dialogTitle');
   dialog.innerHTML=`<div class="pp-sheet">${artHtml}<h2 id="dialogTitle">${title}</h2><p>${message}</p><button class="pp-round" type="button" aria-label="${T().close}">${CLOSE_SVG}</button></div>`;
@@ -240,7 +244,7 @@ function loadingUrl(href,title){
   loader.searchParams.set('to',target.href);loader.searchParams.set('title',title||'');loader.searchParams.set('lang',lang);
   return loader.href;
 }
-document.querySelector('.menu').addEventListener('click',e=>{const card=e.target.closest('.card');if(!card)return;const href=card.dataset.href;if(href){card.style.transform='scale(1.08)';setTimeout(()=>location.href=loadingUrl(href,card.dataset.title),330)}else{const src=card.querySelector('img').getAttribute('src');openDialog(card.dataset.title,`<img class="dialog__art" src="${src}" alt="">`)}});
+document.querySelector('.menu').addEventListener('click',e=>{const card=e.target.closest('.card');if(!card)return;const href=card.dataset.href;if(href){card.style.transform='scale(1.08)';setTimeout(()=>location.href=loadingUrl(href,card.dataset.title),330)}else{const src=card.querySelector('img').getAttribute('src'),n=+(card.className.match(/\bc(\d+)\b/)||[])[1],sz=artSize(n);openDialog(card.dataset.title,`<img class="dialog__art" src="${src}" alt=""${sz?` style="width:calc(${sz[0]} * var(--u));height:calc(${sz[1]} * var(--u))"`:''}>`)}});
 const SOON=(id,key)=>document.getElementById(id).addEventListener('click',()=>openDialog(T().ttl[key],STAR_SVG,T().soonMsg));
 document.getElementById('allmenu').addEventListener('click',()=>{location.href='A-4_allmenu.html'});   /* 전체 메뉴 → A-4 */
 document.getElementById('profile').addEventListener('click',()=>{location.href='A-2_profile.html'});

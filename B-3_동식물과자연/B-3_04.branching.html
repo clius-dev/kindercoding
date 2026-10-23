@@ -6,7 +6,7 @@
 <title>Step B-3 · BRANCHING — 질문 따라 동물 나누기</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css" type="text/css">
 <link rel="stylesheet" href="../DESIGN.css" type="text/css">
-<link rel="preload" href="../_img_png/B-2_02-stage-bg-spring-wide-v7.webp" as="image">
+<link rel="preload" href="../img_png/B-2_02-stage-bg-spring-wide-v7.webp" as="image">
 <style>
 /* ============================================================
    B-3_04 BRANCHING — 동식물과 자연 (뼈대·배경·브리핑·완료 화면 B-3_06.pattern 그대로)
@@ -163,7 +163,7 @@ img{user-select:none; -webkit-user-drag:none}
 ._overlay_6uuv0_7{position:fixed;inset:0}
 #pop{display:none}
 #pop.on{display:grid}
-:root{--paper-felt:url(../_img_png/paper/tx-felt.webp)}
+:root{--paper-felt:url(../img_png/paper/tx-felt.webp)}
 #pop h2,#pop h3{margin:0}
 body.is-won #pop{display:none !important}
 #pop{z-index:60}
@@ -188,7 +188,7 @@ body.is-won #pop{display:none !important}
 .slot{position:relative; width:calc(166*var(--u)); height:calc(166*var(--u))}
 /* CUT 카드 — DESIGN.md §11.3 · §11.7: 빈 틸 펠트 판(--pp-tx-card, 원본 해상도 그대로) + 들뜸 그림자 --pp-lift-s (box-shadow 두께 금지) */
 .slot::before{content:""; position:absolute; left:calc(5*var(--u)); top:calc(10*var(--u)); width:calc(156*var(--u)); height:calc(146*var(--u));
-  background:url("../_img_png/paper/card-felt-teal.webp") center/100% 100% no-repeat;
+  background:url("../img_png/paper/card-felt-teal.webp") center/100% 100% no-repeat;
   filter:var(--pp-lift-s, drop-shadow(0 calc(3*var(--u)) calc(3*var(--u)) rgba(46,28,10,.36)) drop-shadow(0 calc(1*var(--u)) calc(1*var(--u)) rgba(46,28,10,.24)))}
 .tile{position:absolute; inset:0; display:grid; place-items:center; cursor:grab;
   touch-action:none; user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent;
@@ -371,7 +371,7 @@ body.is-briefing .talk{opacity:1; visibility:visible; transform:none;
 
 
 .gdemo span{width:calc(130*var(--u)); height:calc(122*var(--u)); display:grid; place-items:center;
-  background:url("../_img_png/paper/card-felt-teal.webp") center/100% 100% no-repeat;
+  background:url("../img_png/paper/card-felt-teal.webp") center/100% 100% no-repeat;
   filter:var(--pp-lift-s, drop-shadow(0 calc(2*var(--u)) calc(2*var(--u)) rgba(46,28,10,.26)))}
 .gdemo span.pick{animation:gPick 2.4s var(--e-out) infinite}
 .gdemo span img{height:auto; border-radius:0; box-shadow:none; max-width:calc(104*var(--u)); max-height:calc(88*var(--u))}
@@ -474,7 +474,7 @@ body.is-won .boy-slot{opacity:0; visibility:hidden; pointer-events:none}   /* �
 <div class="stage__fill" aria-hidden="true" style="position:fixed;inset:0;background:#478165;z-index:-1;pointer-events:none"></div>
 
 <main class="stage" id="stage">
-  <img class="stage__bg" id="bg" alt="" src="assets/B-3_06-bg-clean.webp" style="--bgw:2757;--bgh:1215;--bgx:-435;--bgy:-10;--fx:140;--fy:36" onerror="this.onerror=null;this.src='../_img_png/B-2_02-stage-bg-spring-wide-v7.webp'">
+  <img class="stage__bg" id="bg" alt="" src="assets/B-3_06-bg-clean.webp" style="--bgw:2757;--bgh:1215;--bgx:-435;--bgy:-10;--fx:140;--fy:36" onerror="this.onerror=null;this.src='../img_png/B-2_02-stage-bg-spring-wide-v7.webp'">
 
   <!-- 상단 크롬 — 뷰포트 가장자리 고정 (RESPONSIVE.css .pp-edge-*) -->
   <div class="pp-edge-tl">
@@ -531,7 +531,7 @@ body.is-won .boy-slot{opacity:0; visibility:hidden; pointer-events:none}   /* �
     <div class="win__stack">
       <div class="win__rays"></div>
       <div class="win__glow"></div>
-      <img class="win__art" alt="" src="../_img_png/complete-duo-paper-v4.png">
+      <img class="win__art" alt="" src="../img_png/complete-duo-paper-v4.png">
       <div class="win__sparks" id="winSparks"></div>
       <div class="win__confetti" id="winConf"></div>
       <div class="win__actions">

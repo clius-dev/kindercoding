@@ -27,9 +27,9 @@
   /* 종이 결 경로 — url() 은 '쓰는 쪽' 스타일시트 기준으로 풀린다.
      DESIGN.css 규칙(원판 버튼 등)은 DESIGN.css 기본값(--pp-tx-*)을 그대로 쓰고,
      이 화면 <style> 안의 규칙은 B-3_동식물과자연/ 기준 경로의 아래 로컬 토큰을 쓴다 */
-  --sm-grain:url("../_img_png/paper/tx-paper-grain.webp");
-  --sm-felt:url("../_img_png/paper/tx-felt.webp");
-  --sm-star:url("../_img_png/paper/star-on-flat.svg");
+  --sm-grain:url("../img_png/paper/tx-paper-grain.webp");
+  --sm-felt:url("../img_png/paper/tx-felt.webp");
+  --sm-star:url("../img_png/paper/star-on-flat.svg");
 }
 .stage.theme-paper{--pp-edge:calc(28 * var(--u))}
 *{box-sizing:border-box}
@@ -190,7 +190,7 @@ button{font:inherit; color:inherit}
 
   <div id="nodes"></div>
   <div class="go" id="go"><span class="go__b" id="goText">START</span></div>
-  <div class="boy" id="boy"><img alt="" src="../_img_png/B-2_02-boy-v5.webp"></div>
+  <div class="boy" id="boy"><img alt="" src="../img_png/B-2_02-boy-v5.webp"></div>
 
 </main>
 <div class="rotate-gate">화면을 가로로 돌려 주세요</div>
@@ -199,12 +199,12 @@ button{font:inherit; color:inherit}
 /* ---- 스테이지 · 빈터 좌표 (아트보드 1920×1200u, 배경 실측) ---- */
 /* up: 위로 솟은 빈터 — 이름표를 위에 둔다 (아래 길과 겹침 방지) */
 const NODES = [
-  {id:'algorithms',    x:195,  y:703, up:false, href:'B-3_01.algorithms.html',      icon:'../_img_svg/B-3/img_토끼당근.svg',  ko:'알고리즘', en:'ALGORITHMS'},
-  {id:'sequencing',    x:502,  y:551, up:true,  href:'B-3_02.sequencing.html',      icon:'../_img_svg/B-3/img_개구리연잎.svg',  ko:'순서',     en:'SEQUENCING'},
-  {id:'decomposition', x:823,  y:721, up:false, href:'B-3_03.decomposition.html',   icon:'../_img_svg/B-3/img_칠교완성.svg',      ko:'분해',     en:'DECOMPOSITION'},
-  {id:'branching',     x:1138, y:567, up:true,  href:'B-3_04.branching.html',       icon:'../_img_svg/B-3/img_뱀개미.svg',      ko:'분기',     en:'BRANCHING'},
-  {id:'abstraction',   x:1451, y:741, up:false, href:'B-3_05.abstraction_v2.html',  icon:'../_img_svg/B-3/img_곰꽃.svg',    ko:'추상화',   en:'ABSTRACTION'},
-  {id:'pattern',       x:1760, y:628, up:true,  href:'B-3_06.pattern.html',         icon:'../_img_svg/B-3/img_개고양이.svg',      ko:'패턴 인식', en:'PATTERN\nRECOGNITION'}
+  {id:'algorithms',    x:195,  y:703, up:false, href:'B-3_01.algorithms.html',      icon:'../img_svg/B-3/img_토끼당근.svg',  ko:'알고리즘', en:'ALGORITHMS'},
+  {id:'sequencing',    x:502,  y:551, up:true,  href:'B-3_02.sequencing.html',      icon:'../img_svg/B-3/img_개구리연잎.svg',  ko:'순서',     en:'SEQUENCING'},
+  {id:'decomposition', x:823,  y:721, up:false, href:'B-3_03.decomposition.html',   icon:'../img_svg/B-3/img_칠교완성.svg',      ko:'분해',     en:'DECOMPOSITION'},
+  {id:'branching',     x:1138, y:567, up:true,  href:'B-3_04.branching.html',       icon:'../img_svg/B-3/img_뱀개미.svg',      ko:'분기',     en:'BRANCHING'},
+  {id:'abstraction',   x:1451, y:741, up:false, href:'B-3_05.abstraction_v2.html',  icon:'../img_svg/B-3/img_곰꽃.svg',    ko:'추상화',   en:'ABSTRACTION'},
+  {id:'pattern',       x:1760, y:628, up:true,  href:'B-3_06.pattern.html',         icon:'../img_svg/B-3/img_개고양이.svg',      ko:'패턴 인식', en:'PATTERN\nRECOGNITION'}
 ];
 const BOY_DX = -150, BOY_DY = 96, BOY_MIN_X = 62;   /* 노드 기준 소년 발 위치 (첫 노드는 화면 밖으로 안 나가게) */
 const GO_DY_DOWN = -112, GO_DY_UP = -172;           /* START 말풍선 꼬리 끝 (이름표가 위에 있는 노드는 더 높게) */

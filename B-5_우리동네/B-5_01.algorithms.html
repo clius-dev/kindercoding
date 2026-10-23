@@ -16,8 +16,6 @@ button{font:inherit; color:inherit}
 img{user-select:none; -webkit-user-drag:none}
 .stage{position:relative; z-index:1; width:calc(1920 * var(--u)); height:calc(1200 * var(--u)); overflow:visible; isolation:isolate; touch-action:manipulation}
 .stage__bg{position:absolute; left:0; top:0; width:calc(1920*var(--u)); height:calc(1200*var(--u)); max-width:none; display:block; z-index:0}
-.stage__fill{position:absolute; inset:0; width:100%; height:100%; max-width:none; display:block;
-  object-fit:fill; z-index:0; pointer-events:none}
 .pp-ibtn svg{fill:currentColor; stroke:none}
 .pp-ibtn--sound .sound-wave{fill:none; stroke:currentColor; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round}
 .pp-ibtn.is-playing{animation:sayPulse .9s ease-in-out infinite}
@@ -138,7 +136,7 @@ html,body{background:#9eb67a}
 .guide__rim,.guide__face{position:absolute}
 .guide__rim{inset:calc(-10*var(--u)); background:var(--pp-rim);
   -webkit-mask:var(--pp-mask-rim) center/100% 100% no-repeat; mask:var(--pp-mask-rim) center/100% 100% no-repeat}
-.guide__face{inset:0; background:var(--pp-cream) url("../_img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
+.guide__face{inset:0; background:var(--pp-cream) url("../img_png/paper/tx-paper-sheet.webp") center/100% 100% no-repeat;
   -webkit-mask:var(--pp-mask-sheet) center/100% 100% no-repeat; mask:var(--pp-mask-sheet) center/100% 100% no-repeat}
 .gstep{display:flex; align-items:center; justify-content:center; gap:calc(18*var(--u));
   font-size:calc(44*var(--u)); font-weight:800; color:var(--pp-ink)}
@@ -232,7 +230,7 @@ html,body{background:#9eb67a}
   display:grid; grid-template-columns:calc(92*var(--u)) calc(32*var(--u)) calc(92*var(--u)); justify-content:center; justify-items:center; align-items:center;  gap:calc(6*var(--u)); cursor:pointer;
   filter:var(--pp-lift-s)}
 .chip::before,.chip::after{content:''; position:absolute; inset:0; pointer-events:none}
-.chip::before{z-index:0; border-radius:calc(24*var(--u)); background:#FFFFFF url("../_img_png/paper/tx-paper-sheet.webp") center/100% auto no-repeat; background-blend-mode:multiply;
+.chip::before{z-index:0; border-radius:calc(24*var(--u)); background:#FFFFFF url("../img_png/paper/tx-paper-sheet.webp") center/100% auto no-repeat; background-blend-mode:multiply;
   filter:grayscale(1) brightness(1.06);
   -webkit-mask-box-image:var(--card-tx) 40 fill / var(--cs) stretch; mask-border:var(--card-tx) 40 fill / var(--cs) stretch}
 .chip::after{display:none; z-index:1; border:var(--cs) solid transparent; border-image:var(--card-tx) 40 fill / var(--cs) stretch; mix-blend-mode:multiply; opacity:.5}
@@ -251,7 +249,7 @@ html,body{background:#9eb67a}
 @keyframes okPop{0%{transform:scale(.2);opacity:0}100%{transform:scale(1);opacity:1}}
 .chip__disc{position:absolute; inset:0; display:block; background:#F5B63C; isolation:isolate;
   -webkit-mask:var(--pp-mask-disc) center/100% 100% no-repeat; mask:var(--pp-mask-disc) center/100% 100% no-repeat}
-.chip__disc::after{content:''; position:absolute; inset:0; background:url("../_img_png/paper/tx-felt.webp") center/calc(192*var(--u)) calc(192*var(--u)); mix-blend-mode:overlay; opacity:.55}
+.chip__disc::after{content:''; position:absolute; inset:0; background:url("../img_png/paper/tx-felt.webp") center/calc(192*var(--u)) calc(192*var(--u)); mix-blend-mode:overlay; opacity:.55}
 .chip__ok svg{position:relative; width:64%; height:64%; fill:#4A2F1B; stroke:#4A2F1B; stroke-width:2.2; stroke-linejoin:round}
 .chip.is-given{cursor:default}
 
@@ -301,14 +299,16 @@ body.is-briefing .boy-slot{transform:translateX(calc(799*var(--u))) scale(1.39)}
    ============================================================ */
 .map{position:absolute; z-index:5; left:calc(110*var(--u)); top:calc(120*var(--u)); width:calc(1100*var(--u)); height:calc(916*var(--u)); touch-action:manipulation}
 .map__img{position:absolute; inset:0; width:100%; height:100%; display:block; max-width:none; pointer-events:none; user-select:none}
-.map__shop{position:absolute; display:block; height:auto; aspect-ratio:1/1; max-width:none; pointer-events:none; user-select:none}
+.map__roads{position:absolute; z-index:2; inset:0; width:100%; height:100%; max-width:none; display:block; pointer-events:none; user-select:none}
+.map__ground{position:absolute; z-index:0; display:block; height:21.126761%; max-width:none; pointer-events:none; user-select:none}
+.map__shop{position:absolute; z-index:2; display:block; height:auto; aspect-ratio:1/1; max-width:none; pointer-events:none; user-select:none}
 .map__start{aspect-ratio:74/43; height:auto; overflow:visible}
-.map__trail{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none}
+.map__trail{position:absolute; z-index:3; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none}
 .map__trail path{fill:none; stroke-linecap:round; stroke-linejoin:round}
 .map__trail .halo{stroke:rgba(255,250,236,.78); stroke-width:50}   /* B-5_06 선과 같은 규격: 크림 테두리 + 잔디색 심 */
 .map__trail .core{stroke:#76905F; stroke-width:26}
 body.is-done .map__trail .core{stroke:#5D7A49}
-.tglow{position:absolute; border-radius:calc(10*var(--u)); pointer-events:none; opacity:0;
+.tglow{position:absolute; z-index:4; border-radius:calc(10*var(--u)); pointer-events:none; opacity:0;
   background:radial-gradient(ellipse farthest-corner at 50% 50%, rgba(255,229,155,.55) 0%, rgba(255,214,102,.40) 60%, rgba(255,210,96,.32) 100%);
   box-shadow:inset 0 0 calc(30*var(--u)) calc(6*var(--u)) rgba(255,206,92,.6), 0 0 calc(14*var(--u)) calc(1*var(--u)) rgba(255,205,90,.5)}
 .tglow.is-hint{opacity:1; animation:nextPulse 1.7s ease-in-out infinite}
@@ -333,14 +333,14 @@ body.is-briefing .boy-slot{transform:translate(calc(var(--bdx,0)*var(--u)), calc
 /* 오른쪽 조작 영역 — B-3_01 과 같은 자리·같은 버튼. 위 = LIST 칩 4개(2×2), 가운데 = 방향 패드, 아래 = 되돌리기·처음부터 */
 .chip{display:grid; grid-template-columns:1fr; justify-items:center; align-items:center; padding:0; cursor:default}
 .chip img.chip__ic{position:relative; z-index:2; height:calc(92*var(--u)); width:auto; max-width:78%; object-fit:contain; transition:opacity .3s, filter .3s}
-.chip.is-sel::before,.chip.is-done::before{background:#FFFFFF url("../_img_png/paper/tx-paper-sheet.webp") center/100% auto no-repeat; background-blend-mode:multiply; filter:grayscale(1) brightness(1.06)}
+.chip.is-sel::before,.chip.is-done::before{background:#FFFFFF url("../img_png/paper/tx-paper-sheet.webp") center/100% auto no-repeat; background-blend-mode:multiply; filter:grayscale(1) brightness(1.06)}
 .chip.is-sel img.chip__ic{animation:selBob 1.2s ease-in-out infinite}
 .chip.is-done img.chip__ic{opacity:.4; filter:grayscale(.35)}
 .chip.is-nudge{animation:cellWobble .45s ease-in-out 2}
 .chip__ok svg{position:relative; width:64%; height:64%; fill:#4A2F1B; stroke:#4A2F1B; stroke-width:2.2; stroke-linejoin:round}
 .chips{top:calc(178*var(--u)); left:calc(1360*var(--u))}
 
-.gshop{position:relative; overflow:hidden; display:block; flex:none; width:calc(210*var(--u)); height:calc(130*var(--u)); border-radius:calc(14*var(--u)); background-repeat:no-repeat; background-color:#96CE7A; /* 지도 타일 잔디색 */
+.gshop{position:relative; overflow:hidden; display:block; flex:none; width:calc(210*var(--u)); height:calc(130*var(--u)); border-radius:calc(14*var(--u)); background-repeat:no-repeat; background-color:#95AD5C; /* 지도 잔디 타일색 */
   box-shadow:0 calc(4*var(--u)) calc(6*var(--u)) rgba(20,35,45,.25)}
 .gshop__svg{position:absolute; max-width:none; pointer-events:none}
 .gitem{height:calc(104*var(--u)); width:auto; display:block}
@@ -375,8 +375,6 @@ body.is-briefing .bb{opacity:1; visibility:visible; pointer-events:auto}
 <link rel="stylesheet" href="../RESPONSIVE.css?v=3" type="text/css">
 </head>
 <body class="is-briefing">
-<img class="stage__fill" alt="" aria-hidden="true" src="assets/B-5_01-bg-unified-grid-v4.webp">
-
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="bz-arrow" viewBox="0 0 184.02 143.87">
     <path d="M 184.02,71.99 C 183.84,74.02 182.78,75.86 181.11,77.03 C 162.92,92.78 127.77,127.63 107.36,143.09 C 106.49,143.66 105.47,143.93 104.44,143.86 C 101.23,143.86 98.63,141.26 98.63,138.05 L 97,103.45 C 97,103.45 128,105.3 6.69,103.45 C 3.52,103.35 0.97,100.8 0.88,97.63 C -0.29,80.13 -0.29,62.56 0.88,45.05 C 0.97,41.88 3.52,39.33 6.69,39.24 C 125.44,37.38 97,39.24 97,39.24 L 98.63,5.9 C 98.63,3.82 99.74,1.9 101.54,0.86 C 103.31,-0.29 105.59,-0.29 107.36,0.86 C 127.19,16.01 163.23,50.86 181.11,66.93 C 182.77,68.11 183.84,69.95 184.02,71.99"/>
@@ -429,20 +427,34 @@ body.is-briefing .bb{opacity:1; visibility:visible; pointer-events:auto}
 </symbol>
 </svg>
 <main class="stage theme-paper" id="stage">
-  <!-- 우리 동네 지도: 배경에 잔디/길을 통합하고 건물만 분리해 SVG 교체를 준비한다. -->
+  <img class="stage__bg" alt="" aria-hidden="true" src="assets/B-5_01-bg-wide-v10.webp?v=20261023-10" style="--bgw:2688;--bgh:1200;--bgx:-384;--bgy:0">
+  <img class="map__roads" alt="" aria-hidden="true" src="assets/B-5_01-roads-v7.webp?v=20261023-6">
+  <!-- 배경·길·12개 잔디칸을 분리해도 플레이 좌표는 동일하게 유지한다. -->
   <div class="map" id="map" aria-label="Neighborhood map">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo1.svg" style="left:5.099%; top:31.357%; width:22.155%; aspect-ratio:134/80">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo2.svg" style="left:38.971%; top:6.859%; width:21.824%; aspect-ratio:132/79">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo3.svg" style="left:73.008%; top:7.356%; width:21.493%; aspect-ratio:130/77">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo4.svg" style="left:39.244%; top:32.668%; width:21.328%; aspect-ratio:129/73">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo5.svg" style="left:70.420%; top:33.283%; width:26.619%; aspect-ratio:161/70">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo6.svg" style="left:2.619%; top:55.707%; width:27.115%; aspect-ratio:164/81">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo7.svg" style="left:36.574%; top:57.316%; width:26.619%; aspect-ratio:161/73">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo8.svg" style="left:71.768%; top:59.341%; width:23.973%; aspect-ratio:145/78">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo9.svg" style="left:5.397%; top:82.065%; width:21.659%; aspect-ratio:131/73">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo10.svg" style="left:41.087%; top:82.243%; width:17.691%; aspect-ratio:107/72">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo11.svg" style="left:70.247%; top:81.509%; width:26.949%; aspect-ratio:163/76">
-    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo12.svg" style="left:8.827%; top:3.782%; width:14.715%; aspect-ratio:89/95">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r1c1-v8.webp?v=20261023-8" style="left:0.533333%;top:4.014085%;width:31.253333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r1c2-v8.webp?v=20261023-8" style="left:34.4%;top:4.014085%;width:30.933333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r1c3-v8.webp?v=20261023-8" style="left:67.893333%;top:4.014085%;width:31.573333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r2c1-v8.webp?v=20261023-8" style="left:0.533333%;top:28.591549%;width:31.253333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r2c2-v8.webp?v=20261023-8" style="left:34.4%;top:28.591549%;width:30.933333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r2c3-v8.webp?v=20261023-8" style="left:67.893333%;top:28.591549%;width:31.573333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r3c1-v8.webp?v=20261023-8" style="left:0.533333%;top:53.239437%;width:31.253333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r3c2-v8.webp?v=20261023-8" style="left:34.4%;top:53.239437%;width:30.933333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r3c3-v8.webp?v=20261023-8" style="left:67.893333%;top:53.239437%;width:31.573333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r4c1-v8.webp?v=20261023-8" style="left:0.533333%;top:78.028169%;width:31.253333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r4c2-v8.webp?v=20261023-8" style="left:34.4%;top:78.028169%;width:30.933333%">
+    <img class="map__ground" alt="" draggable="false" src="assets/B-5_01-ground-r4c3-v8.webp?v=20261023-8" style="left:67.893333%;top:78.028169%;width:31.573333%">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo1.svg" style="left:5.082%; top:30.816%; width:22.155%; aspect-ratio:134/80">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo2.svg" style="left:38.955%; top:6.437%; width:21.824%; aspect-ratio:132/79">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo3.svg" style="left:72.933%; top:6.834%; width:21.493%; aspect-ratio:130/77">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo4.svg" style="left:39.203%; top:32.206%; width:21.328%; aspect-ratio:129/73">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo5.svg" style="left:70.370%; top:32.801%; width:26.619%; aspect-ratio:161/70">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo6.svg" style="left:2.602%; top:55.265%; width:27.115%; aspect-ratio:164/81">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo7.svg" style="left:36.557%; top:56.853%; width:26.619%; aspect-ratio:161/73">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo8.svg" style="left:71.693%; top:59.246%; width:23.973%; aspect-ratio:145/78">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo9.svg" style="left:5.330%; top:81.642%; width:21.659%; aspect-ratio:131/73">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo10.svg" style="left:41.021%; top:81.841%; width:17.691%; aspect-ratio:107/72">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo11.svg" style="left:70.205%; top:81.047%; width:26.949%; aspect-ratio:163/76">
+    <img class="map__shop" alt="" draggable="false" src="assets/B-5_01-algo12.svg" style="left:8.802%; top:3.260%; width:14.715%; aspect-ratio:89/95">
     <svg class="map__shop map__start" viewBox="0 0 74 43" aria-hidden="true" style="left:24.320%; top:0%; width:12.213%"><path d="M41.938,32.155c-5.12,0.03 -31.314,0.947 -37.087,-4.336c-4.84,-4.427 -6.231,-11.17 -3.387,-17.102c3.149,-6.569 9.786,-9.263 16.7,-9.89c11.873,-1.075 29.08,-1.245 40.919,0.356c5.346,0.723 10.343,3.291 12.514,8.464c2.378,5.666 2.019,14.311 -3.077,18.314c-2.396,1.881 -4.983,2.835 -7.716,3.293c-1.99,0.333 -18.866,0.901 -18.866,0.901" style="fill:#e8bed9;fill-rule:nonzero;"/><text x="37.5" y="21.6" text-anchor="middle" style="font-family:var(--ff);font-weight:800;font-size:17px;fill:#24205b">START</text><path d="M19.348,41.862l20.786,-19.851l-12.916,0l-10,19.31c0,1.175 1.569,1.574 2.13,0.541" style="fill:#e8bed9;fill-rule:nonzero;"/></svg>
     <svg class="map__trail" id="trail" viewBox="0 0 1875 1420" aria-hidden="true"><path class="halo" id="trailHalo" d=""/><path class="core" id="trailPath" d=""/></svg>
   </div>
@@ -489,7 +501,7 @@ body.is-briefing .bb{opacity:1; visibility:visible; pointer-events:auto}
 
   <!-- 브리핑 소년 — 장바구니 소년. 문제를 읽어 주는 동안만 가운데에 나온다 (크기·자리는 B-3_01 소년 그대로) -->
   <div class="bb" id="briefSlot">
-    <button class="boy" id="briefBoy" type="button" aria-label="Hear it again"><img alt="" draggable="false" src="../_img_png/B-2_02-boy-holding-shopping-basket-v1.png"></button>
+    <button class="boy" id="briefBoy" type="button" aria-label="Hear it again"><img alt="" draggable="false" src="../img_png/B-2_02-boy-holding-shopping-basket-v1.png"></button>
   </div>
 
   <!-- 가이드 팝업 — 소년을 누르면 -->
@@ -760,7 +772,7 @@ function chime(kind){
    지도 4행 × 3열 · 출발 = 집(왼쪽 위) · LIST = 사과 → 딸기 아이스크림 → 귀걸이 → 신발
    정답 예: ↓ ↓(과일 가게) → (아이스크림 가게) ↑ ↑(보석 가게) → (신발 가게)
    ============================================================ */
-const BOY = '../_img_png/B-2_02-boy-holding-shopping-basket-v1.png';
+const BOY = '../img_png/B-2_02-boy-holding-shopping-basket-v1.png';
 const MAPW = 1875, MAPH = 1420, SX = 1100 / MAPW, SY = 916 / MAPH, MAPX = 110, MAPY = 120; /* 지도 원본 px → u */
 const COLX = [10, 645, 1273], TWID = [586, 580, 592], ROWY = [57, 406, 756, 1108], THEI = 300;   /* 칸(초록 타일) 위치 — 지도 원본 px */
 const TOK = {w:117, h:170, ox:451, oy:96};                              /* 소년 원본 크기 · 칸 안 위치(워크시트 출발 위치 그대로) */
@@ -788,7 +800,7 @@ const I18N = {
   },
   ko:{
     howto:'플레이 방법', close:'닫기',
-    guideA:'화살표를 눌러서 걸어가요', guideB:'목록 순서대로 가게에 들러요!',
+    guideA:'화살표를 눌러서 걸어가 봐!', guideB:'목록 순서대로 가게에 들러 봐!',
     guide:'화살표를 눌러서 걸어가 봐! 목록에 있는 물건을 순서대로 사 오자!',
     tag:'문제', win:'와, 엄마 심부름을 다 했어! 정말 잘했다!', retry:'다시하기', exit:'나가기',
     brief:'엄마 심부름을 가자! 사과, 딸기 아이스크림, 귀걸이, 신발을 사 와 줘!',
@@ -1086,8 +1098,8 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closeGuide() 
 (function buildGuideDemo(){
   const next = '<svg class="gnext" viewBox="0 0 26 32" aria-hidden="true"><path d="M4 2.5 23 16 4 29.5z"/></svg>';
   const btn = rot => '<span class="pp-rbtn"><i class="pp-rbtn__face"></i><svg class="bz-ar" style="--ar-rot:' + rot + 'deg"><use href="#bz-arrow"/></svg></span>';
-  const shop = n => { const w = 210, h = 130, V = {"1": [134.0, 80.0], "2": [132.0, 79.0], "3": [130.0, 77.0], "4": [129.0, 73.0], "5": [161.0, 70.0], "6": [164.0, 81.0], "7": [161.0, 73.0], "8": [145.0, 78.0], "9": [131.0, 73.0], "10": [107.0, 72.0], "11": [163.0, 76.0], "12": [92.0, 92.0]}, sc = Math.min((w - 16) / V[n][0], (h - 12) / V[n][1]);   /* 가게 SVG 한 장(가게+나무)을 초록 카드 가운데에 */
-    return '<span class="gshop"><img class="gshop__svg" alt="" src="assets/B-5_01-algo' + n + '.svg" style="left:' + ((w - V[n][0] * sc) / 2).toFixed(1) + 'px;top:' + ((h - V[n][1] * sc) / 2).toFixed(1) + 'px;width:' + (V[n][0] * sc).toFixed(1) + 'px;height:' + (V[n][1] * sc).toFixed(1) + 'px"></span>' };
+  const shop = n => { const w = 210, h = 130, V = {"1": [134.0, 80.0], "2": [132.0, 79.0], "3": [130.0, 77.0], "4": [129.0, 73.0], "5": [161.0, 70.0], "6": [164.0, 81.0], "7": [161.0, 73.0], "8": [145.0, 78.0], "9": [131.0, 73.0], "10": [107.0, 72.0], "11": [163.0, 76.0], "12": [92.0, 92.0]}, sc = Math.min((w - 16) / V[n][0], (h - 12) / V[n][1]), C = {"6": [81.9, 40.25]}[n] || [V[n][0] / 2, V[n][1] / 2];   /* 가게 건물 본체(나무·덤불 제외) 중심을 카드 가운데에 */
+    return '<span class="gshop"><img class="gshop__svg" alt="" src="assets/B-5_01-algo' + n + '.svg" style="left:calc(' + (w / 2 - C[0] * sc).toFixed(1) + ' * var(--u));top:calc(' + (h / 2 - C[1] * sc).toFixed(1) + ' * var(--u));width:calc(' + (V[n][0] * sc).toFixed(1) + ' * var(--u));height:calc(' + (V[n][1] * sc).toFixed(1) + ' * var(--u))"></span>' };
   $('gdemoA').innerHTML = btn(270) + btn(180) + btn(90) + btn(0);
   $('gdemoB').innerHTML = '<img class="gitem gpick" alt="" src="' + ITEM_SRC.apple + '">' + next + shop(6);
 })();
@@ -1119,7 +1131,7 @@ $('retry').addEventListener('click', () => { resetGame() });
 
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 { const bi = new Image(); bi.alt = ''; bi.src = BOY; bi.draggable = false; boyEl.appendChild(bi) }
-{ const wi = new Image(); wi.alt = ''; wi.src = '../_img_png/B-5_02-complete-mom-boy.png'; wi.draggable = false; $('winArt').appendChild(wi) }
+{ const wi = new Image(); wi.alt = ''; wi.src = '../img_png/B-5_02-complete-mom-boy.png'; wi.draggable = false; $('winArt').appendChild(wi) }
 buildMap();
 startGame();
 })();
