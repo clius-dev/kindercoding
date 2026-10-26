@@ -1,0 +1,960 @@
+{
+  "sourceRoot": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding",
+  "theme": null,
+  "visited": [
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\main.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-1_login.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-2_profile.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-3_parent.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\loading.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\DESIGN.css",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\RESPONSIVE.css",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\RESPONSIVE.js",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\EXIT_CONFIRM.js",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-2\\img_maincat.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_00.submain.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-1.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-2.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_00.submain.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-3.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-4.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-5.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-6.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-7.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-8.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-9.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-10.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-11.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\titleimg_B-12.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\main\\main-stage-bg-tall-v6-day.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\main\\main-stage-bg-wide-v4-day.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\disc.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\main\\main-clock-sign-reference-v5-noline.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\main\\main-card-paper-v1.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\main-playroom-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A_account.css",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A_account.js",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\main\\main-stage-bg-login-wide-v1.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\avatar\\avatar_boy.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\assets\\B-3_01-sky-bg-v1.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B_1\\img_버스와아이들.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B_1\\seq_3.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B_1\\bran_1.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B_1\\abs_art_color.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B_1\\pat_puzzle.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-2\\img_딸기바구니cat.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_00-node-hen.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-2\\img_umbrella.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-2\\img_꽃1.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-2\\img_무당벌레.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_00-icon-algo.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-5\\img_심부름1.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_00-icon-shop.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_00-icon-branch.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_00-icon-island.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-5\\img_patten1.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-3\\img_토끼당근.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-3\\img_개구리연잎.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-3\\img_칠교완성.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-3\\img_뱀개미.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-3\\img_곰꽃.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-3\\img_개고양이.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_01.algorithms.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_02.sequencing.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_03.decomposition.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_04.branching.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_06.pattern.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_01.algorithms_v2.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_02.sequencing_v4.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_04.branching_v2.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_05.abstraction_v2.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_02.sequencing.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_03.decomposition.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_04.branching.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_05.abstraction.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_06.pattern.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_02.sequencing.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_04.branching.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_05.abstraction.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_06.pattern.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_02.sequencing.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_03.decomposition.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_04.branching.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_05.abstraction_v2.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_06.pattern.html",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\tx-paper-grain.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\tx-paper-sheet.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\tx-felt.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\tx-btn-grain.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\card-felt-teal.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\cell-grass.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\pill-wood.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\star-off.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\star-on.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_00-submain-bg-forest-kindergarten-wide-v2.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1-boy-shared.css",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_03-boy-fine-paper.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_03-boy-flat-seams-overlay.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\star-on-flat.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\submain-forest-kindergarten-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_00-submain-bg-spring-wide-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-boy-v5.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\submain-spring-meadow-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\assets\\B-3_00-submain-bg-forest-animals-wide-v3.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\submain-forest-animals-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_00-submain-bg-family-wide-v1.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\submain-family-warm-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_00-submain-bg-neighborhood-crisp-v2.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\submain-town-walk-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\avatar\\avatar_girl.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\avatar\\avatar_kid.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\avatar\\avatar_monster.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\avatar\\avatar_curly.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\avatar\\avatar_bun.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_01-forest-road-bg-wide-v11.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_01-forest-road-bg-hf-v6-fit3.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_01-kindergarten-destination-v2.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\complete-duo-paper-v4.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\counter-plank-hf.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\B-1_01-happy-bounce-loop.wav",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_02-sequencing-bg-v29-clean-main-paper.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_03-stage-fill-library-v3.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\puzzle-sequencing-stepping-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_03-bg-library-v14-main-wood-soft.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\assets\\B-1_03-complete-duo-fine-paper.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\puzzle-decomposition-blocks-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\tx-felt-teal.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\puzzle-branching-crossroads-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\puzzle-abstraction-dreamy-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\puzzle-pattern-groove-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_01-stage-bg-berry-wide-v7-spring-soft.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\B-2-spring-strawberry-garden-loop.wav",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-stage-bg-spring-wide-v17.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-stage-bg-spring-v1.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-boy-holding-hen-v1.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-slot-frame.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\fonts\\Paperlogy-4Regular.woff2",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\fonts\\Paperlogy-7Bold.woff2",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\fonts\\Paperlogy-8ExtraBold.woff2",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_03-06-stage-bg-spring-wide-v1.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_04-stage-bg-sparrow-bear-v1.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_03-06-stage-bg-spring-wide-v9.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_05-stage-bg-garden-v4.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\voice-q\\q_05_abs_en.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\voice-q\\q_05_abs_ko.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_06-stage-bg-forest-v1.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\paper\\card-felt-teal-wide-a.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_01-bg-grandma-road-v3.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_알고리즘지도.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_01-paper-sheet-bg-v2.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_01-park.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_01-market.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_01-grand.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_드라이브가족.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\audio\\bgm\\B-3_01-sky-cloud-loop.mp3",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_02-bg-home.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_03-bg-v13.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_패밀리집.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람1.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람2.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람3.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람4.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람5.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람6.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람7.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람8.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람9.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람10.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람11.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람12.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_svg\\B-4\\img_가족사람13.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\assets\\B-4_05-bg-v2.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-bg-wide-v10.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-roads-v7.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r1c1-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r1c2-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r1c3-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r2c1-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r2c2-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r2c3-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r3c1-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r3c2-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r3c3-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r4c1-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r4c2-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-ground-r4c3-v8.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo1.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo2.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo3.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo4.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo5.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo6.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo7.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo8.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo9.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo10.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo11.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo12.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-boy-holding-shopping-basket-v1.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-5_02-complete-mom-boy.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo13.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo14.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo15.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\assets\\B-5_01-algo16.svg",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-5_05-island-paper-v2.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-5_05-place-cards-overlay-green.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-5_05-ocean-bg-v6-island-ripples.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-boy-driving-yellow-car-side-simple-v2.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-5_05-tile-hospital.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\assets\\B-3_01-sky-bg-v4-wide.png",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\assets\\B-3_06-bg-clean.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_02-stage-bg-spring-wide-v7.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\B-2_03-stage-bg-spring-wide-v5.webp",
+    "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\img_png\\hint-hand.svg"
+  ],
+  "unresolved": [
+    {
+      "ref": "${src}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\main.html"
+    },
+    {
+      "ref": "${o.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html"
+    },
+    {
+      "ref": "${files[i]}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html"
+    },
+    {
+      "ref": "${th.sub}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html"
+    },
+    {
+      "ref": "${th.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html"
+    },
+    {
+      "ref": "${s.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html"
+    },
+    {
+      "ref": "...",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\RESPONSIVE.css"
+    },
+    {
+      "ref": "${n.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_00.submain.html"
+    },
+    {
+      "ref": "${n.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html"
+    },
+    {
+      "ref": "img_딸기바구니cat.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html"
+    },
+    {
+      "ref": "img_umbrella.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html"
+    },
+    {
+      "ref": "img_꽃1.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html"
+    },
+    {
+      "ref": "img_무당벌레.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html"
+    },
+    {
+      "ref": "${n.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_00.submain.html"
+    },
+    {
+      "ref": "${n.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "img_드라이브가족.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "img_서브_순서.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "img_집.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "img_서브_분기.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "img_서브_추상화.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "img_어항.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html"
+    },
+    {
+      "ref": "${n.icon}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "${n.icon}?v=20261023",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "B-5_00-icon-algo.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "img_심부름1.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "B-5_00-icon-shop.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "B-5_00-icon-branch.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "B-5_00-icon-island.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "img_patten1.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html"
+    },
+    {
+      "ref": "#chalk",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_01.algorithms.html"
+    },
+    {
+      "ref": "../audio/voice-q/",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_01.algorithms.html"
+    },
+    {
+      "ref": "#chalkF",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_02.sequencing.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_b1_02_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_02.sequencing.html"
+    },
+    {
+      "ref": "#chalk2",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_03.decomposition.html"
+    },
+    {
+      "ref": "#ph-paper-even",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_03.decomposition.html"
+    },
+    {
+      "ref": "#chalk",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_03.decomposition.html"
+    },
+    {
+      "ref": "../audio/voice-q/",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_03.decomposition.html"
+    },
+    {
+      "ref": "#chalkF",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_04.branching.html"
+    },
+    {
+      "ref": "#wline",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html"
+    },
+    {
+      "ref": "#chalk",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html"
+    },
+    {
+      "ref": "#chalkG",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html"
+    },
+    {
+      "ref": "#chalkS",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_b1_05_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html"
+    },
+    {
+      "ref": "#chalkS",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_06.pattern.html"
+    },
+    {
+      "ref": "#chalk",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_06.pattern.html"
+    },
+    {
+      "ref": "#chalkRowG",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_06.pattern.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_b1_06_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_06.pattern.html"
+    },
+    {
+      "ref": "#ppPaperWin",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_01.algorithms_v2.html"
+    },
+    {
+      "ref": "#ppPaperBerry",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_01.algorithms_v2.html"
+    },
+    {
+      "ref": " + IMG.cell + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_02.sequencing_v4.html"
+    },
+    {
+      "ref": "../fonts/Baloo2-Variable.ttf",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "${jy}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "#ph-paper",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "${Fy}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "${By}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "${Ay}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "${zy}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "${Oy}",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/peter-sketchbook.png",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/peter-sketchbook-paper.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/complete-duo-paper-v4.png",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/B-2_02-boy-win.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/complete-duo.png",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/hint-hand.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/B-2_D-crayon.svg",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/B-2_03-06-stage-bg-spring-wide-v9.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/B-2_02-boy-v5.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/disc.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/pill-wood.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/pill-bark.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/counter-plank-hf.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/tx-paper-grain.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/tx-paper-sheet.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/tx-btn-grain.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "images/paper/tx-felt.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "audio/voice/teacher-intro.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html"
+    },
+    {
+      "ref": "#crayon",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "#crayonD",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_06_instr_en.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_06_instr_ko.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_06_guide_en.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_06_guide_ko.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_06_win_en.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_06_win_ko.mp3",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+    },
+    {
+      "ref": "#map-route-mask",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html"
+    },
+    {
+      "ref": "#paper-crinkle",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html"
+    },
+    {
+      "ref": "#felt-crinkle",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html"
+    },
+    {
+      "ref": "#cloud-paper-texture",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html"
+    },
+    {
+      "ref": "#cloud-clip",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html"
+    },
+    {
+      "ref": "../audio/voice-q/",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html"
+    },
+    {
+      "ref": "%23p",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_02.sequencing.html"
+    },
+    {
+      "ref": "%23i",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_05.abstraction.html"
+    },
+    {
+      "ref": "%23g",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_05.abstraction.html"
+    },
+    {
+      "ref": "audio/voice-q/q_b4_06_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_06.pattern.html"
+    },
+    {
+      "ref": "assets/B-5_01-algo",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "#ph-paper",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "#paper-crinkle",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "#felt-crinkle",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "#cloud-paper-texture",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "#cloud-clip",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "../audio/voice-q/",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html"
+    },
+    {
+      "ref": "../img_png/B-5_02-stage-bg-neighborhood-village-wide-v4-gpt.webp",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_02.sequencing.html"
+    },
+    {
+      "ref": " + IMG.cell + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_02.sequencing.html"
+    },
+    {
+      "ref": " + IMG.tile + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html"
+    },
+    {
+      "ref": " + IMG.box + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html"
+    },
+    {
+      "ref": " + IMG.ring + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html"
+    },
+    {
+      "ref": " + IMG.cell + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html"
+    },
+    {
+      "ref": " + FELT_TX + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html"
+    },
+    {
+      "ref": "#ph-paper",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html"
+    },
+    {
+      "ref": "#paper-crinkle",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html"
+    },
+    {
+      "ref": "#felt-crinkle",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html"
+    },
+    {
+      "ref": "#cloud-paper-texture",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html"
+    },
+    {
+      "ref": "#cloud-clip",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html"
+    },
+    {
+      "ref": "../audio/voice-q/",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html"
+    },
+    {
+      "ref": "%23p",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_02.sequencing.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_b3_04_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_04.branching.html"
+    },
+    {
+      "ref": " + ICON[k].src + ",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_05.abstraction_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_b3_05_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_05.abstraction_v2.html"
+    },
+    {
+      "ref": "../audio/voice-q/q_b3_06_",
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_06.pattern.html"
+    }
+  ],
+  "dynamicDirExpansions": [
+    {
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html",
+      "dirPrefix": "../B-1_어린이집과친구/",
+      "resolvedDir": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구",
+      "addedFiles": [
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_00.submain.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_01.algorithms.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_02.sequencing.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_03.decomposition.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_04.branching.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_05.abstraction.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-1_어린이집과친구\\B-1_06.pattern.html"
+      ]
+    },
+    {
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html",
+      "dirPrefix": "../B-2_봄/",
+      "resolvedDir": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄",
+      "addedFiles": [
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_00.submain.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_01.algorithms_v2.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_02.sequencing_v4.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_03.decomposition_v2.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_04.branching_v2.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_05.abstraction_v2.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-2_봄\\B-2_06.pattern_v2.html"
+      ]
+    },
+    {
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html",
+      "dirPrefix": "../B-4_나와가족/",
+      "resolvedDir": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족",
+      "addedFiles": [
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_00.submain.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_01.algorithms.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_02.sequencing.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_03.decomposition.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_04.branching.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_05.abstraction.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-4_나와가족\\B-4_06.pattern.html"
+      ]
+    },
+    {
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html",
+      "dirPrefix": "../B-5_우리동네/",
+      "resolvedDir": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네",
+      "addedFiles": [
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_00.submain.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_01.algorithms.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_02.sequencing.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_03.decomposition.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_04.branching.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_05.abstraction.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-5_우리동네\\B-5_06.pattern.html"
+      ]
+    },
+    {
+      "referencedBy": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B_0_main\\A-4_allmenu.html",
+      "dirPrefix": "../B-3_동식물과자연/",
+      "resolvedDir": "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연",
+      "addedFiles": [
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_00.submain.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_01.algorithms.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_02.sequencing.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_03.decomposition.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_04.branching.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_05.abstraction_v2.html",
+        "E:\\01_Work\\06_KinderCoding\\03-Work\\Coding\\B-3_동식물과자연\\B-3_06.pattern.html"
+      ]
+    }
+  ],
+  "stageHooksInjected": [
+    {
+      "file": "B-1_어린이집과친구\\B-1_01.algorithms.html",
+      "theme": "B-1",
+      "stage": "algorithms",
+      "key": "ck.b1.sub.done"
+    },
+    {
+      "file": "B-1_어린이집과친구\\B-1_02.sequencing.html",
+      "theme": "B-1",
+      "stage": "sequencing",
+      "key": "ck.b1.sub.done"
+    },
+    {
+      "file": "B-1_어린이집과친구\\B-1_03.decomposition.html",
+      "theme": "B-1",
+      "stage": "decomposition",
+      "key": "ck.b1.sub.done"
+    },
+    {
+      "file": "B-1_어린이집과친구\\B-1_04.branching.html",
+      "theme": "B-1",
+      "stage": "branching",
+      "key": "ck.b1.sub.done"
+    },
+    {
+      "file": "B-1_어린이집과친구\\B-1_05.abstraction.html",
+      "theme": "B-1",
+      "stage": "abstraction",
+      "key": "ck.b1.sub.done"
+    },
+    {
+      "file": "B-1_어린이집과친구\\B-1_06.pattern.html",
+      "theme": "B-1",
+      "stage": "pattern",
+      "key": "ck.b1.sub.done"
+    },
+    {
+      "file": "B-2_봄\\B-2_01.algorithms_v2.html",
+      "theme": "B-2",
+      "stage": "algorithms",
+      "key": "ck.b2.sub.done"
+    },
+    {
+      "file": "B-2_봄\\B-2_02.sequencing_v4.html",
+      "theme": "B-2",
+      "stage": "sequencing",
+      "key": "ck.b2.sub.done"
+    },
+    {
+      "file": "B-2_봄\\B-2_03.decomposition_v2.html",
+      "theme": "B-2",
+      "stage": "decomposition",
+      "key": "ck.b2.sub.done"
+    },
+    {
+      "file": "B-2_봄\\B-2_04.branching_v2.html",
+      "theme": "B-2",
+      "stage": "branching",
+      "key": "ck.b2.sub.done"
+    },
+    {
+      "file": "B-2_봄\\B-2_05.abstraction_v2.html",
+      "theme": "B-2",
+      "stage": "abstraction",
+      "key": "ck.b2.sub.done"
+    },
+    {
+      "file": "B-2_봄\\B-2_06.pattern_v2.html",
+      "theme": "B-2",
+      "stage": "pattern",
+      "key": "ck.b2.sub.done"
+    },
+    {
+      "file": "B-4_나와가족\\B-4_01.algorithms.html",
+      "theme": "B-4",
+      "stage": "algorithms",
+      "key": "ck.b4.sub.done"
+    },
+    {
+      "file": "B-4_나와가족\\B-4_02.sequencing.html",
+      "theme": "B-4",
+      "stage": "sequencing",
+      "key": "ck.b4.sub.done"
+    },
+    {
+      "file": "B-4_나와가족\\B-4_03.decomposition.html",
+      "theme": "B-4",
+      "stage": "decomposition",
+      "key": "ck.b4.sub.done"
+    },
+    {
+      "file": "B-4_나와가족\\B-4_04.branching.html",
+      "theme": "B-4",
+      "stage": "branching",
+      "key": "ck.b4.sub.done"
+    },
+    {
+      "file": "B-4_나와가족\\B-4_05.abstraction.html",
+      "theme": "B-4",
+      "stage": "abstraction",
+      "key": "ck.b4.sub.done"
+    },
+    {
+      "file": "B-4_나와가족\\B-4_06.pattern.html",
+      "theme": "B-4",
+      "stage": "pattern",
+      "key": "ck.b4.sub.done"
+    },
+    {
+      "file": "B-5_우리동네\\B-5_01.algorithms.html",
+      "theme": "B-5",
+      "stage": "algorithms",
+      "key": "ck.b5.sub.done"
+    },
+    {
+      "file": "B-5_우리동네\\B-5_02.sequencing.html",
+      "theme": "B-5",
+      "stage": "sequencing",
+      "key": "ck.b5.sub.done"
+    },
+    {
+      "file": "B-5_우리동네\\B-5_03.decomposition.html",
+      "theme": "B-5",
+      "stage": "decomposition",
+      "key": "ck.b5.sub.done"
+    },
+    {
+      "file": "B-5_우리동네\\B-5_04.branching.html",
+      "theme": "B-5",
+      "stage": "branching",
+      "key": "ck.b5.sub.done"
+    },
+    {
+      "file": "B-5_우리동네\\B-5_05.abstraction.html",
+      "theme": "B-5",
+      "stage": "abstraction",
+      "key": "ck.b5.sub.done"
+    },
+    {
+      "file": "B-5_우리동네\\B-5_06.pattern.html",
+      "theme": "B-5",
+      "stage": "pattern",
+      "key": "ck.b5.sub.done"
+    },
+    {
+      "file": "B-3_동식물과자연\\B-3_01.algorithms.html",
+      "theme": "B-3",
+      "stage": "algorithms",
+      "key": "ck.b3.sub.done"
+    },
+    {
+      "file": "B-3_동식물과자연\\B-3_02.sequencing.html",
+      "theme": "B-3",
+      "stage": "sequencing",
+      "key": "ck.b3.sub.done"
+    },
+    {
+      "file": "B-3_동식물과자연\\B-3_03.decomposition.html",
+      "theme": "B-3",
+      "stage": "decomposition",
+      "key": "ck.b3.sub.done"
+    },
+    {
+      "file": "B-3_동식물과자연\\B-3_04.branching.html",
+      "theme": "B-3",
+      "stage": "branching",
+      "key": "ck.b3.sub.done"
+    },
+    {
+      "file": "B-3_동식물과자연\\B-3_05.abstraction_v2.html",
+      "theme": "B-3",
+      "stage": "abstraction",
+      "key": "ck.b3.sub.done"
+    },
+    {
+      "file": "B-3_동식물과자연\\B-3_06.pattern.html",
+      "theme": "B-3",
+      "stage": "pattern",
+      "key": "ck.b3.sub.done"
+    }
+  ],
+  "copiedCount": 220,
+  "copiedBytes": 136726011
+}
