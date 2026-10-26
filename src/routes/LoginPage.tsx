@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { accountRepository } from '../storage/localStorageRepository';
 import type { UserProfile } from '../storage/types';
+import { GAME_BASE } from '../gameBase';
 
 /* Ported from Coding/B_0_main/A-1_login.html + A_account.js — same markup/classes so the
    linked DESIGN.css/RESPONSIVE.css/A_account.css (from public/game/) render it identically. */
 
 const AVATARS = [
-  { id: 'boy', src: '/game/img_svg/avatar/avatar_boy.svg' },
-  { id: 'girl', src: '/game/img_svg/avatar/avatar_girl.svg' },
-  { id: 'kid', src: '/game/img_svg/avatar/avatar_kid.svg' },
-  { id: 'monster', src: '/game/img_svg/avatar/avatar_monster.svg' },
-  { id: 'curly', src: '/game/img_svg/avatar/avatar_curly.png' },
-  { id: 'bun', src: '/game/img_svg/avatar/avatar_bun.png' },
+  { id: 'boy', src: `${GAME_BASE}img_svg/avatar/avatar_boy.svg` },
+  { id: 'girl', src: `${GAME_BASE}img_svg/avatar/avatar_girl.svg` },
+  { id: 'kid', src: `${GAME_BASE}img_svg/avatar/avatar_kid.svg` },
+  { id: 'monster', src: `${GAME_BASE}img_svg/avatar/avatar_monster.svg` },
+  { id: 'curly', src: `${GAME_BASE}img_svg/avatar/avatar_curly.png` },
+  { id: 'bun', src: `${GAME_BASE}img_svg/avatar/avatar_bun.png` },
 ];
 
 const THEMES: Record<'en' | 'ko', string[]> = {
@@ -40,9 +41,9 @@ function useGameStylesheets() {
   useEffect(() => {
     const hrefs = [
       'https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy.css',
-      '/game/DESIGN.css',
-      '/game/RESPONSIVE.css',
-      '/game/B_0_main/A_account.css',
+      `${GAME_BASE}DESIGN.css`,
+      `${GAME_BASE}RESPONSIVE.css`,
+      `${GAME_BASE}B_0_main/A_account.css`,
     ];
     const links = hrefs.map((href) => {
       const link = document.createElement('link');
@@ -52,7 +53,7 @@ function useGameStylesheets() {
       return link;
     });
     const style = document.createElement('style');
-    style.textContent = `:root,body{--bg-img:url("/game/img_png/main/main-stage-bg-login-wide-v1.webp")}
+    style.textContent = `:root,body{--bg-img:url("${GAME_BASE}img_png/main/main-stage-bg-login-wide-v1.webp")}
 body::after{display:none}body::before{filter:saturate(.93)}
 .grid-age{display:grid!important;grid-template-columns:repeat(7,1fr);gap:calc(14 * var(--u));justify-content:stretch!important}
 .grid-age .ac-chip{width:100%;min-width:0;padding:0}`;

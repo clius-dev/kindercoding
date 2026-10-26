@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { progressRepository } from '../storage/localStorageRepository';
+import { GAME_BASE } from '../gameBase';
 
 interface StageCompleteMessage {
   source: 'kindercoding-game';
@@ -27,7 +28,7 @@ export default function GameFrame({ email }: { email: string }) {
   return (
     <iframe
       ref={iframeRef}
-      src="/game/B_0_main/main.html"
+      src={`${GAME_BASE}B_0_main/main.html`}
       title="KinderCoding"
       allow="autoplay"
       style={{ border: 'none', width: '100vw', height: '100vh', display: 'block' }}
